@@ -148,7 +148,7 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Link
                 to={{
                   pathname: `/cw/writer/edit/${rowData.id}`,
@@ -224,7 +224,7 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
                     <div className="col-md-6 text-end">
                       <div className="db-btn-group">
                         <Link
-                          to="/cw/blog/create"
+                          to="/cw/writer/create"
                           title="Add Contact"
                           color="info"
                           className="btn btn-info btn-label"

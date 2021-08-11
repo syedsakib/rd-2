@@ -65,6 +65,7 @@ import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/Proper
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle"
+import AddWriter from "pages/ContentWriterModule/Writer/AddWriter"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -176,6 +177,10 @@ const userRoutes = [
   {
     path: "/cw/writer",
     component: WriterList,
+  },
+  {
+    path: "/cw/writer/create",
+    component: AddWriter,
   },
   {
     path: "/cw/cms/meta",

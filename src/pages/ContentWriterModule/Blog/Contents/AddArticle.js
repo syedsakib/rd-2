@@ -537,7 +537,7 @@ const AddArticle = ({
                         <div className="text-center mt-4">
                           <Link
                             className="btn btn-danger  btn-label btn-lg mx-2"
-                            to="/admin/articleManagement"
+                            to="/cw/blog"
                           >
                             <i className="bx bx-block label-icon"></i> Cancel
                           </Link>
