@@ -159,7 +159,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span
                 className="btn-view-status tb-icon"
                 title="edit"
