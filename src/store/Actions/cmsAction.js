@@ -1,6 +1,6 @@
 import { postRequestWithAuth } from "./apiAction"
 import { toastr } from "react-redux-toastr"
-import { UPDATE_FORM_STATE } from "../constants/ cmsConstants"
+import { UPDATE_FORM_STATE } from "../constants/cmsConstants"
 
 // dispatch actions
 export const updateFormState = data => dispatch => {

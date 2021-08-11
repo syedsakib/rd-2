@@ -63,6 +63,7 @@ import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidP
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList"
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList"
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
+import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -174,6 +175,10 @@ const userRoutes = [
   {
     path: "/cw/cms/meta",
     component: CmsList,
+  },
+  {
+    path: "/cw/cms/structure",
+    component: CMSPage,
   },
   {
     path: "/cw/scrape/invalid-list",
