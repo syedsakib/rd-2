@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect, useDispatch } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect, useDispatch } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,25 +13,25 @@ import {
   CardBody,
   InputGroup,
   Button,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
 
 //redux & actions
 import {
   getAllCallLogList,
   updateQueCallState,
   exportToCsvLogs,
-} from "../../../store/Actions/callAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/callAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const OutgoingCallLogsList = ({
   getAllCallLogList,
@@ -50,16 +50,16 @@ const OutgoingCallLogsList = ({
     fromNumber: "",
     toNumber: "",
     direction: "Outgoing",
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isModalOpen: false,
     modalBodyData: null,
-  })
+  });
   const {
     selectedStatus,
     startDate,
@@ -69,12 +69,12 @@ const OutgoingCallLogsList = ({
     toNumber,
     selectedVoiceMailStatus,
     direction,
-  } = appState
-  const { rows, count } = listState
-  const { isModalOpen, modalBodyData } = modalData
+  } = appState;
+  const { rows, count } = listState;
+  const { isModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    getDataList()
+    getDataList();
   }, [
     selectedStatus,
     startDate,
@@ -83,11 +83,11 @@ const OutgoingCallLogsList = ({
     fromNumber,
     toNumber,
     selectedVoiceMailStatus,
-  ])
+  ]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllCallLogList({
         pageNumber: activePage,
         startDate,
@@ -97,168 +97,168 @@ const OutgoingCallLogsList = ({
         toNumber,
         selectedVoiceMailStatus,
         direction,
-      })
+      });
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateAppStateHandler = newState => {
-    updateAppState({ ...appState, ...newState })
-  }
+  const updateAppStateHandler = (newState) => {
+    updateAppState({ ...appState, ...newState });
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onVoiceMailStatusChange = e => {
+  const onVoiceMailStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         selectedVoiceMailStatus: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const onFromNumChange = e => {
+  const onFromNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         fromNumber: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onToNumChange = e => {
+  const onToNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         toNumber: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppStateHandler({
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
-  const handelEndDateSearch = date => {
+  };
+  const handelEndDateSearch = (date) => {
     try {
       updateAppStateHandler({
         endDate: date,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const toggleModalView = data => {
+  const toggleModalView = (data) => {
     updateModalData({
       ...modalData,
       isModalOpen: !isModalOpen,
       modalBodyData: data,
-    })
-  }
+    });
+  };
 
-  const callToNumber = pNumber => {
+  const callToNumber = (pNumber) => {
     try {
       if (!inCall) {
         updateQueCallState({
           requestedNumber: pNumber,
-        })
+        });
       } else {
-        throw "A call is already in progress"
+        throw "A call is already in progress";
       }
     } catch (e) {
-      toastr.error(e.toString())
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const modalCallBackHandler = () => {
-    getDataList()
-  }
+    getDataList();
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const fromBodyTemplate = rowData => {
-    let fNum = formatNumber(rowData.fromNumber)
-    let tNum = formatNumber(rowData.toNumber)
-    let userNumber
+  const fromBodyTemplate = (rowData) => {
+    let fNum = formatNumber(rowData.fromNumber);
+    let tNum = formatNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{formatNumber(fNum)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const toBodyTemplate = rowData => {
-    let fNum = formatNumber(rowData.fromNumber)
-    let tNum = formatNumber(rowData.toNumber)
-    let userNumber
+  const toBodyTemplate = (rowData) => {
+    let fNum = formatNumber(rowData.fromNumber);
+    let tNum = formatNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{tNum}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.callStatus === "completed" ? (
@@ -311,18 +311,18 @@ const OutgoingCallLogsList = ({
           </Button>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const durationBodyTemplate = rowData => {
+  const durationBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.duration}s`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const leadBodyTemplate = rowData => {
+  const leadBodyTemplate = (rowData) => {
     //console.log(rowData.leadUser)
     return (
       <React.Fragment>
@@ -332,18 +332,18 @@ const OutgoingCallLogsList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const logBodyTemplate = rowData => {
+  const logBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -353,9 +353,9 @@ const OutgoingCallLogsList = ({
                 {rowData.recordingUrl ? (
                   <ButtonComp
                     icon="volume-up"
-                    onClick={e => {
-                      e.preventDefault()
-                      window.open(rowData.recordingUrl)
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(rowData.recordingUrl);
                     }}
                     toolTip="VoiceMail"
                     btnClass="normal"
@@ -366,13 +366,13 @@ const OutgoingCallLogsList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -468,7 +468,7 @@ const OutgoingCallLogsList = ({
                         <ButtonComp
                           icon="sync"
                           onClick={() => {
-                            getDataList()
+                            getDataList();
                           }}
                           toolTip="refresh"
                           tooltipType="info"
@@ -477,8 +477,8 @@ const OutgoingCallLogsList = ({
                         <ButtonComp
                           icon="download"
                           onClick={() => {
-                            console.log("Export To CSV")
-                            exportToCsvLogs({ ...appState, logFor: "lead" })
+                            console.log("Export To CSV");
+                            exportToCsvLogs({ ...appState, logFor: "lead" });
                           }}
                           toolTip="Export To Csv"
                         />
@@ -571,22 +571,22 @@ const OutgoingCallLogsList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   callState: state.call.callState,
-})
+});
 
 const mapDispatchToProps = {
   getAllCallLogList,
   updateQueCallState,
   exportToCsvLogs,
-}
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(OutgoingCallLogsList)
+)(OutgoingCallLogsList);

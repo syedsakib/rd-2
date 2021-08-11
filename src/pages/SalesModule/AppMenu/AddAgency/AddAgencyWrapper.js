@@ -1,10 +1,10 @@
-import MetaTags from "react-meta-tags"
-import "./customData.scss"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import "./customData.scss";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 
 import {
   Container,
@@ -17,40 +17,40 @@ import {
   InputGroup,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   updateProgressForm,
   getHomeCareServiceCategory,
-} from "../../../../store/Actions/homeCareAction"
-import { addNewAgency } from "../../../../store/Actions/salesAction"
+} from "../../../../store/Actions/homeCareAction";
+import { addNewAgency } from "../../../../store/Actions/salesAction";
 import {
   getSuggestedCities,
   getSuggestedLocationByZipCode,
-} from "../../../../store/Actions/customerAction"
+} from "../../../../store/Actions/customerAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import { formatPhoneNumber } from "react-phone-number-input"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
-import SingleFileUploader from "components/Common/SingleFileUploader"
-import MultiFileUploader from "components/Common/MultiFileUploader"
-import { addPlus, formatDate, toBase64 } from "store/utils/util"
-import { useForm } from "react-hook-form"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import { formatPhoneNumber } from "react-phone-number-input";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
+import SingleFileUploader from "components/Common/SingleFileUploader";
+import MultiFileUploader from "components/Common/MultiFileUploader";
+import { addPlus, formatDate, toBase64 } from "store/utils/util";
+import { useForm } from "react-hook-form";
 //import PhoneInput from "react-phone-number-input"
-import "react-phone-number-input/style.css"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AddAgencyWrapper = ({
   homeCare: { serviceCategory, progressFormState },
@@ -61,84 +61,84 @@ const AddAgencyWrapper = ({
   getHomeCareServiceCategory,
 }) => {
   // declare state
-  const phoneNumberInput = useRef()
-  const companyPhotoUploader = useRef()
-  const [isLoading, toggleLoader] = useState(false)
-  const { basicData, serviceData, regionData } = progressFormState
-  const [suggestedPlaceList, updatePlaceList] = useState([])
-  const [suggestedRegionList, updateRegionList] = useState([])
-  const [regionInputValue, updateRegionInputValue] = useState("")
+  const phoneNumberInput = useRef();
+  const companyPhotoUploader = useRef();
+  const [isLoading, toggleLoader] = useState(false);
+  const { basicData, serviceData, regionData } = progressFormState;
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
+  const [suggestedRegionList, updateRegionList] = useState([]);
+  const [regionInputValue, updateRegionInputValue] = useState("");
   const [companyLogo, updateCompanyLogo] = useState({
     logo: null,
     logoUrl:
       "https://www.resetyourbody.com/wp-content/uploads/COMPANY_LOGO/logo-default.png",
-  })
+  });
   const [companyPhotos, updateCompanyPhotos] = useState({
     photos: [],
     photoCount: 0,
-  })
+  });
   const [formErrors, toggleFormError] = useState({
     phoneNumberError: false,
-  })
+  });
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   const getFormData = async () => {
-    await getHomeCareServiceCategory()
-  }
+    await getHomeCareServiceCategory();
+  };
 
   useEffect(() => {
-    getFormData()
-  }, [])
+    getFormData();
+  }, []);
 
-  const { phoneNumberError } = formErrors
+  const { phoneNumberError } = formErrors;
 
-  const setValue = propertyName => {
-    return basicData[propertyName] ? basicData[propertyName].value : ""
-  }
+  const setValue = (propertyName) => {
+    return basicData[propertyName] ? basicData[propertyName].value : "";
+  };
 
-  const onChange = e => {
+  const onChange = (e) => {
     toggleFormError({
       phoneNumberError: false,
-    })
-    let name = e.target.name
-    let value = e.target.value
-    let title = e.target.id
-    updateValue(name, title, value)
-  }
+    });
+    let name = e.target.name;
+    let value = e.target.value;
+    let title = e.target.id;
+    updateValue(name, title, value);
+  };
 
   const updateValue = (name, title, value) => {
     basicData[name] = {
       title,
       value,
-    }
-    updateProgressForm(progressFormState)
-  }
+    };
+    updateProgressForm(progressFormState);
+  };
 
   const serviceChecked = (category, id) => {
     let service = serviceData[category]
-      ? serviceData[category].filter(item => item.id == id)
-      : []
-    return service.length == 1 ? true : false
-  }
+      ? serviceData[category].filter((item) => item.id == id)
+      : [];
+    return service.length == 1 ? true : false;
+  };
 
   const onServiceSelect = (categoryTitle, serviceTitle, serviceId) => {
     if (serviceData[categoryTitle]) {
       if (serviceChecked(categoryTitle, serviceId)) {
         serviceData[categoryTitle] = serviceData[categoryTitle].filter(
-          item => item.id != serviceId
-        )
+          (item) => item.id != serviceId
+        );
       } else {
         serviceData[categoryTitle].push({
           title: serviceTitle,
           id: serviceId,
-        })
+        });
       }
     } else {
       serviceData[categoryTitle] = [
@@ -146,12 +146,12 @@ const AddAgencyWrapper = ({
           title: serviceTitle,
           id: serviceId,
         },
-      ]
+      ];
     }
-    updateProgressForm(progressFormState)
-  }
+    updateProgressForm(progressFormState);
+  };
 
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     try {
       //check phone number input
       if (
@@ -159,22 +159,22 @@ const AddAgencyWrapper = ({
         !basicData["Phone Number"].value ||
         basicData["Phone Number"].value === ""
       ) {
-        toggleFormError({ ...formErrors, phoneNumberError: true })
-        phoneNumberInput.current.focus()
-        return
+        toggleFormError({ ...formErrors, phoneNumberError: true });
+        phoneNumberInput.current.focus();
+        return;
       }
-      let serviceSelected = 0
+      let serviceSelected = 0;
       for (let c in serviceData) {
-        serviceSelected += c.length
+        serviceSelected += c.length;
       }
       if (serviceSelected === 0) {
-        toastr.error("Error", "You need to select at least one of the service")
-        return
+        toastr.error("Error", "You need to select at least one of the service");
+        return;
       }
 
       if (regionData.length === 0) {
-        toastr.error("Error", "You need to select at least one region")
-        return
+        toastr.error("Error", "You need to select at least one region");
+        return;
       }
 
       //register this business agency
@@ -182,174 +182,174 @@ const AddAgencyWrapper = ({
         basicData: {},
         serviceData: [],
         regionData: {},
-      }
+      };
 
-      let medicalServices = false
-      let nonMedicalServices = false
-      let serviceType = "All"
+      let medicalServices = false;
+      let nonMedicalServices = false;
+      let serviceType = "All";
 
       //process basicData
       for (let key in basicData) {
-        let row = basicData[key]
-        formData.basicData[row.title] = row.value
+        let row = basicData[key];
+        formData.basicData[row.title] = row.value;
         if (key === "Medical" && row.length > 0) {
-          medicalServices = true
+          medicalServices = true;
         } else if (key === "Non Medical" && row.length > 0) {
-          nonMedicalServices = true
+          nonMedicalServices = true;
         }
       }
 
       if (medicalServices && !nonMedicalServices) {
-        serviceType = "Medical"
+        serviceType = "Medical";
       } else if (!medicalServices && nonMedicalServices) {
-        serviceType = "Non-Medical"
+        serviceType = "Non-Medical";
       }
-      formData.basicData["serviceType"] = serviceType
+      formData.basicData["serviceType"] = serviceType;
 
       //process serviceData
       for (let key in serviceData) {
-        let services = serviceData[key]
-        formData.serviceData = [...formData.serviceData, ...services]
+        let services = serviceData[key];
+        formData.serviceData = [...formData.serviceData, ...services];
       }
 
       //process regionData
-      formData.regionData = regionData.map(r => r.id)
+      formData.regionData = regionData.map((r) => r.id);
 
-      let photos = []
+      let photos = [];
       if (companyPhotos.photos.length > 0) {
-        photos = companyPhotos.photos.map(c => c.file)
+        photos = companyPhotos.photos.map((c) => c.file);
       }
 
       //show loader
-      toggleLoader(true)
-      console.log({ formData, companyLogo, photos })
+      toggleLoader(true);
+      console.log({ formData, companyLogo, photos });
       // let result = await addNewAgency(formData, companyLogo.logo, photos)
       // toggleLoader(false)
       // if (result) {
       //   window.location = "/homeCare/buyLead"
       // }
     } catch (e) {
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const handleKeyWordChange = async value => {
-    let val = value
+  const handleKeyWordChange = async (value) => {
+    let val = value;
     toggleFormError({
       phoneNumberError: false,
-    })
-    updateValue("City", "city", val)
-    updateValue("State", "state", "")
+    });
+    updateValue("City", "city", val);
+    updateValue("State", "state", "");
     if (val && val.trim() !== "") {
-      let result = await getSuggestedCities(val)
+      let result = await getSuggestedCities(val);
       if (result && result.citySuggestion) {
-        let optionList = result.citySuggestion.map(item => ({
+        let optionList = result.citySuggestion.map((item) => ({
           label: `${item.city} , ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const handleKeyWordChangeForRegion = async value => {
-    let val = value
+  const handleKeyWordChangeForRegion = async (value) => {
+    let val = value;
     toggleFormError({
       phoneNumberError: false,
-    })
-    updateRegionInputValue(val)
+    });
+    updateRegionInputValue(val);
     if (val && val.trim() !== "") {
-      let result = await getSuggestedLocationByZipCode(val)
-      console.log(result)
+      let result = await getSuggestedLocationByZipCode(val);
+      console.log(result);
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city} , ${item.state_name}`,
           value: item,
-        }))
-        updateRegionList(optionList)
+        }));
+        updateRegionList(optionList);
       }
     }
-  }
+  };
 
-  const onSelectHandler = value => {
+  const onSelectHandler = (value) => {
     if (value) {
-      const { state_name, city } = value
-      updateValue("City", "city", city)
-      updateValue("State", "state", state_name)
+      const { state_name, city } = value;
+      updateValue("City", "city", city);
+      updateValue("State", "state", state_name);
     }
-  }
+  };
 
-  const removeSelectedRegion = id => {
+  const removeSelectedRegion = (id) => {
     if (id) {
-      let newRegionList = regionData.filter(r => r.id != id)
+      let newRegionList = regionData.filter((r) => r.id != id);
       updateProgressForm({
         ...progressFormState,
         regionData: newRegionList,
-      })
+      });
     }
-  }
+  };
 
-  const onSelectHandlerForRegion = value => {
+  const onSelectHandlerForRegion = (value) => {
     if (value) {
-      updateRegionInputValue("")
-      let isExist = regionData.filter(r => r.id == value.id)
-      console.log(isExist)
+      updateRegionInputValue("");
+      let isExist = regionData.filter((r) => r.id == value.id);
+      console.log(isExist);
       if (!isExist[0]) {
-        regionData.push(value)
+        regionData.push(value);
         updateProgressForm({
           ...progressFormState,
           regionData,
-        })
+        });
       }
     }
-  }
+  };
 
-  const logoUploaderHandler = file => {
+  const logoUploaderHandler = (file) => {
     updateCompanyLogo({
       logo: file,
-    })
-  }
+    });
+  };
 
-  const photoUploadHandler = async fileList => {
-    let totalFIle = fileList.length
-    let compiledList = []
+  const photoUploadHandler = async (fileList) => {
+    let totalFIle = fileList.length;
+    let compiledList = [];
 
     if (totalFIle > 8) {
-      toastr.error("Error", "Max 8 file can be selected")
-      return
+      toastr.error("Error", "Max 8 file can be selected");
+      return;
     }
 
     for (let f of fileList) {
-      let filename = f.name
-      let extension = filename.split(".").pop().toLowerCase()
-      let fileSize = f.size
-      console.log(`Extension is ${extension}`)
+      let filename = f.name;
+      let extension = filename.split(".").pop().toLowerCase();
+      let fileSize = f.size;
+      console.log(`Extension is ${extension}`);
       if (
         extension !== "jpg" &&
         extension !== "png" &&
         extension !== "jpeg" &&
         extension !== "svg"
       ) {
-        toastr.error("Error", "Only jpg,png,jpeg,svg files are allowed")
-        return
+        toastr.error("Error", "Only jpg,png,jpeg,svg files are allowed");
+        return;
       }
       if (fileSize > 2 * 1024 * 1024) {
-        toastr.error("Error", "File size can't be more than 2MB")
-        return
+        toastr.error("Error", "File size can't be more than 2MB");
+        return;
       }
-      let baseString = await toBase64(f)
+      let baseString = await toBase64(f);
       compiledList.push({
         url: baseString,
         file: f,
-      })
+      });
     }
     updateCompanyPhotos({
       photos: compiledList,
-    })
-  }
+    });
+  };
 
-  console.log("ddd", { serviceCategory, progressFormState })
+  console.log("ddd", { serviceCategory, progressFormState });
 
   return (
     <React.Fragment>
@@ -397,7 +397,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter Business Name"
                               name="Business Name"
                               value={setValue("Business Name")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -427,7 +427,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter email"
                               name="Email"
                               value={setValue("Email")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -463,7 +463,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter address"
                               name="Address"
                               value={setValue("Address")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -519,7 +519,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter State"
                               name="State"
                               value={setValue("State")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -546,7 +546,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter ZipCode"
                               name="Zip Code"
                               value={setValue("Zip Code")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -576,14 +576,14 @@ const AddAgencyWrapper = ({
                               id="phoneNumber"
                               name="Phone Number"
                               value={setValue("Phone Number")}
-                              onChange={e => {
+                              onChange={(e) => {
                                 onChange({
                                   target: {
                                     id: "phoneNumber",
                                     name: "Phone Number",
                                     value: e,
                                   },
-                                })
+                                });
                               }}
                               maxLength={14}
                               country="us"
@@ -605,7 +605,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter Local Phone Number"
                               name="Local Phone"
                               value={setValue("Local Phone")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -620,7 +620,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter Website Link"
                               name="Website"
                               value={setValue("Website")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -639,7 +639,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter License Number"
                               name="License Number"
                               value={setValue("License Number")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -654,7 +654,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter Facebook Link"
                               name="Facebook"
                               value={setValue("Facebook")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -669,7 +669,7 @@ const AddAgencyWrapper = ({
                               placeholder="Enter Twitter Link"
                               name="Twitter"
                               value={setValue("Twitter")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -685,7 +685,7 @@ const AddAgencyWrapper = ({
                             placeholder="Enter Instagram Link"
                             name="Instagram"
                             value={setValue("Instagram")}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                           />
                         </div>
                         {/* LinkedIn*/}
@@ -698,7 +698,7 @@ const AddAgencyWrapper = ({
                             placeholder="Enter LinkedIn link"
                             name="LinkedIn"
                             value={setValue("LinkedIn")}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                           />
                         </div>
                         {/* Description */}
@@ -713,7 +713,7 @@ const AddAgencyWrapper = ({
                               type="textarea"
                               rows="5"
                               value={setValue("Description")}
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                             />
                           </div>
                         </div>
@@ -780,7 +780,7 @@ const AddAgencyWrapper = ({
                                       <div className="">
                                         {services.map(
                                           ({ title: serviceTitle, id }) => {
-                                            let labelID = `${id}-${serviceTitle}`
+                                            let labelID = `${id}-${serviceTitle}`;
                                             return (
                                               <div
                                                 className="form-check mb-3"
@@ -791,12 +791,12 @@ const AddAgencyWrapper = ({
                                                   type="checkbox"
                                                   value={id}
                                                   id={labelID}
-                                                  onChange={e => {
+                                                  onChange={(e) => {
                                                     onServiceSelect(
                                                       categoryTitle,
                                                       serviceTitle,
                                                       id
-                                                    )
+                                                    );
                                                   }}
                                                   style={{
                                                     height: "20px",
@@ -814,12 +814,12 @@ const AddAgencyWrapper = ({
                                                   {serviceTitle}
                                                 </label>
                                               </div>
-                                            )
+                                            );
                                           }
                                         )}
                                       </div>
                                     </div>
-                                  )
+                                  );
                                 }
                               )}
                           </div>
@@ -878,14 +878,14 @@ const AddAgencyWrapper = ({
                                             <div
                                               className="remove-region"
                                               onClick={() => {
-                                                removeSelectedRegion(id)
+                                                removeSelectedRegion(id);
                                               }}
                                             >
                                               <i className="fa fa-trash"></i>
                                             </div>
                                           </div>
                                         </div>
-                                      )
+                                      );
                                     }
                                   )}
                                 </div>
@@ -913,10 +913,10 @@ const AddAgencyWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({ homeCare: state.homeCare })
+const mapStateToProps = (state) => ({ homeCare: state.homeCare });
 
 const mapDispatchToProps = {
   updateProgressForm,
@@ -924,6 +924,6 @@ const mapDispatchToProps = {
   getSuggestedLocationByZipCode,
   addNewAgency,
   getHomeCareServiceCategory,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddAgencyWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(AddAgencyWrapper);

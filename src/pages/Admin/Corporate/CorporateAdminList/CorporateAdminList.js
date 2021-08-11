@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect, useDispatch } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect, useDispatch } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -12,59 +12,59 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import Switch from "react-switch"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import Switch from "react-switch";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
 
 //redux & actions
 import {
   getInternalUserList,
   updateInternalUserStatus,
   getRoleTypeList,
-} from "../../../../store/Actions/roleAction"
+} from "../../../../store/Actions/roleAction";
 import {
   getCorporateList,
   getCorporateManagerList,
-} from "../../../../store/Actions/corporateAction"
-import { updateUserRoleStatus } from "../../../../store/Actions/roleAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/corporateAction";
+import { updateUserRoleStatus } from "../../../../store/Actions/roleAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const CorporateAdminList = ({ match: { params } }) => {
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalCount, updateTotalCount] = useState(0)
-  const [refresh, updateRefresh] = useState(Date.now())
+  });
+  const [totalCount, updateTotalCount] = useState(0);
+  const [refresh, updateRefresh] = useState(Date.now());
   const [filterState, updateFilterState] = useState({
     activePage: 1,
     searchText: "",
     limit: 20,
     selectedStatus: 1,
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
-  const { activePage, searchText, limit, selectedStatus } = filterState
-  const { rows, count } = listState
+  const { activePage, searchText, limit, selectedStatus } = filterState;
+  const { rows, count } = listState;
 
   useEffect(() => {
     if (params && params.id) {
-      getDataListHandler(params.id)
+      getDataListHandler(params.id);
     }
-  }, [activePage, selectedStatus, searchText, refresh])
+  }, [activePage, selectedStatus, searchText, refresh]);
 
-  const getDataListHandler = async id => {
+  const getDataListHandler = async (id) => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await dispatch(
         getCorporateManagerList({
           searchText,
@@ -73,51 +73,51 @@ const CorporateAdminList = ({ match: { params } }) => {
           selectedStatus,
           corporateId: id,
         })
-      )
+      );
       if (result) {
-        console.log(`C Admin List `, result)
-        const { rows, count } = result
+        console.log(`C Admin List `, result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      console.log(e);
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handlePageChange = pgNum => {
+  const handlePageChange = (pgNum) => {
     updateFilterStateHandler({
       activePage: pgNum,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
-    const val = e.target.value
+  const handleSearchInput = (e) => {
+    const val = e.target.value;
     updateFilterStateHandler({
       activePage: 1,
       searchText: val,
-    })
-  }
+    });
+  };
 
-  const onSelectedStatusChangeHandler = e => {
-    const val = e.target.value
+  const onSelectedStatusChangeHandler = (e) => {
+    const val = e.target.value;
     updateFilterStateHandler({
       activePage: 1,
       selectedStatus: val,
-    })
-  }
+    });
+  };
 
   const updateUserStatusHandler = async (userId, userStatus) => {
     try {
@@ -126,34 +126,34 @@ const CorporateAdminList = ({ match: { params } }) => {
           userId,
           userStatus,
         })
-      )
+      );
       if (result) {
-        updateRefresh(Date.now())
+        updateRefresh(Date.now());
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const nameBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{`${user.firstName} ${user.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const emailBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span style={{ textTransform: "lowercase" }}>{user.email}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneBodyTemplate = ({ user }) => {
     return (
@@ -162,49 +162,49 @@ const CorporateAdminList = ({ match: { params } }) => {
           {user.phoneNumber ? formatNumber(`${user.phoneNumber}`) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const stateBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{user.state ? user.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const cityBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{user.city ? user.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const zipCodeBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{user.zipcode ? user.zipcode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           <Switch
             checked={rowData.status ? true : false}
             onChange={() => {
-              updateUserStatusHandler(rowData.id, rowData.status === 1 ? 0 : 1)
+              updateUserStatusHandler(rowData.id, rowData.status === 1 ? 0 : 1);
             }}
           />
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -216,7 +216,7 @@ const CorporateAdminList = ({ match: { params } }) => {
                   onClick={() => {
                     history.push(
                       `/admin/corporate/manager/edit/${rowData.user_id}`
-                    )
+                    );
                   }}
                   toolTip="Edit Detail"
                   btnClass="normal"
@@ -226,13 +226,13 @@ const CorporateAdminList = ({ match: { params } }) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -418,13 +418,13 @@ const CorporateAdminList = ({ match: { params } }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CorporateAdminList)
+export default connect(mapStateToProps, mapDispatchToProps)(CorporateAdminList);

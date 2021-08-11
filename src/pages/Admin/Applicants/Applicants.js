@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory, redirect } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory, redirect } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,24 +13,24 @@ import {
   CardBody,
   InputGroup,
   Badge,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import Switch from "react-switch"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import Switch from "react-switch";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
 
 //redux & actions
 import {
   offStatusOfAdvisor,
   getAllApplicants,
   sendCredentialsToAdviser,
-} from "../../../store/Actions/adminAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/adminAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const Applicants = ({
   offStatusOfAdvisor,
@@ -38,7 +38,7 @@ const Applicants = ({
   sendCredentialsToAdviser,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [filterState, updateFilterState] = useState({
     activePage: 1,
     searchText: "",
@@ -47,17 +47,17 @@ const Applicants = ({
     redirect: false,
     typeHolder: 0,
     statusHolder: 0,
-  })
+  });
 
   const [listState, updateListState] = useState({
     adviserData: [],
     totalAdviser: 0,
-  })
+  });
 
-  const [isLoading, toggleLoader] = useState(false)
+  const [isLoading, toggleLoader] = useState(false);
 
   // destructure states
-  const { adviserData, totalAdviser } = listState
+  const { adviserData, totalAdviser } = listState;
   const {
     activePage,
     searchText,
@@ -65,170 +65,170 @@ const Applicants = ({
     sortingOrder,
     typeHolder,
     statusHolder,
-  } = filterState
+  } = filterState;
 
   // app functions
   useEffect(() => {
-    getDataListHandler()
-  }, [activePage, searchText, sortingColumn, sortingOrder])
+    getDataListHandler();
+  }, [activePage, searchText, sortingColumn, sortingOrder]);
 
   const getDataListHandler = async () => {
     try {
       //updateFilterState({ loader: true })
-      toggleLoader(true)
+      toggleLoader(true);
       let applicantsList = await getAllApplicants({
         pageNumber: activePage || 1,
         searchText,
         sortingOrder,
         sortingColumn,
-      })
-      console.log(`applicantsList List `, applicantsList)
+      });
+      console.log(`applicantsList List `, applicantsList);
       if (applicantsList) {
-        const { adviserData, totalAdviser } = applicantsList
-        updateListState({ adviserData, totalAdviser })
+        const { adviserData, totalAdviser } = applicantsList;
+        updateListState({ adviserData, totalAdviser });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      console.log(e);
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
-    console.log("newState", newState)
+  const updateFilterStateHandler = (newState) => {
+    console.log("newState", newState);
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handlePageChange = page => {
+  const handlePageChange = (page) => {
     updateFilterStateHandler({
       activePage: page,
-    })
-  }
+    });
+  };
 
-  const onSearchChange = e => {
-    let value = e.target.value
+  const onSearchChange = (e) => {
+    let value = e.target.value;
     updateFilterStateHandler({
       searchText: value,
       activePage: 1,
-    })
-  }
+    });
+  };
 
-  const changeStatus = async rowdata => {
-    console.log(rowdata)
-    let result = await offStatusOfAdvisor(rowdata.id, !rowdata.status)
+  const changeStatus = async (rowdata) => {
+    console.log(rowdata);
+    let result = await offStatusOfAdvisor(rowdata.id, !rowdata.status);
     if (result === 403) {
       updateFilterState({
         redirect: true,
-      })
+      });
     } else {
-      getDataListHandler()
+      getDataListHandler();
     }
-  }
+  };
 
   const sendCredentials = async (e, id) => {
-    await dispatch(sendCredentialsToAdviser(id))
-  }
+    await dispatch(sendCredentialsToAdviser(id));
+  };
 
-  const showCredentialBtn = rowData => {
-    rowData.isCredentialsSend = 0
+  const showCredentialBtn = (rowData) => {
+    rowData.isCredentialsSend = 0;
     if (rowData.isCredentialsSend == 0) {
       return rowData.type ? (
         <ButtonComp
           icon="key"
           toolTip="Send Credentials"
           btnClass="normal"
-          onClick={e => sendCredentials(e, rowData.id)}
+          onClick={(e) => sendCredentials(e, rowData.id)}
         />
       ) : rowData.positionId && rowData.position.position == "Advisor" ? (
         <ButtonComp
           icon="key"
           toolTip="Send Credentials"
           btnClass="normal"
-          onClick={e => sendCredentials(e, rowData.id)}
+          onClick={(e) => sendCredentials(e, rowData.id)}
         />
-      ) : null
+      ) : null;
     }
-  }
+  };
 
   //TABLE COMPONENTS
 
-  const onTypeChange = e => {
-    let value = e.target.value
+  const onTypeChange = (e) => {
+    let value = e.target.value;
     if (value === "1") {
       updateFilterStateHandler({
         sortingColumn: "type",
         sortingOrder: "DESC",
         typeHolder: 1,
-      })
+      });
     } else if (value === "2") {
       updateFilterStateHandler({
         sortingColumn: "type",
         sortingOrder: "ASC",
         typeHolder: 2,
-      })
+      });
     } else {
       updateFilterStateHandler({
         sortingColumn: "",
         sortingOrder: 0,
         typeHolder: 0,
-      })
+      });
     }
-  }
+  };
 
-  const onStatusChange = e => {
-    let value = e.target.value
+  const onStatusChange = (e) => {
+    let value = e.target.value;
     if (value === "1") {
       updateFilterStateHandler({
         sortingColumn: "status",
         sortingOrder: "DESC",
         statusHolder: 1,
-      })
+      });
     } else if (value === "2") {
       updateFilterStateHandler({
         sortingColumn: "status",
         sortingOrder: "ASC",
         statusHolder: 2,
-      })
+      });
     } else {
       updateFilterStateHandler({
         sortingColumn: "",
         sortingOrder: 0,
         statusHolder: 0,
-      })
+      });
     }
-  }
+  };
 
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const userBodyTemplate = rowData => {
+  const userBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.firstName} ${rowData.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const emailBodyTemplate = rowData => {
+  const emailBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span style={{ textTransform: "lowercase" }}>{rowData.email}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.phoneNumber ? formatNumber(`${rowData.phoneNumber}`) : "N/A"}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const typeBodyTemplate = rowData => {
+  const typeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -249,18 +249,18 @@ const Applicants = ({
           )}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const dateOnBodyTemplate = rowData => {
+  const dateOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {formatDate(`${rowData.createdAt}`)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -271,10 +271,10 @@ const Applicants = ({
           )}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -285,10 +285,10 @@ const Applicants = ({
           )}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -299,10 +299,10 @@ const Applicants = ({
           )}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -312,10 +312,10 @@ const Applicants = ({
           />
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -340,18 +340,18 @@ const Applicants = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   if (filterState.redirect) {
-    toastr.error("Error", "Unauthorized access,please login again as admin")
-    return <Redirect to="/admins/login" />
+    toastr.error("Error", "Unauthorized access,please login again as admin");
+    return <Redirect to="/admins/login" />;
   }
 
   return (
@@ -418,7 +418,7 @@ const Applicants = ({
                           <ButtonComp
                             icon="sync"
                             onClick={() => {
-                              getDataListHandler()
+                              getDataListHandler();
                             }}
                             toolTip="refresh"
                             tooltipType="info"
@@ -532,17 +532,17 @@ const Applicants = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   offStatusOfAdvisor,
   getAllApplicants,
   sendCredentialsToAdviser,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(Applicants)
+export default connect(mapStateToProps, mapDispatchToProps)(Applicants);

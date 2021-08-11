@@ -1,10 +1,10 @@
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import React, { useEffect, useState, Fragment } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, Redirect, useHistory } from "react-router-dom"
-import { getHomeCareAgencyDetail } from "../../../../store/Actions/salesAction"
-import { formatDate, getQueryParams } from "../../../../store/utils/util"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import React, { useEffect, useState, Fragment } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, Redirect, useHistory } from "react-router-dom";
+import { getHomeCareAgencyDetail } from "../../../../store/Actions/salesAction";
+import { formatDate, getQueryParams } from "../../../../store/utils/util";
 
 const AgencyDetail = ({
   userDetails,
@@ -12,48 +12,48 @@ const AgencyDetail = ({
   getHomeCareAgencyDetail,
   agencyId,
 }) => {
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     isAccessAllowed: null,
-  })
+  });
   const [agencyData, updateAgencyData] = useState({
     businessData: null,
     subsData: null,
-  })
-  const [isLoading, toggleLoader] = useState(false)
-  const { isAccessAllowed } = appState
-  const { businessData, subsData } = agencyData
+  });
+  const [isLoading, toggleLoader] = useState(false);
+  const { isAccessAllowed } = appState;
+  const { businessData, subsData } = agencyData;
 
   useEffect(() => {
     if (userDetails && parseInt(userDetails.role) === 11) {
-      updateAppState({ ...appState, isAccessAllowed: true })
+      updateAppState({ ...appState, isAccessAllowed: true });
     }
-  }, [userDetails])
+  }, [userDetails]);
 
   useEffect(() => {
     if (agencyId) {
-      getAgencyData(agencyId)
+      getAgencyData(agencyId);
     }
-  }, [agencyId])
+  }, [agencyId]);
 
-  const getAgencyData = async aId => {
+  const getAgencyData = async (aId) => {
     try {
-      toggleLoader(true)
-      let result = await getHomeCareAgencyDetail(aId)
-      console.log(result)
+      toggleLoader(true);
+      let result = await getHomeCareAgencyDetail(aId);
+      console.log(result);
       if (result) {
         updateAgencyData({
           businessData: result.businessData,
           subsData: result.subscriptionData,
-        })
-        toggleLoader(false)
+        });
+        toggleLoader(false);
       }
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isAccessAllowed === false) {
     return (
@@ -62,11 +62,11 @@ const AgencyDetail = ({
           pathname: "/advisor/userDashboard",
         }}
       />
-    )
+    );
   }
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -322,7 +322,7 @@ const AgencyDetail = ({
               <hr />
 
               <Fragment>
-                {businessData.services.map(item => {
+                {businessData.services.map((item) => {
                   return (
                     <dl className="row" key={`bs-item-${item.id}`}>
                       <dt className="col-sm-2 h5 py-1">
@@ -332,7 +332,7 @@ const AgencyDetail = ({
                         {item.service.title}
                       </dd>
                     </dl>
-                  )
+                  );
                 })}
               </Fragment>
               <br />
@@ -376,14 +376,14 @@ const AgencyDetail = ({
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
-})
+});
 
-const mapDispatchToProps = { getHomeCareAgencyDetail }
+const mapDispatchToProps = { getHomeCareAgencyDetail };
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgencyDetail)
+export default connect(mapStateToProps, mapDispatchToProps)(AgencyDetail);

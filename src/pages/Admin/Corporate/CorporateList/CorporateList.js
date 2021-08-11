@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { toastr } from "react-redux-toastr"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,49 +13,49 @@ import {
   CardBody,
   InputGroup,
   Badge,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
 
 //redux & actions
-import { getCorporateList } from "../../../../store/Actions/corporateAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import { getCorporateList } from "../../../../store/Actions/corporateAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const CorporateList = ({}) => {
   // declare states
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalCount, updateTotalCount] = useState(0)
-  const [categoryOptionList, updateCategoryOptionList] = useState([])
-  const [refresh, updateRefresh] = useState(Date.now())
+  });
+  const [totalCount, updateTotalCount] = useState(0);
+  const [categoryOptionList, updateCategoryOptionList] = useState([]);
+  const [refresh, updateRefresh] = useState(Date.now());
   const [filterState, updateFilterState] = useState({
     activePage: 1,
     searchText: "",
     limit: 20,
     selectedCategory: "all",
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
-  const { activePage, searchText, limit, selectedCategory } = filterState
-  const { rows, count } = listState
+  const { activePage, searchText, limit, selectedCategory } = filterState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getDataListHandler()
-  }, [activePage, searchText, refresh, selectedCategory])
+    getDataListHandler();
+  }, [activePage, searchText, refresh, selectedCategory]);
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await dispatch(
         getCorporateList({
           searchText,
@@ -63,56 +63,56 @@ const CorporateList = ({}) => {
           limit,
           selectedCategory,
         })
-      )
-      console.log(`Data List `, result)
+      );
+      console.log(`Data List `, result);
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handlePageChange = pgNum => {
+  const handlePageChange = (pgNum) => {
     updateFilterStateHandler({
       activePage: pgNum,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
-    const val = e.target.value
+  const handleSearchInput = (e) => {
+    const val = e.target.value;
     updateFilterStateHandler({
       activePage: 1,
       searchText: val,
-    })
-  }
+    });
+  };
 
-  const onChangeTypeHandler = e => {
-    const val = e.target.value
+  const onChangeTypeHandler = (e) => {
+    const val = e.target.value;
     updateFilterStateHandler({
       activePage: 1,
       selectedCategory: val,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const typeBodyTemplate = rowData => {
-    console.log(rowData.corporate_type)
+  const typeBodyTemplate = (rowData) => {
+    console.log(rowData.corporate_type);
     return (
       <React.Fragment>
         {rowData.corporate_type == "adviser" ? (
@@ -131,60 +131,60 @@ const CorporateList = ({}) => {
           </Badge>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const nameBodyTemplate = rowData => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.title}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const emailBodyTemplate = rowData => {
+  const emailBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span style={{ textTransform: "lowercase" }}>{rowData.email}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           {rowData.phoneNumber ? formatNumber(`${rowData.phoneNumber}`) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipcode ? rowData.zipcode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -193,9 +193,9 @@ const CorporateList = ({}) => {
               <span>
                 <ButtonComp
                   icon="edit"
-                  onClick={e => {
-                    e.preventDefault()
-                    history.push(`/admin/corporate/edit/${rowData.id}`)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push(`/admin/corporate/edit/${rowData.id}`);
                   }}
                   toolTip="Edit Detail"
                   btnClass="normal"
@@ -204,9 +204,9 @@ const CorporateList = ({}) => {
               <span>
                 <ButtonComp
                   icon="list"
-                  onClick={e => {
-                    e.preventDefault()
-                    history.push(`/admin/corporate/managers/${rowData.id}`)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push(`/admin/corporate/managers/${rowData.id}`);
                   }}
                   toolTip="Manager List"
                   btnClass="normal"
@@ -216,13 +216,13 @@ const CorporateList = ({}) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -295,7 +295,7 @@ const CorporateList = ({}) => {
                           <ButtonComp
                             icon="sync"
                             onClick={() => {
-                              getDataListHandler()
+                              getDataListHandler();
                             }}
                             toolTip="refresh"
                             tooltipType="info"
@@ -397,13 +397,13 @@ const CorporateList = ({}) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CorporateList)
+export default connect(mapStateToProps, mapDispatchToProps)(CorporateList);

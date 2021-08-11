@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,33 +14,33 @@ import {
   InputGroup,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../store/Actions/userAction"
+} from "../../../../store/Actions/userAction";
 import {
   getPropertyList,
   updatePropertyFilterStates,
   createDataUpdateProcess,
   updatePropertyMonitorStatus,
-} from "../../../../store/Actions/scrapeAction"
+} from "../../../../store/Actions/scrapeAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
 
-import ReactTooltip from "react-tooltip"
-import { formatPhoneNumber } from "react-phone-number-input"
-import ButtonComp from "components/Common/Button/Button"
-import { addPlus } from "store/utils/util"
+import ReactTooltip from "react-tooltip";
+import { formatPhoneNumber } from "react-phone-number-input";
+import ButtonComp from "components/Common/Button/Button";
+import { addPlus } from "store/utils/util";
 
 const PropertyList = ({
   getAllUSStates,
@@ -52,18 +52,18 @@ const PropertyList = ({
   updatePropertyMonitorStatus,
 }) => {
   // declare states
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalCount, updateTotalCount] = useState(0)
-  const [stateList, updateStateList] = useState([])
-  const [stateCities, updateStateCityList] = useState([])
-  const [cityList, updateCityList] = useState([])
-  const [zipCodeList, updateZipCodeList] = useState([])
-  const [selectedAgencies, updateSelectedAgencies] = useState([])
+  });
+  const [totalCount, updateTotalCount] = useState(0);
+  const [stateList, updateStateList] = useState([]);
+  const [stateCities, updateStateCityList] = useState([]);
+  const [cityList, updateCityList] = useState([]);
+  const [zipCodeList, updateZipCodeList] = useState([]);
+  const [selectedAgencies, updateSelectedAgencies] = useState([]);
   const {
     selectedImageScrapeStatus,
     selectedMonitorStatus,
@@ -75,19 +75,19 @@ const PropertyList = ({
     searchText,
     isAllSelected,
     limit,
-  } = filterState
-  const { rows, count } = listState
+  } = filterState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getUsStatesHandler()
-  }, [])
+    getUsStatesHandler();
+  }, []);
 
   useEffect(() => {
-    updateSelectedAgencies([])
-  }, [isAllSelected])
+    updateSelectedAgencies([]);
+  }, [isAllSelected]);
 
   useEffect(() => {
-    agencyListDataFetchHandler()
+    agencyListDataFetchHandler();
   }, [
     activePage,
     selectedImageScrapeStatus,
@@ -97,26 +97,26 @@ const PropertyList = ({
     selectedZipCodes,
     searchText,
     selectedCityValidationStatus,
-  ])
+  ]);
 
   const clearSelection = () => {
-    updateSelectedAgencies([])
-  }
+    updateSelectedAgencies([]);
+  };
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getAllUSStates()
+      let result = await getAllUSStates();
       if (result) {
-        updateStateList(result)
+        updateStateList(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const agencyListDataFetchHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getPropertyList(activePage, {
         selectedImageScrapeStatus,
         selectedMonitorStatus,
@@ -125,42 +125,42 @@ const PropertyList = ({
         selectedCities,
         selectedZipCodes,
         searchText,
-      })
+      });
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
-        updateTotalCount(count)
+        });
+        updateTotalCount(count);
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updatePropertyFilterStates({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateFilterStateHandler({
         searchText: value,
         isAllSelected: false,
         activePage: 1,
-      })
-      clearSelection()
+      });
+      clearSelection();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const onStatusChange = (value, statusType) => {
     try {
@@ -169,226 +169,228 @@ const PropertyList = ({
           selectedImageScrapeStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
-        clearSelection()
+        });
+        clearSelection();
       } else if (statusType === "dataMonitorStatus") {
         updateFilterStateHandler({
           selectedMonitorStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
       } else if (statusType === "cityValidationStatus") {
         updateFilterStateHandler({
           selectedCityValidationStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-  const handlePageChange = pNumber => {
+  };
+  const handlePageChange = (pNumber) => {
     updateFilterStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       updateFilterStateHandler({
         selectedState: val,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
-          const cities = [...new Set(result.map(item => item.city))]
-          updateStateCityList(result)
+          const cities = [...new Set(result.map((item) => item.city))];
+          updateStateCityList(result);
           updateCityList(
-            cities.map(item => ({ value: item, text: item, key: item }))
-          )
+            cities.map((item) => ({ value: item, text: item, key: item }))
+          );
         }
       } else {
-        updateStateCityList([])
-        updateCityList([])
-        updateZipCodeList([])
+        updateStateCityList([]);
+        updateCityList([]);
+        updateZipCodeList([]);
       }
-      clearSelection()
+      clearSelection();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
-        updateZipCodeList(allZipList)
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        updateZipCodeList(allZipList);
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateFilterStateHandler({
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
       } else {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         updateFilterStateHandler({
           selectedCities: cities,
           selectedZipCodes: [],
           isAllSelected: false,
-        })
+        });
       }
-      clearSelection()
+      clearSelection();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateFilterStateHandler({
         selectedZipCodes: zips,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
-        updateZipCodeList([])
+        updateZipCodeList([]);
       }
-      clearSelection()
+      clearSelection();
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onAgencySelection = id => {
+  const onAgencySelection = (id) => {
     try {
       // console.log(`Id is ${id}`);
       if (id === 0) {
         updateFilterStateHandler({
           isAllSelected: !isAllSelected,
-        })
+        });
       } else {
-        let newAgencySelectionList
-        let isExist = selectedAgencies.filter(item => item == id)
+        let newAgencySelectionList;
+        let isExist = selectedAgencies.filter((item) => item == id);
         if (isExist[0]) {
-          newAgencySelectionList = selectedAgencies.filter(item => item !== id)
+          newAgencySelectionList = selectedAgencies.filter(
+            (item) => item !== id
+          );
         } else {
-          newAgencySelectionList = [...selectedAgencies, id]
+          newAgencySelectionList = [...selectedAgencies, id];
         }
-        updateSelectedAgencies(newAgencySelectionList)
+        updateSelectedAgencies(newAgencySelectionList);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const selectionChecker = id => {
-    let result = selectedAgencies.filter(item => item == id)
+  const selectionChecker = (id) => {
+    let result = selectedAgencies.filter((item) => item == id);
     if (isAllSelected) {
       if (result[0]) {
-        return false
+        return false;
       }
-      return true
+      return true;
     } else if (result[0]) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   const countSelectedAgencies = () => {
     if (isAllSelected) {
-      let totalAgencies = totalCount - selectedAgencies.length
-      return totalAgencies
+      let totalAgencies = totalCount - selectedAgencies.length;
+      return totalAgencies;
     } else {
-      return selectedAgencies.length
+      return selectedAgencies.length;
     }
-  }
+  };
 
   const createProcessHandler = () => {
     try {
       if (!isAllSelected && selectedAgencies.length === 0) {
-        throw "No Item has been selected"
+        throw "No Item has been selected";
       }
       showConfirmAlert({
         title: "Are you sure?",
         desc: "Do you want to create this process?",
-        handler: async userResult => {
+        handler: async (userResult) => {
           if (userResult === 2) {
-            return
+            return;
           }
-          sendProcessRequest()
+          sendProcessRequest();
         },
         yesBtnText: "Yes",
         noBtnText: "No",
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const sendProcessRequest = async () => {
     try {
       let result = await createDataUpdateProcess("SeniorLiving", {
         ...filterState,
         selectedList: selectedAgencies,
-      })
+      });
       if (result) {
-        console.log("Process successfully created")
-        clearSelection()
+        console.log("Process successfully created");
+        clearSelection();
         updateFilterStateHandler({
           isAllSelected: false,
-        })
+        });
       }
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const updatePropertyMonitorStatusHandler = async (pId, status) => {
     try {
       // console.log(`Boom Hash ${pId}`);
       //  console.log(`Monitor Status ${status}`);
-      const result = await updatePropertyMonitorStatus(pId, status)
+      const result = await updatePropertyMonitorStatus(pId, status);
       if (result) {
-        let newRows = rows.map(item => {
+        let newRows = rows.map((item) => {
           if (item.boom_hash === pId) {
-            item.monitorStatus = status
+            item.monitorStatus = status;
           }
-          return item
-        })
+          return item;
+        });
         updateListState({
           ...listState,
           rows: newRows,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const checkBodyTemplate = ({ boom_hash }) => {
     return (
@@ -399,58 +401,58 @@ const PropertyList = ({
             className="form-check-Input"
             id="formrow-customCheck"
             onChange={() => {
-              onAgencySelection(boom_hash)
+              onAgencySelection(boom_hash);
             }}
             checked={selectionChecker(boom_hash)}
           />
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.businessTitle ? rowData.businessTitle : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           {rowData.phone ? formatPhoneNumber(addPlus(rowData.phone)) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.zipcode ? rowData.zipcode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const imageCodeBodyTemplate = rowData => {
+  const imageCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -458,8 +460,8 @@ const PropertyList = ({
           {rowData.imageDownloaded ? rowData.imageDownloaded : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const statusBodyTemplate = ({ boom_hash, monitorStatus }) => {
     return (
@@ -467,9 +469,9 @@ const PropertyList = ({
         <span>
           <select
             className="form-control form-select"
-            onChange={e => {
-              let val = e.target.value
-              updatePropertyMonitorStatusHandler(boom_hash, val)
+            onChange={(e) => {
+              let val = e.target.value;
+              updatePropertyMonitorStatusHandler(boom_hash, val);
             }}
             value={monitorStatus}
           >
@@ -480,8 +482,8 @@ const PropertyList = ({
           </select>
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ boom_hash, businessTitle, city, state }) => {
     return (
@@ -494,7 +496,7 @@ const PropertyList = ({
                 onClick={() => {
                   history.push(
                     `/admin/scrape/property/edit/${boom_hash}?name=${businessTitle}`
-                  )
+                  );
                 }}
                 toolTip="Edit Property"
                 btnClass="normal"
@@ -504,7 +506,7 @@ const PropertyList = ({
                 onClick={() => {
                   history.push(
                     `/admin/scrape/property/history/${boom_hash}?name=${businessTitle}`
-                  )
+                  );
                 }}
                 toolTip="Update History"
                 btnClass="normal"
@@ -512,11 +514,11 @@ const PropertyList = ({
               <ButtonComp
                 icon="search"
                 onClick={() => {
-                  let searchTerm = `${businessTitle} ${city} ${state}`
+                  let searchTerm = `${businessTitle} ${city} ${state}`;
                   window.open(
                     "//" + "google.com/search?q=" + searchTerm,
                     "_blank"
-                  )
+                  );
                 }}
                 toolTip="Search On Google"
                 btnClass="normal"
@@ -525,8 +527,8 @@ const PropertyList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -560,7 +562,7 @@ const PropertyList = ({
                               <option value={state_name} key={`s-${index}`}>
                                 {state_name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -611,8 +613,8 @@ const PropertyList = ({
                       <select
                         className="form-control form-select"
                         value={selectedImageScrapeStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "imageScrapeStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "imageScrapeStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -625,8 +627,11 @@ const PropertyList = ({
                       <select
                         className="form-control form-select"
                         value={selectedCityValidationStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "cityValidationStatus")
+                        onChange={(e) => {
+                          onStatusChange(
+                            e.target.value,
+                            "cityValidationStatus"
+                          );
                         }}
                       >
                         <option value="all">All</option>
@@ -639,8 +644,8 @@ const PropertyList = ({
                       <select
                         className="form-control form-select"
                         value={selectedMonitorStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "dataMonitorStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "dataMonitorStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -782,14 +787,14 @@ const PropertyList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   filterState: state.scrape.propertyFilterState,
-})
+});
 
 const mapDispatchToProps = {
   getAllUSStates,
@@ -798,6 +803,6 @@ const mapDispatchToProps = {
   updatePropertyFilterStates,
   createDataUpdateProcess,
   updatePropertyMonitorStatus,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PropertyList)
+export default connect(mapStateToProps, mapDispatchToProps)(PropertyList);

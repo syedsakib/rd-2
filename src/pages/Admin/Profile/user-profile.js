@@ -1,29 +1,29 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { Container, Row, Col, Card, CardBody, Media } from "reactstrap"
-import { useHistory } from "react-router-dom"
-import { useForm } from "react-hook-form"
-import { isPossiblePhoneNumber } from "react-phone-number-input"
-import { toastr } from "react-redux-toastr"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Container, Row, Col, Card, CardBody, Media } from "reactstrap";
+import { useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { isPossiblePhoneNumber } from "react-phone-number-input";
+import { toastr } from "react-redux-toastr";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import avatar from "../../../assets/images/users/avatar-1.jpg"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import avatar from "../../../assets/images/users/avatar-1.jpg";
 
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import { addCode } from "../../../store/utils/util"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { addCode } from "../../../store/utils/util";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
 //redux & actions
-import { getSuggestedLocationByZipCode } from "../../../store/Actions/customerAction"
+import { getSuggestedLocationByZipCode } from "../../../store/Actions/customerAction";
 import {
   updateProfileData,
   updateProfilePicture,
-} from "../../../store/Actions/authAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/authAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const UserProfile = ({
   getSuggestedLocationByZipCode,
@@ -31,16 +31,16 @@ const UserProfile = ({
   updateProfileData,
   updateProfilePicture,
 }) => {
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
-  const [suggestedPlaceList, updatePlaceList] = useState([])
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
   const [profilePic, setProfilePic] = useState(
     "https://cdn-boomershub.s3.amazonaws.com/web/defaultUser.jpg"
-  )
+  );
   const [modalState, updateModalState] = useState({
     modalName: "",
     modalData: null,
-  })
+  });
   const [formData, updateFormData] = useState({
     firstName: "",
     lastName: "",
@@ -50,7 +50,7 @@ const UserProfile = ({
     city: "",
     state: "",
     address: "",
-  })
+  });
 
   // extract form data
   const {
@@ -62,21 +62,21 @@ const UserProfile = ({
     city,
     state,
     address,
-  } = formData
+  } = formData;
 
-  const { modalName, modalData } = modalState
+  const { modalName, modalData } = modalState;
 
   const [formErrors, toggleFormError] = useState({
     phoneNumberError: false,
-  })
+  });
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   // app functions
   useEffect(() => {
@@ -90,20 +90,20 @@ const UserProfile = ({
         city: userDetails.city,
         state: userDetails.state,
         address: userDetails.address,
-      })
+      });
       if (userDetails.image) {
-        setProfilePic(userDetails.image)
+        setProfilePic(userDetails.image);
       }
     }
-  }, [userDetails])
+  }, [userDetails]);
 
   const onFormSubmit = async () => {
     try {
-      console.log("hell9o")
-      toggleLoader(true)
-      let pNumber = addCode(phoneNumber)
+      console.log("hell9o");
+      toggleLoader(true);
+      let pNumber = addCode(phoneNumber);
       if (!isPossiblePhoneNumber(pNumber)) {
-        throw "Please enter a valid phone number"
+        throw "Please enter a valid phone number";
       }
       const result = await updateProfileData({
         firstName,
@@ -113,78 +113,78 @@ const UserProfile = ({
         state,
         zipcode,
         phoneNumber: pNumber,
-      })
-      toggleLoader(false)
+      });
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onChange = e => {
-    let name = e.target.name
-    let value = e.target.value
+  const onChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
     updateFormData({
       ...formData,
       [name]: value,
-    })
-  }
+    });
+  };
 
-  const handleKeyWordChange = async value => {
-    let val = value
-    toggleFormError({ ...formErrors, phoneNumberError: false })
+  const handleKeyWordChange = async (value) => {
+    let val = value;
+    toggleFormError({ ...formErrors, phoneNumberError: false });
     //reset city and state
     updateFormData({
       ...formData,
       zipcode: val,
       state: "",
       city: "",
-    })
+    });
     if (val && val.trim() !== "") {
-      let result = await getSuggestedLocationByZipCode(val)
+      let result = await getSuggestedLocationByZipCode(val);
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city} , ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const onSelectHandler = value => {
+  const onSelectHandler = (value) => {
     if (value) {
-      const { state_name, city, zip } = value
+      const { state_name, city, zip } = value;
       updateFormData({
         ...formData,
         state: state_name,
         city: city,
         zipcode: zip,
-      })
+      });
     }
-  }
+  };
 
-  const onProfilePicChange = async e => {
+  const onProfilePicChange = async (e) => {
     try {
-      toggleLoader(true)
-      let file = e.target.files[0]
-      let id = userDetails.id
-      let result = await updateProfilePicture(file, id)
-      console.log(result)
+      toggleLoader(true);
+      let file = e.target.files[0];
+      let id = userDetails.id;
+      let result = await updateProfilePicture(file, id);
+      console.log(result);
       if (result) {
-        setProfilePic(result)
+        setProfilePic(result);
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error(e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -264,7 +264,7 @@ const UserProfile = ({
                             id="firstName"
                             name="firstName"
                             value={firstName}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             ref={register({
                               required: {
                                 value: true,
@@ -294,7 +294,7 @@ const UserProfile = ({
                             id="lastName"
                             name="lastName"
                             value={lastName}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             ref={register({
                               required: {
                                 value: true,
@@ -343,12 +343,12 @@ const UserProfile = ({
                             id="phoneNumber"
                             name="phoneNumber"
                             disableCountryCode={true}
-                            onChange={phone => {
-                              let val = phone
+                            onChange={(phone) => {
+                              let val = phone;
                               updateFormData({
                                 ...formData,
                                 phoneNumber: val,
-                              })
+                              });
                             }}
                             style={{ width: "100%" }}
                           />
@@ -428,7 +428,7 @@ const UserProfile = ({
                             id="city"
                             name="city"
                             value={city}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                           />
                         </div>
                       </div>
@@ -443,7 +443,7 @@ const UserProfile = ({
                             id="state"
                             name="state"
                             value={state}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                           />
                         </div>
                       </div>
@@ -461,7 +461,7 @@ const UserProfile = ({
                             id="address"
                             name="address"
                             value={address}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                           />
                         </div>
                       </div>
@@ -484,17 +484,17 @@ const UserProfile = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getSuggestedLocationByZipCode,
   updateProfileData,
   updateProfilePicture,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,26 +14,26 @@ import {
   Badge,
   InputGroup,
   Button,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import LinkLeadModal from "./LinkLeadModal"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import LinkLeadModal from "./LinkLeadModal";
 
 //redux & actions
 import {
   getAllCallLogList,
   updateQueCallState,
-} from "../../../../store/Actions/callAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import { formatPhoneNumber } from "react-phone-number-input"
-import { addPlus, formatDate } from "store/utils/util"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+} from "../../../../store/Actions/callAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import { formatPhoneNumber } from "react-phone-number-input";
+import { addPlus, formatDate } from "store/utils/util";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const SellerCallLogList = ({
   getAllCallLogList,
@@ -51,16 +51,16 @@ const SellerCallLogList = ({
     selectedVoiceMailStatus: "all",
     fromNumber: "",
     toNumber: "",
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isModalOpen: false,
     modalBodyData: null,
-  })
+  });
   const {
     selectedStatus,
     startDate,
@@ -69,12 +69,12 @@ const SellerCallLogList = ({
     fromNumber,
     toNumber,
     selectedVoiceMailStatus,
-  } = appState
-  const { rows, count } = listState
-  const { isModalOpen, modalBodyData } = modalData
+  } = appState;
+  const { rows, count } = listState;
+  const { isModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    getDataList()
+    getDataList();
   }, [
     selectedStatus,
     startDate,
@@ -83,11 +83,11 @@ const SellerCallLogList = ({
     fromNumber,
     toNumber,
     selectedVoiceMailStatus,
-  ])
+  ]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllCallLogList({
         pageNumber: activePage,
         startDate,
@@ -96,175 +96,175 @@ const SellerCallLogList = ({
         fromNumber,
         toNumber,
         selectedVoiceMailStatus,
-      })
+      });
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onVoiceMailStatusChange = e => {
+  const onVoiceMailStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedVoiceMailStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const onFromNumChange = e => {
+  const onFromNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         fromNumber: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onToNumChange = e => {
+  const onToNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         toNumber: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const handelEndDateSearch = date => {
+  const handelEndDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const toggleModalView = data => {
+  const toggleModalView = (data) => {
     updateModalData({
       ...modalData,
       isModalOpen: !isModalOpen,
       modalBodyData: data,
-    })
-  }
+    });
+  };
 
-  const callToNumber = pNumber => {
+  const callToNumber = (pNumber) => {
     try {
       if (!inCall) {
         updateQueCallState({
           requestedNumber: pNumber,
-        })
+        });
       } else {
-        throw "A call is already in progress"
+        throw "A call is already in progress";
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const modalCallBackHandler = () => {
-    getDataList()
-  }
+    getDataList();
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const fromBodyTemplate = rowData => {
-    let fNum = formatPhoneNumber(rowData.fromNumber)
-    let tNum = formatPhoneNumber(rowData.toNumber)
-    let userNumber
+  const fromBodyTemplate = (rowData) => {
+    let fNum = formatPhoneNumber(rowData.fromNumber);
+    let tNum = formatPhoneNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{fNum}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const toBodyTemplate = rowData => {
-    let fNum = formatPhoneNumber(rowData.fromNumber)
-    let tNum = formatPhoneNumber(rowData.toNumber)
-    let userNumber
+  const toBodyTemplate = (rowData) => {
+    let fNum = formatPhoneNumber(rowData.fromNumber);
+    let tNum = formatPhoneNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{tNum}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const directionBodyTemplate = rowData => {
+  const directionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.direction == "Incoming" ? (
@@ -283,10 +283,10 @@ const SellerCallLogList = ({
           </Badge>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.callStatus === "completed" ? (
@@ -339,18 +339,18 @@ const SellerCallLogList = ({
           </Button>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const durationBodyTemplate = rowData => {
+  const durationBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.duration}s`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const leadBodyTemplate = rowData => {
+  const leadBodyTemplate = (rowData) => {
     //console.log(rowData.leadUser)
     return (
       <React.Fragment>
@@ -360,25 +360,25 @@ const SellerCallLogList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const logBodyTemplate = rowData => {
+  const logBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
-    let userNumber
-    let fNum = formatPhoneNumber(rowData.fromNumber)
-    let tNum = formatPhoneNumber(rowData.toNumber)
+  const actionBodyTemplate = (rowData) => {
+    let userNumber;
+    let fNum = formatPhoneNumber(rowData.fromNumber);
+    let tNum = formatPhoneNumber(rowData.toNumber);
     if (rowData.direction == "Outgoing") {
-      userNumber = tNum
+      userNumber = tNum;
     } else if (rowData.direction == "Incoming") {
-      userNumber = fNum
+      userNumber = fNum;
     }
 
     return (
@@ -389,9 +389,9 @@ const SellerCallLogList = ({
               <span>
                 <ButtonComp
                   icon="phone"
-                  onClick={e => {
-                    e.preventDefault()
-                    callToNumber(userNumber)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    callToNumber(userNumber);
                   }}
                   toolTip="Call"
                   btnClass="normal"
@@ -401,9 +401,9 @@ const SellerCallLogList = ({
                 {rowData.recordingUrl ? (
                   <ButtonComp
                     icon="volume-up"
-                    onClick={e => {
-                      e.preventDefault()
-                      window.open(rowData.recordingUrl)
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(rowData.recordingUrl);
                     }}
                     toolTip="VoiceMail"
                     btnClass="normal"
@@ -414,9 +414,9 @@ const SellerCallLogList = ({
                 {!rowData.agencyId && (
                   <ButtonComp
                     icon="link"
-                    onClick={e => {
-                      e.preventDefault()
-                      toggleModalView(rowData)
+                    onClick={(e) => {
+                      e.preventDefault();
+                      toggleModalView(rowData);
                     }}
                     toolTip="Link To Lead"
                     btnClass="normal"
@@ -427,8 +427,8 @@ const SellerCallLogList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -538,7 +538,7 @@ const SellerCallLogList = ({
                         <ButtonComp
                           icon="sync"
                           onClick={() => {
-                            getDataList()
+                            getDataList();
                           }}
                           toolTip="refresh"
                           tooltipType="info"
@@ -655,18 +655,18 @@ const SellerCallLogList = ({
         callBack={modalCallBackHandler}
       />
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   callState: state.call.callState,
-})
+});
 
 const mapDispatchToProps = {
   getAllCallLogList,
   updateQueCallState,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SellerCallLogList)
+export default connect(mapStateToProps, mapDispatchToProps)(SellerCallLogList);

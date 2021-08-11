@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { Fragment, useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
+import MetaTags from "react-meta-tags";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
 import {
   Container,
   Row,
@@ -13,49 +13,49 @@ import {
   Media,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
 //Import Breadcrumb
-import { useForm } from "react-hook-form"
-import { isPossiblePhoneNumber } from "react-phone-number-input"
+import { useForm } from "react-hook-form";
+import { isPossiblePhoneNumber } from "react-phone-number-input";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import ReactTags from "components/Common/ReactTags/ReactTags"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import ReactTags from "components/Common/ReactTags/ReactTags";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
 //redux & actions
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import {
   getRoleTypeList,
   addInternalUser,
-} from "../../../../store/Actions/roleAction"
-import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction"
+} from "../../../../store/Actions/roleAction";
+import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction";
 import {
   editCorporate,
   getCorporateDetail,
-} from "../../../../store/Actions/corporateAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/corporateAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const EditCorporateForm = ({ match: { params } }) => {
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   // declare state
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
-  const [corporateDetail, updateCorporateDetail] = useState(null)
-  const [suggestedPlaceList, updatePlaceList] = useState([])
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
+  const [corporateDetail, updateCorporateDetail] = useState(null);
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
   const [formData, updateFormData] = useState({
     title: "",
     description: "",
@@ -67,8 +67,8 @@ const EditCorporateForm = ({ match: { params } }) => {
     location: "",
     address: "",
     corporateType: "",
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
   // destructure states
   const {
@@ -82,14 +82,14 @@ const EditCorporateForm = ({ match: { params } }) => {
     address,
     location,
     corporateType,
-  } = formData
+  } = formData;
 
   // app functions
   useEffect(() => {
     if (params && params.id) {
-      getDataHandler(params.id)
+      getDataHandler(params.id);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (corporateDetail) {
@@ -103,74 +103,74 @@ const EditCorporateForm = ({ match: { params } }) => {
         zipcode: corporateDetail.zipcode || "",
         address: corporateDetail.address || "",
         corporateType: corporateDetail.corporate_type,
-      })
+      });
     }
-  }, [corporateDetail])
+  }, [corporateDetail]);
 
-  const getDataHandler = async id => {
+  const getDataHandler = async (id) => {
     try {
-      const result = await dispatch(getCorporateDetail({ corporateId: id }))
-      console.log(`Corporate Data`, result)
+      const result = await dispatch(getCorporateDetail({ corporateId: id }));
+      console.log(`Corporate Data`, result);
       if (result) {
-        updateCorporateDetail(result)
+        updateCorporateDetail(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const updateFormHandler = newData => {
+  const updateFormHandler = (newData) => {
     updateFormData({
       ...formData,
       ...newData,
-    })
-  }
-  const onChange = e => {
-    let name = e.target.name
-    let value = e.target.value
-    updateFormHandler({ [name]: value })
-  }
+    });
+  };
+  const onChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    updateFormHandler({ [name]: value });
+  };
 
   const onPlaceChange = (city, state, zipcode) => {
     updateFormHandler({
       state,
       city,
       zipcode,
-    })
-  }
+    });
+  };
 
-  const handleKeyWordChangeForLocationZipCode = async value => {
-    let val = value
-    onPlaceChange("", "", value)
+  const handleKeyWordChangeForLocationZipCode = async (value) => {
+    let val = value;
+    onPlaceChange("", "", value);
     if (val && val.trim() !== "") {
-      let result = await dispatch(getSuggestedLocationByZipCode(val))
+      let result = await dispatch(getSuggestedLocationByZipCode(val));
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city}, ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const onLocationSelectHandler = value => {
+  const onLocationSelectHandler = (value) => {
     if (value) {
-      const { state_name, city, zip, state_id } = value
-      onPlaceChange(city, state_name, zip)
+      const { state_name, city, zip, state_id } = value;
+      onPlaceChange(city, state_name, zip);
     }
-  }
+  };
 
   const onSubmitHandler = async () => {
     try {
-      console.log(`FormData`, formData)
+      console.log(`FormData`, formData);
       if (!params || !params.id) {
-        throw "No Corporate Id Found"
+        throw "No Corporate Id Found";
       }
       if (isLoading) {
-        throw "A process is in progress. Please wait"
+        throw "A process is in progress. Please wait";
       }
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await dispatch(
         editCorporate({
           title,
@@ -183,20 +183,20 @@ const EditCorporateForm = ({ match: { params } }) => {
           address,
           id: params.id,
         })
-      )
+      );
       if (result) {
-        history.push("/admin/corporate")
+        history.push("/admin/corporate");
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -356,8 +356,8 @@ const EditCorporateForm = ({ match: { params } }) => {
                                 maxLength={14}
                                 type="text"
                                 value={phoneNumber}
-                                onChange={value => {
-                                  updateFormHandler({ phoneNumber: value })
+                                onChange={(value) => {
+                                  updateFormHandler({ phoneNumber: value });
                                 }}
                                 style={{ width: "100%" }}
                               />
@@ -403,7 +403,7 @@ const EditCorporateForm = ({ match: { params } }) => {
                                 id="city"
                                 name="city"
                                 value={city}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -418,7 +418,7 @@ const EditCorporateForm = ({ match: { params } }) => {
                                 id="state"
                                 name="state"
                                 value={state}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -436,7 +436,7 @@ const EditCorporateForm = ({ match: { params } }) => {
                                 id="address"
                                 name="address"
                                 value={address}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -484,17 +484,17 @@ const EditCorporateForm = ({ match: { params } }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getSuggestedLocationByZipCode,
   getRoleTypeList,
   addInternalUser,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditCorporateForm)
+export default connect(mapStateToProps, mapDispatchToProps)(EditCorporateForm);

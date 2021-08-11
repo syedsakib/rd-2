@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,27 +13,27 @@ import {
   CardBody,
   Badge,
   InputGroup,
-} from "reactstrap"
-import Switch from "react-switch"
+} from "reactstrap";
+import Switch from "react-switch";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../store/Actions/userAction"
-import { getHomeCareUserList } from "../../../../store/Actions/homeCareAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ReactTooltip from "react-tooltip"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import { formatPhoneNumber } from "react-phone-number-input"
-import { addPlus, formatDate, getFrontUrl } from "store/utils/util"
+} from "../../../../store/Actions/userAction";
+import { getHomeCareUserList } from "../../../../store/Actions/homeCareAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ReactTooltip from "react-tooltip";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import { formatPhoneNumber } from "react-phone-number-input";
+import { addPlus, formatDate, getFrontUrl } from "store/utils/util";
 
 const HomeCareUserList = ({
   getHomeCareUserList,
@@ -41,7 +41,7 @@ const HomeCareUserList = ({
   getCitiesWithZipCodes,
 }) => {
   // declare state
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     activePage: 1,
     selectedStatus: "all",
@@ -50,16 +50,16 @@ const HomeCareUserList = ({
     selectedZipCodes: [],
     searchText: "",
     limit: 10,
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [stateList, updateStateList] = useState([])
-  const [stateCities, updateStateCityList] = useState([])
-  const [cityList, updateCityList] = useState([])
-  const [zipCodeList, updateZipCodeList] = useState([])
+  });
+  const [stateList, updateStateList] = useState([]);
+  const [stateCities, updateStateCityList] = useState([]);
+  const [cityList, updateCityList] = useState([]);
+  const [zipCodeList, updateZipCodeList] = useState([]);
   const {
     selectedStatus,
     selectedState,
@@ -68,18 +68,18 @@ const HomeCareUserList = ({
     activePage,
     searchText,
     limit,
-  } = appState
-  const { rows, count } = listState
+  } = appState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getUsStatesHandler()
+    getUsStatesHandler();
     getDataListHandler(
       1,
       selectedState,
       selectedCities,
       selectedZipCodes,
       searchText
-    )
+    );
   }, [
     selectedStatus,
     searchText,
@@ -87,22 +87,22 @@ const HomeCareUserList = ({
     selectedStatus,
     selectedCities,
     selectedZipCodes,
-  ])
+  ]);
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getAllUSStates()
+      let result = await getAllUSStates();
       if (result) {
-        updateStateList(result)
+        updateStateList(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getHomeCareUserList({
         pageNumber: activePage,
         selectedState,
@@ -111,159 +111,159 @@ const HomeCareUserList = ({
         searchText,
         selectedStatus,
         limit,
-      })
-      console.log("userList", result)
+      });
+      console.log("userList", result);
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         ...appState,
         searchText: value,
         activePage: 1,
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onStatusChange = value => {
+  const onStatusChange = (value) => {
     try {
       updateAppState({
         ...appState,
         selectedStatus: value,
         activePage: 1,
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       updateAppState({
         ...appState,
         selectedState: val,
         activePage: 1,
-      })
+      });
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
-          const cities = [...new Set(result.map(item => item.city))]
-          updateStateCityList(result)
+          const cities = [...new Set(result.map((item) => item.city))];
+          updateStateCityList(result);
           updateCityList(
-            cities.map(item => ({ value: item, text: item, key: item }))
-          )
+            cities.map((item) => ({ value: item, text: item, key: item }))
+          );
         }
       } else {
-        updateStateCityList([])
-        updateCityList([])
-        updateZipCodeList([])
+        updateStateCityList([]);
+        updateCityList([]);
+        updateZipCodeList([]);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
-        updateZipCodeList(allZipList)
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        updateZipCodeList(allZipList);
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
       } else {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: [],
           isAllSelected: false,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateAppState({
         ...appState,
         selectedZipCodes: zips,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
-        updateZipCodeList([])
+        updateZipCodeList([]);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const nameBodyTemplate = rowData => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.firstName} ${rowData.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const emailBodyTemplate = rowData => {
+  const emailBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.email ? rowData.email : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -272,41 +272,41 @@ const HomeCareUserList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
-  const cityBodyTemplate = rowData => {
+    );
+  };
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipcode ? rowData.zipcode : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const registeredOnBodyTemplate = rowData => {
+  const registeredOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -318,7 +318,7 @@ const HomeCareUserList = ({
                   onClick={() => {
                     window.open(
                       `/admin/homeCare/agency/viewDetail/${rowData.homeCare.id}?name=${rowData.homeCare.title}`
-                    )
+                    );
                   }}
                   toolTip="View Agency"
                   btnClass="normal"
@@ -330,7 +330,7 @@ const HomeCareUserList = ({
                   onClick={() => {
                     window.open(
                       `${getFrontUrl()}/home-care/${rowData.homeCare.slug}`
-                    )
+                    );
                   }}
                   toolTip="Go to Page"
                   btnClass="normal"
@@ -340,8 +340,8 @@ const HomeCareUserList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -381,8 +381,8 @@ const HomeCareUserList = ({
                       <select
                         className="form-control form-select"
                         value={selectedStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value)
+                        onChange={(e) => {
+                          onStatusChange(e.target.value);
                         }}
                       >
                         <option value="all">All</option>
@@ -504,17 +504,17 @@ const HomeCareUserList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getHomeCareUserList,
   getAllUSStates,
   getCitiesWithZipCodes,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeCareUserList)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeCareUserList);

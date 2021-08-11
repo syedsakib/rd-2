@@ -1,6 +1,6 @@
-import axios from "axios"
-import { getURL } from "../utils/util"
-const API_ENDPOINT = getURL()
+import axios from "axios";
+import { getURL } from "../utils/util";
+const API_ENDPOINT = getURL();
 
 export function postRequest(url, data, config) {
   return new Promise((resolve, reject) => {
@@ -9,18 +9,18 @@ export function postRequest(url, data, config) {
         headers: {
           "content-type": "application/json",
         },
-      }
+      };
     }
-    console.log(`API ENDPOI NT  ${API_ENDPOINT}`)
+    console.log(`API ENDPOI NT  ${API_ENDPOINT}`);
     return axios
       .post(`${API_ENDPOINT}/${url}`, data, config)
-      .then(res => {
-        resolve(res)
+      .then((res) => {
+        resolve(res);
       })
-      .catch(err => {
-        reject(err)
-      })
-  })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }
 
 export function postRequestWithAuth(url, data, config) {
@@ -29,18 +29,18 @@ export function postRequestWithAuth(url, data, config) {
       headers: {
         "content-type": "application/json",
       },
-    }
+    };
   }
   return new Promise((resolve, reject) => {
     axios.defaults.headers.common["Authorization"] =
-      localStorage.getItem("token")
+      localStorage.getItem("token");
     return axios
       .post(`${API_ENDPOINT}/${url}`, data, config)
-      .then(res => {
-        resolve(res)
+      .then((res) => {
+        resolve(res);
       })
-      .catch(err => {
-        reject(err)
-      })
-  })
+      .catch((err) => {
+        reject(err);
+      });
+  });
 }

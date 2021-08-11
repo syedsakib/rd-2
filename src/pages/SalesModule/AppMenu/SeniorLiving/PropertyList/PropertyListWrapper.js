@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,44 +14,44 @@ import {
   Badge,
   InputGroup,
   Button,
-} from "reactstrap"
-import Switch from "react-switch"
+} from "reactstrap";
+import Switch from "react-switch";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../../components/Common/Breadcrumb";
 
 //redux & actions
-import { getEmailTemplateByType } from "../../../../../store/Actions/mailAction"
-import { getseniorLivingtypeWithoutStatus } from "../../../../../store/Actions/partnerAction"
+import { getEmailTemplateByType } from "../../../../../store/Actions/mailAction";
+import { getseniorLivingtypeWithoutStatus } from "../../../../../store/Actions/partnerAction";
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../../store/Actions/userAction"
+} from "../../../../../store/Actions/userAction";
 import {
   updatePropertyFilterStates,
   clearPropertyFilterState,
-} from "../../../../../store/Actions/adviserAction"
+} from "../../../../../store/Actions/adviserAction";
 import {
   getSeniorLivingList,
   sendMailBySales,
-} from "../../../../../store/Actions/salesAction"
+} from "../../../../../store/Actions/salesAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ReactTooltip from "react-tooltip"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import { formatPhoneNumber } from "react-phone-number-input"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ReactTooltip from "react-tooltip";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import { formatPhoneNumber } from "react-phone-number-input";
 import {
   addPlus,
   formatDate,
   generatePropertyUrl,
   getFrontUrl,
-} from "store/utils/util"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+} from "store/utils/util";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const PropertyListWrapper = ({
   getAllUSStates,
@@ -66,23 +66,23 @@ const PropertyListWrapper = ({
   sendMailBySales,
 }) => {
   // declare state
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [emailData, setEmailData] = useState(false)
-  const [totalCount, updateTotalCount] = useState(0)
-  const [stateList, updateStateList] = useState([])
-  const [categoryList, updateCategoryList] = useState([])
-  const [categoryOptionList, updateCategoryOptionList] = useState([])
-  const [contactModalState, updateContactModalState] = useState(null)
+  });
+  const [emailData, setEmailData] = useState(false);
+  const [totalCount, updateTotalCount] = useState(0);
+  const [stateList, updateStateList] = useState([]);
+  const [categoryList, updateCategoryList] = useState([]);
+  const [categoryOptionList, updateCategoryOptionList] = useState([]);
+  const [contactModalState, updateContactModalState] = useState(null);
   const [modalData, updateModalData] = useState({
     openModalName: null,
     selectedModalData: null,
-  })
-  const { openModalName, selectedModalData } = modalData
+  });
+  const { openModalName, selectedModalData } = modalData;
 
   const {
     selectedState,
@@ -95,25 +95,25 @@ const PropertyListWrapper = ({
     stateCities,
     cityList,
     zipCodeList,
-  } = filterState
-  const { rows, count } = listState
+  } = filterState;
+  const { rows, count } = listState;
 
   useEffect(() => {
     return () => {
       //clearPropertyFilterState();
-    }
-  }, [])
+    };
+  }, []);
 
   useEffect(() => {
     if (userDetails) {
-      getUsStatesHandler()
-      getSeniorLivingCategoryListHandler()
-      getEmailTemplateHandler()
+      getUsStatesHandler();
+      getSeniorLivingCategoryListHandler();
+      getEmailTemplateHandler();
     }
-  }, [userDetails])
+  }, [userDetails]);
 
   useEffect(() => {
-    getDataListHandler()
+    getDataListHandler();
   }, [
     activePage,
     selectedState,
@@ -121,54 +121,54 @@ const PropertyListWrapper = ({
     selectedZipCodes,
     searchText,
     selectedCategories,
-  ])
+  ]);
 
   const getEmailTemplateHandler = async () => {
     try {
-      let result = await getEmailTemplateByType(37)
-      console.log(`Email Data `, result)
+      let result = await getEmailTemplateByType(37);
+      console.log(`Email Data `, result);
       if (result) {
-        setEmailData(result)
+        setEmailData(result);
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getAllUSStates()
+      let result = await getAllUSStates();
       if (result) {
-        updateStateList(result)
+        updateStateList(result);
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const getSeniorLivingCategoryListHandler = async () => {
     try {
-      let result = await getseniorLivingtypeWithoutStatus()
+      let result = await getseniorLivingtypeWithoutStatus();
       if (result) {
-        updateCategoryList(result)
-        let cOptionList = result.map(item => ({
+        updateCategoryList(result);
+        let cOptionList = result.map((item) => ({
           key: item.id,
           value: item.id,
           text: item.title,
-        }))
-        updateCategoryOptionList(cOptionList)
+        }));
+        updateCategoryOptionList(cOptionList);
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getSeniorLivingList({
         selectedState,
         selectedCities,
@@ -177,71 +177,71 @@ const PropertyListWrapper = ({
         selectedCategories,
         pageNumber: activePage,
         limit,
-      })
-      console.log(`Data List `, result)
+      });
+      console.log(`Data List `, result);
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
-        updateTotalCount(count)
+        });
+        updateTotalCount(count);
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updatePropertyFilterStates({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateFilterStateHandler({
         searchText: value,
         activePage: 1,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateFilterStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
   // location related methods
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
           //updateStateCityList(result);
           if (result && result.length > 0) {
-            const cities = [...new Set(result.map(item => item.city))]
-            const fCities = cities.map(item => ({
+            const cities = [...new Set(result.map((item) => item.city))];
+            const fCities = cities.map((item) => ({
               value: item,
               text: item,
               key: item,
-            }))
+            }));
             updateFilterStateHandler({
               cityList: fCities,
               stateCities: result,
               selectedState: val,
               activePage: 1,
-            })
+            });
           } else {
             updateFilterStateHandler({
               cityList: [],
@@ -249,7 +249,7 @@ const PropertyListWrapper = ({
               stateCities: [],
               selectedState: val,
               activePage: 1,
-            })
+            });
           }
         }
       } else {
@@ -259,178 +259,178 @@ const PropertyListWrapper = ({
           stateCities: [],
           selectedState: val,
           activePage: 1,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateFilterStateHandler({
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           activePage: 1,
           zipCodeList: allZipList,
-        })
+        });
       } else {
         updateFilterStateHandler({
           selectedCities: cities,
           selectedZipCodes: [],
           zipCodeList: [],
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateFilterStateHandler({
         selectedZipCodes: zips,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
         updateFilterStateHandler({
           zipCodeList: [],
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onCategoryChange = sList => {
+  const onCategoryChange = (sList) => {
     try {
       updateFilterStateHandler({
         selectedCategories: sList,
         activePage: 1,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   // contact modal
   const openContactModal = (e, data) => {
     updateContactModalState({
       isOpen: true,
       itemData: data,
-    })
-  }
-  const closeContactModal = shouldReload => {
-    updateContactModalState(null)
-  }
+    });
+  };
+  const closeContactModal = (shouldReload) => {
+    updateContactModalState(null);
+  };
 
   const openModal = (modalName, data) => {
     updateModalData({
       openModalName: modalName,
       selectedModalData: data,
-    })
-  }
+    });
+  };
   const closeModal = () => {
     updateModalData({
       openModalName: null,
       selectedModalData: null,
-    })
-  }
+    });
+  };
 
-  const callBackHandler = async payload => {
+  const callBackHandler = async (payload) => {
     try {
       let result = await sendMailBySales({
         ...payload,
         templateId: 37,
         sendTo: "senior-living",
-      })
-      console.log(`Mail Send `, result)
+      });
+      console.log(`Mail Send `, result);
       if (result) {
-        return true
+        return true;
       }
-      return false
+      return false;
     } catch (e) {
-      return false
+      return false;
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.businessTitle}</span>
       </React.Fragment>
-    )
-  }
-  const categoryBodyTemplate = rowData => {
+    );
+  };
+  const categoryBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
-          {rowData.careTypes.map(item => {
-            return <div key={`i-${item.id}`}>{item.typeDetail.title}</div>
+          {rowData.careTypes.map((item) => {
+            return <div key={`i-${item.id}`}>{item.typeDetail.title}</div>;
           })}
         </span>
       </React.Fragment>
-    )
-  }
-  const phoneBodyTemplate = rowData => {
+    );
+  };
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           {rowData.phone ? formatPhoneNumber(addPlus(rowData.phone)) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipcodeBodyTemplate = rowData => {
+  const zipcodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipcode ? rowData.zipcode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({
     id,
@@ -442,9 +442,9 @@ const PropertyListWrapper = ({
   }) => {
     let careType = careTypes[0]
       ? careTypes[0].typeDetail.title
-      : "assisted-living"
-    let pUrl = generatePropertyUrl(careType, state, city, slug)
-    pUrl = getFrontUrl() + pUrl
+      : "assisted-living";
+    let pUrl = generatePropertyUrl(careType, state, city, slug);
+    pUrl = getFrontUrl() + pUrl;
     return (
       <React.Fragment>
         {
@@ -454,7 +454,7 @@ const PropertyListWrapper = ({
                 <ButtonComp
                   icon="eye"
                   onClick={() => {
-                    window.open(`/sales/senior-living/detail/${id}`)
+                    window.open(`/sales/senior-living/detail/${id}`);
                   }}
                   toolTip="View Detail"
                   btnClass="normal"
@@ -464,7 +464,7 @@ const PropertyListWrapper = ({
                 <ButtonComp
                   icon="link"
                   onClick={() => {
-                    window.open(pUrl)
+                    window.open(pUrl);
                   }}
                   toolTip="View Page"
                   btnClass="normal"
@@ -477,7 +477,7 @@ const PropertyListWrapper = ({
                     openModal("mail", {
                       LINK: pUrl,
                       NAME: businessTitle,
-                    })
+                    });
                   }}
                   toolTip="Send Mail"
                   btnClass="normal"
@@ -487,8 +487,8 @@ const PropertyListWrapper = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -522,7 +522,7 @@ const PropertyListWrapper = ({
                               <option value={state_name} key={`s-${index}`}>
                                 {state_name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -696,14 +696,14 @@ const PropertyListWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   filterState: state.adviser.propertyListFilterState,
-})
+});
 
 const mapDispatchToProps = {
   getCitiesWithZipCodes,
@@ -714,6 +714,9 @@ const mapDispatchToProps = {
   clearPropertyFilterState,
   getEmailTemplateByType,
   sendMailBySales,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(PropertyListWrapper)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(PropertyListWrapper);

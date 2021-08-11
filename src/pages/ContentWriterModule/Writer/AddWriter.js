@@ -1,110 +1,110 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Redirect, Link, useHistory } from "react-router-dom"
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Redirect, Link, useHistory } from "react-router-dom";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import { StyledDropZone } from "react-drop-zone"
-import "react-drop-zone/dist/styles.css"
-import { useForm } from "react-hook-form"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import { StyledDropZone } from "react-drop-zone";
+import "react-drop-zone/dist/styles.css";
+import { useForm } from "react-hook-form";
 
 //redux & actions
-import { addWriter } from "../../../store/Actions/adminAction"
-import { getCategorytype } from "../../../store/Actions/userAction"
+import { addWriter } from "../../../store/Actions/adminAction";
+import { getCategorytype } from "../../../store/Actions/userAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const AddWriter = ({ addWriter }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     isLoading: false,
-  })
+  });
   const [formData, updateFormData] = useState({
     name: "",
     bio: "",
     websiteLink: "",
     designation: "",
-  })
+  });
   const [imageContent, updateImageContent] = useState({
     coverImage: "",
     coverImageData: "",
-  })
-  const { isLoading } = appState
-  const { coverImage, coverImageData } = imageContent
-  const { name, bio, websiteLink, designation } = formData
+  });
+  const { isLoading } = appState;
+  const { coverImage, coverImageData } = imageContent;
+  const { name, bio, websiteLink, designation } = formData;
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
-  }
+  };
 
-  const toggleLoader = value => {
+  const toggleLoader = (value) => {
     updateAppState({
       ...appState,
       isLoading: value,
-    })
-  }
+    });
+  };
 
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     try {
       const postData = {
         name,
         bio,
         websiteLink,
         designation,
-      }
-      toggleLoader(true)
+      };
+      toggleLoader(true);
 
       let result = await addWriter({
         formData: postData,
         imageData: coverImage,
-      })
-      toggleLoader(false)
+      });
+      toggleLoader(false);
       if (result) {
         setTimeout(() => {
-          history.push("/cw/writer")
-        }, 1000)
-        console.log(result)
+          history.push("/cw/writer");
+        }, 1000);
+        console.log(result);
       }
     } catch (e) {
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onChangeCoverPic = async file => {
+  const onChangeCoverPic = async (file) => {
     try {
       if (
         file.type === "image/png" ||
         file.type === "image/jpeg" ||
         file.type === "image/jpg"
       ) {
-        let base64File = URL.createObjectURL(file)
+        let base64File = URL.createObjectURL(file);
         updateImageContent({
           coverImage: file,
           coverImageData: base64File,
-        })
+        });
       } else {
-        throw "Please drag image only!"
+        throw "Please drag image only!";
       }
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onChange = e => {
+  const onChange = (e) => {
     updateFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
   return (
     <React.Fragment>
@@ -156,7 +156,7 @@ const AddWriter = ({ addWriter }) => {
                               className="form-control"
                               name="name"
                               id="name"
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               value={name}
                               ref={register({
                                 required: {
@@ -185,7 +185,7 @@ const AddWriter = ({ addWriter }) => {
                               className="form-control"
                               name="designation"
                               id="designation"
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               value={designation}
                               ref={register({
                                 required: {
@@ -218,7 +218,7 @@ const AddWriter = ({ addWriter }) => {
                               className="form-control"
                               name="bio"
                               id="bio"
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               ref={register({
                                 required: {
                                   value: true,
@@ -246,7 +246,7 @@ const AddWriter = ({ addWriter }) => {
                               className="form-control"
                               name="websiteLink"
                               id="websiteLink"
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               value={websiteLink}
                               ref={register({
                                 required: {
@@ -272,7 +272,7 @@ const AddWriter = ({ addWriter }) => {
                                 <div className="row">
                                   <div className="col-sm-8">
                                     <StyledDropZone
-                                      onDrop={file => onChangeCoverPic(file)}
+                                      onDrop={(file) => onChangeCoverPic(file)}
                                     />
                                   </div>
                                   <div className="col-sm-4">
@@ -321,15 +321,15 @@ const AddWriter = ({ addWriter }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   addWriter,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddWriter)
+export default connect(mapStateToProps, mapDispatchToProps)(AddWriter);

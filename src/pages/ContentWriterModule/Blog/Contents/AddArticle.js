@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Redirect, Link, useHistory } from "react-router-dom"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Redirect, Link, useHistory } from "react-router-dom";
 import {
   Container,
   Row,
@@ -12,26 +12,26 @@ import {
   CardBody,
   Badge,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import { StyledDropZone } from "react-drop-zone"
-import "react-drop-zone/dist/styles.css"
-import { useForm } from "react-hook-form"
-import ReactTags from "components/Common/ReactTags/ReactTags"
-import TinyMCEEditor from "components/Common/Editor/TinyMCEEDitor"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import { StyledDropZone } from "react-drop-zone";
+import "react-drop-zone/dist/styles.css";
+import { useForm } from "react-hook-form";
+import ReactTags from "components/Common/ReactTags/ReactTags";
+import TinyMCEEditor from "components/Common/Editor/TinyMCEEDitor";
 
 //redux & actions
 import {
   addArticle,
   getOnlyWriter,
   getTagList,
-} from "../../../../store/Actions/adminAction"
-import { getCategorytype } from "../../../../store/Actions/userAction"
+} from "../../../../store/Actions/adminAction";
+import { getCategorytype } from "../../../../store/Actions/userAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const AddArticle = ({
   getOnlyWriter,
@@ -40,14 +40,14 @@ const AddArticle = ({
   getTagList,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     isLoading: false,
-  })
+  });
   const [formFieldData, updateFormFieldData] = useState({
     writerList: [],
     categoryList: [],
-  })
+  });
   const [formData, updateFormData] = useState({
     title: "",
     category: "0",
@@ -57,24 +57,24 @@ const AddArticle = ({
     metaKeyword: "",
     metaTitle: "",
     urlTitle: "",
-  })
+  });
   const [editorContent, updateEditorContent] = useState({
     content: "",
     initialContent: "",
-  })
+  });
   const [imageContent, updateImageContent] = useState({
     coverImage: "",
     coverImageData: "",
-  })
+  });
   const [tagData, updateTagData] = useState({
     tagList: [],
     suggestionList: [],
-  })
-  const { isLoading } = appState
-  const { writerList, categoryList } = formFieldData
-  const { content, initialContent } = editorContent
-  const { coverImage, coverImageData } = imageContent
-  const { tagList, suggestionList } = tagData
+  });
+  const { isLoading } = appState;
+  const { writerList, categoryList } = formFieldData;
+  const { content, initialContent } = editorContent;
+  const { coverImage, coverImageData } = imageContent;
+  const { tagList, suggestionList } = tagData;
   const {
     title,
     category,
@@ -84,56 +84,56 @@ const AddArticle = ({
     metaKeyword,
     metaTitle,
     urlTitle,
-  } = formData
+  } = formData;
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
-  }
+  };
 
   useEffect(() => {
-    getFormDataList()
-  }, [])
+    getFormDataList();
+  }, []);
 
   const getFormDataList = async () => {
     try {
-      let wList = await getOnlyWriter()
-      let cList = await getCategorytype()
-      let tList = await getTagList()
+      let wList = await getOnlyWriter();
+      let cList = await getCategorytype();
+      let tList = await getTagList();
       if (wList && cList) {
         updateFormFieldData({
           writerList: wList,
           categoryList: cList,
-        })
+        });
         if (tList) {
-          let mappedSuggestionList = tList.rows.map(item => {
+          let mappedSuggestionList = tList.rows.map((item) => {
             return {
               id: item.id,
               name: item.title,
-            }
-          })
-          console.log(mappedSuggestionList)
+            };
+          });
+          console.log(mappedSuggestionList);
           updateTagData({
             ...tagData,
             suggestionList: mappedSuggestionList,
-          })
+          });
         }
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const toggleLoader = value => {
+  const toggleLoader = (value) => {
     updateAppState({
       ...appState,
       isLoading: value,
-    })
-  }
+    });
+  };
 
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     try {
       if (
         !category ||
@@ -142,10 +142,10 @@ const AddArticle = ({
         writer == 0 ||
         content === ""
       ) {
-        throw "Please fill all the field"
+        throw "Please fill all the field";
       }
       if (tagList.length === 0) {
-        throw "Please select at least one tag"
+        throw "Please select at least one tag";
       }
       const postData = {
         title,
@@ -156,46 +156,46 @@ const AddArticle = ({
         metaKeyword,
         metaTitle,
         urlTitle,
-      }
-      toggleLoader(true)
+      };
+      toggleLoader(true);
       let result = await addArticle({
         formData: postData,
         content,
         imageData: coverImage,
-        tags: tagList.map(item => item.id),
-      })
-      toggleLoader(false)
+        tags: tagList.map((item) => item.id),
+      });
+      toggleLoader(false);
       if (result) {
         setTimeout(() => {
-          history.push("/cw/blog")
-        }, 1000)
-        console.log(result)
+          history.push("/cw/blog");
+        }, 1000);
+        console.log(result);
       }
     } catch (e) {
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onChangeCoverPic = async file => {
+  const onChangeCoverPic = async (file) => {
     try {
       if (
         file.type === "image/png" ||
         file.type === "image/jpeg" ||
         file.type === "image/jpg"
       ) {
-        let base64File = URL.createObjectURL(file)
+        let base64File = URL.createObjectURL(file);
         updateImageContent({
           coverImage: file,
           coverImageData: base64File,
-        })
+        });
       } else {
-        throw "Please drag image only!"
+        throw "Please drag image only!";
       }
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const clearForm = () => {
     updateFormData({
@@ -211,29 +211,29 @@ const AddArticle = ({
       metaKeyword: "",
       metaTitle: "",
       urlTitle: "urlTitle",
-    })
-  }
+    });
+  };
 
-  const onChange = e => {
+  const onChange = (e) => {
     updateFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
+    });
+  };
 
-  const onContentChangeHandler = newContent => {
+  const onContentChangeHandler = (newContent) => {
     updateEditorContent({
       ...editorContent,
       content: newContent,
-    })
-  }
+    });
+  };
 
-  const onChangeTag = tags => {
+  const onChangeTag = (tags) => {
     updateTagData({
       ...tagData,
       tagList: tags,
-    })
-  }
+    });
+  };
 
   return (
     <React.Fragment>
@@ -265,7 +265,7 @@ const AddArticle = ({
                             className="form-control"
                             name="title"
                             id="title"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             value={title}
                             ref={register({
                               required: {
@@ -291,7 +291,7 @@ const AddArticle = ({
                             className="form-control"
                             name="urlTitle"
                             id="urlTitle"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             value={urlTitle}
                             ref={register({
                               required: {
@@ -315,7 +315,7 @@ const AddArticle = ({
                           <select
                             className="form-select form-control selector-input"
                             value={category}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             name="category"
                             id="category"
                           >
@@ -328,7 +328,7 @@ const AddArticle = ({
                                   <option key={`cat-${id}`} value={id}>
                                     {title}
                                   </option>
-                                )
+                                );
                               })}
                           </select>
                         </div>
@@ -342,7 +342,7 @@ const AddArticle = ({
                           <select
                             className="form-select form-control selector-input"
                             value={writer}
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             name="writer"
                             id="writer"
                           >
@@ -355,7 +355,7 @@ const AddArticle = ({
                                   <option key={`wr-${id}`} value={id}>
                                     {name}
                                   </option>
-                                )
+                                );
                               })}
                           </select>
                         </div>
@@ -372,7 +372,7 @@ const AddArticle = ({
                             className="form-control"
                             name="metaDesc"
                             id="metaDesc"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             ref={register({
                               required: {
                                 value: true,
@@ -397,7 +397,7 @@ const AddArticle = ({
                             className="form-control"
                             name="altText"
                             id="altText"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             value={altText}
                             ref={register({
                               required: {
@@ -423,7 +423,7 @@ const AddArticle = ({
                             className="form-control"
                             name="metaTitle"
                             id="metaTitle"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             value={metaTitle}
                             ref={register({
                               required: {
@@ -451,7 +451,7 @@ const AddArticle = ({
                             className="form-control"
                             name="metaKeyword"
                             id="metaKeyword"
-                            onChange={e => onChange(e)}
+                            onChange={(e) => onChange(e)}
                             value={metaKeyword}
                             ref={register({
                               required: {
@@ -474,7 +474,7 @@ const AddArticle = ({
                               <div className="row">
                                 <div className="col-sm-6">
                                   <StyledDropZone
-                                    onDrop={file => onChangeCoverPic(file)}
+                                    onDrop={(file) => onChangeCoverPic(file)}
                                   />
                                 </div>
                                 <div className="col-sm-6">
@@ -559,18 +559,18 @@ const AddArticle = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getOnlyWriter,
   getCategorytype,
   addArticle,
   getTagList,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AddArticle)
+export default connect(mapStateToProps, mapDispatchToProps)(AddArticle);

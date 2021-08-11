@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,27 +14,27 @@ import {
   Badge,
   InputGroup,
   Button,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getUserSaleList,
   countSaleUserEarning,
   updateSaleListFilterState,
-} from "../../../../store/Actions/salesAction"
+} from "../../../../store/Actions/salesAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import { formatPhoneNumber } from "react-phone-number-input"
-import { addPlus, formatDate } from "store/utils/util"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import { formatPhoneNumber } from "react-phone-number-input";
+import { addPlus, formatDate } from "store/utils/util";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const SaleListWrapper = ({
   userDetails,
@@ -45,130 +45,130 @@ const SaleListWrapper = ({
   updateSaleListFilterState,
 }) => {
   // declare state
-  const history = useHistory()
+  const history = useHistory();
 
   const { activePage, startDate, endDate, selectedStatus, searchText } =
-    filterState
+    filterState;
 
-  const [isLoading, toggleLoader] = useState(false)
-  const [isCalculating, toggleCalculator] = useState(false)
+  const [isLoading, toggleLoader] = useState(false);
+  const [isCalculating, toggleCalculator] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalEarning, updateTotalEarning] = useState(0)
+  });
+  const [totalEarning, updateTotalEarning] = useState(0);
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     modalBodyData: null,
-  })
-  const { rows, count } = listState
-  const { isDetailModalOpen, modalBodyData } = modalData
+  });
+  const { rows, count } = listState;
+  const { isDetailModalOpen, modalBodyData } = modalData;
 
-  const updateFilterState = newState => {
-    console.log(newState)
+  const updateFilterState = (newState) => {
+    console.log(newState);
     updateSaleListFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    getAllDataList()
-  }, [selectedStatus, startDate, endDate, activePage, searchText])
+    getAllDataList();
+  }, [selectedStatus, startDate, endDate, activePage, searchText]);
 
   useEffect(() => {
-    fetchTotalEarningHandler()
-  }, [selectedStatus, startDate, endDate, searchText])
+    fetchTotalEarningHandler();
+  }, [selectedStatus, startDate, endDate, searchText]);
 
   const getAllDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getUserSaleList({
         pageNumber: activePage,
         startDate,
         endDate,
         selectedStatus,
         searchText,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const fetchTotalEarningHandler = async () => {
     try {
-      toggleCalculator(true)
+      toggleCalculator(true);
       let result = await countSaleUserEarning({
         startDate,
         endDate,
         selectedStatus,
         searchText,
-      })
+      });
       if (result || result === 0) {
-        updateTotalEarning(result)
+        updateTotalEarning(result);
       }
-      toggleCalculator(false)
+      toggleCalculator(false);
     } catch (e) {
-      toggleCalculator(false)
-      console.log(e)
-      toastr.error("Error", e.toString())
+      toggleCalculator(false);
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateFilterState({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateFilterState({
         searchText: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateFilterState({
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelEndDateSearch = date => {
+  const handelEndDateSearch = (date) => {
     try {
       updateFilterState({
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const titleByBodyTemplate = ({ profile }) => {
     return (
@@ -179,69 +179,69 @@ const SaleListWrapper = ({
             : rowData.title}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneNumberBodyTemplate = ({ profile }) => {
     return (
       <React.Fragment>
         <span>{formatPhoneNumber(addPlus(profile.phoneNumber))}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const packageBodyTemplate = rowData => {
+  const packageBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.packageTitle} (${rowData.quantity})`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const priceBodyTemplate = rowData => {
+  const priceBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`$${rowData.basePrice}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const paymentMethodBodyTemplate = rowData => {
+  const paymentMethodBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.paymentMethod}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const processedOnBodyTemplate = rowData => {
+  const processedOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.processedOn)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const firstPurchaseBodyTemplate = rowData => {
+  const firstPurchaseBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.isFirstPurchase === 1 ? "Yes" : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const comissionBodyTemplate = rowData => {
-    let commission = 5
+  const comissionBodyTemplate = (rowData) => {
+    let commission = 5;
     if (rowData.isFirstPurchase === 1) {
-      commission = 10
+      commission = 10;
     }
-    let commissionAmount = calculatePercentage(basePrice, commission)
+    let commissionAmount = calculatePercentage(basePrice, commission);
     return (
       <React.Fragment>
         <span>{`$${commissionAmount} (${commission}%)`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ profile }) => {
     return (
@@ -252,10 +252,10 @@ const SaleListWrapper = ({
               <span>
                 <ButtonComp
                   icon="eye"
-                  onClick={e => {
+                  onClick={(e) => {
                     history.push(
                       `/sales/agency/${profile.agencyId}?name=${profile.title}`
-                    )
+                    );
                   }}
                   toolTip="View Detail"
                   btnClass="normal"
@@ -265,8 +265,8 @@ const SaleListWrapper = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
   //TABLE COMPONENTS END
 
   return (
@@ -443,19 +443,19 @@ const SaleListWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   filterState: state.sale.saleListFilterState,
-})
+});
 
 const mapDispatchToProps = {
   getUserSaleList,
   countSaleUserEarning,
   updateSaleListFilterState,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SaleListWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(SaleListWrapper);

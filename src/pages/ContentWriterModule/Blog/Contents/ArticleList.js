@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,23 +13,23 @@ import {
   CardBody,
   Badge,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../../store/utils/util"
-import Switch from "react-switch"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../../store/utils/util";
+import Switch from "react-switch";
 
 //redux & actions
 import {
   getAllArticle,
   offStatusOfArticle,
-} from "../../../../store/Actions/adminAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ReactTooltip from "react-tooltip"
+} from "../../../../store/Actions/adminAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ReactTooltip from "react-tooltip";
 
 const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
   // declare states
@@ -40,95 +40,95 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
     searchText: "",
     limit: 10,
     refresh: null,
-  })
-  const [listState, updateListState] = useState({ rows: [], count: 0 })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [listState, updateListState] = useState({ rows: [], count: 0 });
+  const [isLoading, toggleLoader] = useState(false);
 
   //destructure state
   const { activePage, sorting, sortColumn, searchText, limit, refresh } =
-    filterState
-  const { rows, count } = listState
+    filterState;
+  const { rows, count } = listState;
   //const dispatch = useDispatch()
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    getDataListHandler()
-  }, [activePage, searchText, refresh])
+    getDataListHandler();
+  }, [activePage, searchText, refresh]);
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllArticle({
         pageNumber: activePage,
         searchText,
-      })
-      console.log(`Article List `, result)
+      });
+      console.log(`Article List `, result);
       if (result) {
-        const { articleData, totalArticle } = result
-        updateListState({ rows: articleData, count: totalArticle })
+        const { articleData, totalArticle } = result;
+        updateListState({ rows: articleData, count: totalArticle });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      console.log(e);
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const handlePageChange = pNum => {
+  const handlePageChange = (pNum) => {
     updateFilterStateHandler({
       activePage: pNum,
-    })
-  }
+    });
+  };
 
-  const updateArticleStatusHandler = async rowdata => {
+  const updateArticleStatusHandler = async (rowdata) => {
     try {
-      let result = await offStatusOfArticle(rowdata.id, !rowdata.status)
+      let result = await offStatusOfArticle(rowdata.id, !rowdata.status);
       if (result) {
         updateFilterStateHandler({
           refresh: Date.now(),
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onSearchFieldChange = e => {
-    let value = e.target.value
+  const onSearchFieldChange = (e) => {
+    let value = e.target.value;
     updateFilterStateHandler({
       searchText: value,
       activePage: 1,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.title ? rowData.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const categoryBodyTemplate = rowData => {
+  const categoryBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.categoryId ? rowData.category.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -138,10 +138,10 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
           />
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -166,8 +166,8 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -309,16 +309,16 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getAllArticle,
   offStatusOfArticle,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ArticleList)
+export default connect(mapStateToProps, mapDispatchToProps)(ArticleList);

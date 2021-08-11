@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
-import { toastr } from "react-redux-toastr"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
+import { toastr } from "react-redux-toastr";
 import {
   Container,
   Row,
@@ -12,14 +12,14 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { getQueryParams } from "../../../../store/utils/util"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { getQueryParams } from "../../../../store/utils/util";
 
 //redux & actions
 import {
@@ -28,16 +28,16 @@ import {
   updateAgencySaleStatus,
   exportAssignedAgencyList,
   getSalesUserStates,
-} from "../../../../store/Actions/salesAction"
-import { getEmailTemplate } from "../../../../store/Actions/mailAction"
+} from "../../../../store/Actions/salesAction";
+import { getEmailTemplate } from "../../../../store/Actions/mailAction";
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../store/Actions/userAction"
-import { formatPhoneNumber } from "react-phone-number-input"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import ButtonComp from "components/Common/Button/Button"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/userAction";
+import { formatPhoneNumber } from "react-phone-number-input";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import ButtonComp from "components/Common/Button/Button";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const AssignedAgencyList = ({
   getAssignedAgencyList,
@@ -48,7 +48,7 @@ const AssignedAgencyList = ({
   location,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     activePage: 1,
     selectedSaleStatus: "all",
@@ -60,21 +60,21 @@ const AssignedAgencyList = ({
     selectedUser: 0,
     isAllSelected: false,
     isFileExporting: false,
-  })
-  const [queryParams, updateQueryParams] = useState(null)
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [queryParams, updateQueryParams] = useState(null);
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     modalBodyData: null,
-  })
-  const [stateList, updateStateList] = useState([])
-  const [stateCities, updateStateCityList] = useState([])
-  const [cityList, updateCityList] = useState([])
-  const [zipCodeList, updateZipCodeList] = useState([])
+  });
+  const [stateList, updateStateList] = useState([]);
+  const [stateCities, updateStateCityList] = useState([]);
+  const [cityList, updateCityList] = useState([]);
+  const [zipCodeList, updateZipCodeList] = useState([]);
   const {
     selectedSaleStatus,
     selectedClaimStatus,
@@ -84,32 +84,32 @@ const AssignedAgencyList = ({
     activePage,
     searchText,
     isFileExporting,
-  } = appState
-  const { rows, count } = listState
-  const { isDetailModalOpen, modalBodyData } = modalData
+  } = appState;
+  const { rows, count } = listState;
+  const { isDetailModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    let qParams = getQueryParams(location.search)
-    updateQueryParams(qParams)
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
     if (params && params.id) {
-      getUsStatesHandler()
-      agencyListDataFetchHandler()
+      getUsStatesHandler();
+      agencyListDataFetchHandler();
     }
-  }, [])
+  }, []);
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getSalesUserStates(params.id)
-      console.log(result)
+      let result = await getSalesUserStates(params.id);
+      console.log(result);
       if (result) {
-        let sList = result.map(item => ({ state_name: item.state }))
-        updateStateList(sList)
+        let sList = result.map((item) => ({ state_name: item.state }));
+        updateStateList(sList);
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const agencyListDataFetchHandler = async (
     activePage = 1,
@@ -121,7 +121,7 @@ const AssignedAgencyList = ({
     searchText
   ) => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAssignedAgencyList(activePage, {
         selectedSaleStatus,
         selectedClaimStatus,
@@ -130,31 +130,31 @@ const AssignedAgencyList = ({
         selectedZipCodes,
         searchText,
         userId: params && params.id,
-      })
+      });
       if (result) {
         // console.log(result);
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         ...appState,
         searchText: value,
         activePage: 1,
-      })
+      });
       agencyListDataFetchHandler(
         1,
         selectedSaleStatus,
@@ -163,12 +163,12 @@ const AssignedAgencyList = ({
         selectedCities,
         selectedZipCodes,
         value
-      )
+      );
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const onStatusChange = (value, statusType) => {
     try {
@@ -178,7 +178,7 @@ const AssignedAgencyList = ({
           selectedSaleStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           value,
@@ -187,14 +187,14 @@ const AssignedAgencyList = ({
           selectedCities,
           selectedZipCodes,
           searchText
-        )
+        );
       } else if (statusType === "claimStatus") {
         updateAppState({
           ...appState,
           selectedClaimStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -203,19 +203,19 @@ const AssignedAgencyList = ({
           selectedCities,
           selectedZipCodes,
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
+    });
     agencyListDataFetchHandler(
       pNumber,
       selectedSaleStatus,
@@ -225,26 +225,26 @@ const AssignedAgencyList = ({
       selectedZipCodes,
       searchText,
       false
-    )
-  }
+    );
+  };
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       updateAppState({
         ...appState,
         selectedState: val,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
-          const cities = [...new Set(result.map(item => item.city))]
-          updateStateCityList(result)
+          const cities = [...new Set(result.map((item) => item.city))];
+          updateStateCityList(result);
           updateCityList(
-            cities.map(item => ({ value: item, text: item, key: item }))
-          )
+            cities.map((item) => ({ value: item, text: item, key: item }))
+          );
           agencyListDataFetchHandler(
             1,
             selectedSaleStatus,
@@ -253,12 +253,12 @@ const AssignedAgencyList = ({
             [],
             [],
             searchText
-          )
+          );
         }
       } else {
-        updateStateCityList([])
-        updateCityList([])
-        updateZipCodeList([])
+        updateStateCityList([]);
+        updateCityList([]);
+        updateZipCodeList([]);
 
         agencyListDataFetchHandler(
           1,
@@ -268,43 +268,43 @@ const AssignedAgencyList = ({
           [],
           [],
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
-        updateZipCodeList(allZipList)
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        updateZipCodeList(allZipList);
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
 
         agencyListDataFetchHandler(
           1,
@@ -314,15 +314,15 @@ const AssignedAgencyList = ({
           cities,
           newZipCodes,
           searchText
-        )
+        );
       } else {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: [],
           isAllSelected: false,
-        })
+        });
 
         agencyListDataFetchHandler(
           1,
@@ -332,24 +332,24 @@ const AssignedAgencyList = ({
           cities,
           [],
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateAppState({
         ...appState,
         selectedZipCodes: zips,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -358,7 +358,7 @@ const AssignedAgencyList = ({
           selectedCities,
           [],
           searchText
-        )
+        );
       } else {
         agencyListDataFetchHandler(
           1,
@@ -368,20 +368,20 @@ const AssignedAgencyList = ({
           selectedCities,
           zips,
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const exportDataList = async () => {
     try {
       updateAppState({
         ...appState,
         isFileExporting: true,
-      })
+      });
       let result = await exportAssignedAgencyList({
         selectedSaleStatus,
         selectedClaimStatus,
@@ -389,21 +389,21 @@ const AssignedAgencyList = ({
         selectedCities,
         selectedZipCodes,
         searchText,
-      })
+      });
       updateAppState({
         ...appState,
         isFileExporting: false,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleByBodyTemplate = rowData => {
+  const titleByBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -412,52 +412,52 @@ const AssignedAgencyList = ({
             : rowData.title}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneNumberBodyTemplate = rowData => {
+  const phoneNumberBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           {rowData.phoneNumber ? formatPhoneNumber(rowData.phoneNumber) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipCode ? rowData.zipCode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.saleStatus || "Not Contacted"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -466,11 +466,11 @@ const AssignedAgencyList = ({
               <span>
                 <ButtonComp
                   icon="eye"
-                  onClick={e => {
+                  onClick={(e) => {
                     history.push({
                       pathname: `/sales/agency/${rowData.id}`,
                       pageNo: activePage,
-                    })
+                    });
                   }}
                   toolTip="View Detail"
                   btnClass="normal"
@@ -480,13 +480,13 @@ const AssignedAgencyList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
   return (
     <React.Fragment>
@@ -526,7 +526,7 @@ const AssignedAgencyList = ({
                               <option value={state_name} key={`s-${index}`}>
                                 {state_name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -577,8 +577,8 @@ const AssignedAgencyList = ({
                       <select
                         className="form-control"
                         value={selectedSaleStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "saleStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "saleStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -596,8 +596,8 @@ const AssignedAgencyList = ({
                       <select
                         className="form-control"
                         value={selectedClaimStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "claimStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "claimStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -710,13 +710,13 @@ const AssignedAgencyList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getAssignedAgencyList,
@@ -727,6 +727,6 @@ const mapDispatchToProps = {
   getEmailTemplate,
   exportAssignedAgencyList,
   getSalesUserStates,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssignedAgencyList)
+export default connect(mapStateToProps, mapDispatchToProps)(AssignedAgencyList);

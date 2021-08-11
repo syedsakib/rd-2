@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { toastr } from "react-redux-toastr"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,30 +14,30 @@ import {
   InputGroup,
   Button,
   Badge,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 import {
   formatDate,
   addPlus,
   getQueryParams,
-} from "../../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
-import { formatPhoneNumber } from "react-phone-number-input"
+} from "../../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
+import { formatPhoneNumber } from "react-phone-number-input";
 
 //redux & actions
 import {
   getAllCallLogListForAdmin,
   updateQueCallState,
   exportToCsvLogs,
-} from "../../../../store/Actions/callAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/callAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const CallLogList = ({
   getAllCallLogListForAdmin,
@@ -57,14 +57,14 @@ const CallLogList = ({
     selectedVoiceMailStatus: "all",
     fromNumber: "",
     toNumber: "",
-  })
-  const [isLoading, toggleLoader] = useState(false)
-  const [queryParams, updateQueryParams] = useState(null)
-  const [userId, setUserId] = useState(null)
+  });
+  const [isLoading, toggleLoader] = useState(false);
+  const [queryParams, updateQueryParams] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const {
     selectedStatus,
     startDate,
@@ -73,18 +73,18 @@ const CallLogList = ({
     fromNumber,
     toNumber,
     selectedVoiceMailStatus,
-  } = appState
-  const { rows, count } = listState
+  } = appState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    let qParams = getQueryParams(location.search)
-    updateQueryParams(qParams)
-    setUserId(params && params.id)
-  }, [])
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
+    setUserId(params && params.id);
+  }, []);
 
   useEffect(() => {
     if (userId) {
-      getDataList()
+      getDataList();
     }
   }, [
     selectedStatus,
@@ -95,11 +95,11 @@ const CallLogList = ({
     toNumber,
     selectedVoiceMailStatus,
     userId,
-  ])
+  ]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllCallLogListForAdmin({
         logFor: "agency",
         userId,
@@ -110,142 +110,142 @@ const CallLogList = ({
         fromNumber,
         toNumber,
         selectedVoiceMailStatus,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onVoiceMailStatusChange = e => {
+  const onVoiceMailStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedVoiceMailStatus: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const onFromNumChange = e => {
+  const onFromNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         fromNumber: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onToNumChange = e => {
+  const onToNumChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         toNumber: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
-  const handelEndDateSearch = date => {
+  };
+  const handelEndDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         endDate: date,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const fromBodyTemplate = rowData => {
-    let fNum = formatPhoneNumber(rowData.fromNumber)
-    let tNum = formatPhoneNumber(rowData.toNumber)
-    let userNumber
+  const fromBodyTemplate = (rowData) => {
+    let fNum = formatPhoneNumber(rowData.fromNumber);
+    let tNum = formatPhoneNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{fNum}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const toBodyTemplate = rowData => {
-    let fNum = formatPhoneNumber(rowData.fromNumber)
-    let tNum = formatPhoneNumber(rowData.toNumber)
-    let userNumber
+  const toBodyTemplate = (rowData) => {
+    let fNum = formatPhoneNumber(rowData.fromNumber);
+    let tNum = formatPhoneNumber(rowData.toNumber);
+    let userNumber;
     let agentName = rowData.userDetail
       ? `${rowData.userDetail.firstName} ${rowData.userDetail.lastName}`
-      : "Agent"
+      : "Agent";
     if (rowData.direction === "Outgoing") {
-      fNum = agentName
-      userNumber = toNumber
+      fNum = agentName;
+      userNumber = toNumber;
     } else if (rowData.direction === "Incoming") {
-      tNum = agentName
-      userNumber = fromNumber
+      tNum = agentName;
+      userNumber = fromNumber;
     }
     return (
       <React.Fragment>
         <span>{tNum}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const directionBodyTemplate = rowData => {
+  const directionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.direction == "Incoming" ? (
@@ -264,10 +264,10 @@ const CallLogList = ({
           </Badge>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.callStatus === "completed" ? (
@@ -320,18 +320,18 @@ const CallLogList = ({
           </Button>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const durationBodyTemplate = rowData => {
+  const durationBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.duration}s`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const leadBodyTemplate = rowData => {
+  const leadBodyTemplate = (rowData) => {
     //console.log(rowData.leadUser)
     return (
       <React.Fragment>
@@ -344,18 +344,18 @@ const CallLogList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const logBodyTemplate = rowData => {
+  const logBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -365,9 +365,9 @@ const CallLogList = ({
                 {rowData.recordingUrl ? (
                   <ButtonComp
                     icon="volume-up"
-                    onClick={e => {
-                      e.preventDefault()
-                      window.open(rowData.recordingUrl)
+                    onClick={(e) => {
+                      e.preventDefault();
+                      window.open(rowData.recordingUrl);
                     }}
                     toolTip="VoiceMail"
                     btnClass="normal"
@@ -378,12 +378,12 @@ const CallLogList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
   return (
     <React.Fragment>
@@ -491,7 +491,7 @@ const CallLogList = ({
                         <ButtonComp
                           icon="sync"
                           onClick={() => {
-                            getDataList()
+                            getDataList();
                           }}
                           toolTip="refresh"
                           tooltipType="info"
@@ -500,8 +500,8 @@ const CallLogList = ({
                         <ButtonComp
                           icon="download"
                           onClick={() => {
-                            console.log("Export To CSV")
-                            exportToCsvLogs({ ...appState, logFor: "lead" })
+                            console.log("Export To CSV");
+                            exportToCsvLogs({ ...appState, logFor: "lead" });
                           }}
                           toolTip="Export To Csv"
                         />
@@ -603,19 +603,19 @@ const CallLogList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
   callState: state.call.callState,
-})
+});
 
 const mapDispatchToProps = {
   getAllCallLogListForAdmin,
   updateQueCallState,
   exportToCsvLogs,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CallLogList)
+export default connect(mapStateToProps, mapDispatchToProps)(CallLogList);

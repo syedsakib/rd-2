@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,23 +13,23 @@ import {
   CardBody,
   InputGroup,
   Button,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import { formatDate } from "../../../store/utils/util"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import { formatDate } from "../../../store/utils/util";
 
 //redux & actions
 import {
   getHomeCareAgencyDataChangeRecord,
   updateRecordChangeStatus,
   getSaleUserList,
-} from "../../../store/Actions/adminAction"
-import { formatPhoneNumber } from "react-phone-number-input"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/adminAction";
+import { formatPhoneNumber } from "react-phone-number-input";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const SalesUserList = ({
   getHomeCareAgencyDataChangeRecord,
@@ -37,115 +37,115 @@ const SalesUserList = ({
   getSaleUserList,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     activePage: 1,
     searchText: "",
     sortColumn: "",
     sortOrder: 0,
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isModalOpen: false,
     modalBodyData: null,
-  })
+  });
   //
-  const [totalCount, updateTotalCount] = useState(0)
-  const { activePage, searchText, sortColumn, sortOrder } = appState
-  const { rows, count } = listState
-  const { isModalOpen, modalBodyData } = modalData
+  const [totalCount, updateTotalCount] = useState(0);
+  const { activePage, searchText, sortColumn, sortOrder } = appState;
+  const { rows, count } = listState;
+  const { isModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    getDataList()
-  }, [searchText, activePage, sortColumn, sortOrder])
+    getDataList();
+  }, [searchText, activePage, sortColumn, sortOrder]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getSaleUserList({
         activePage,
         searchText,
         sortColumn,
         sortOrder,
-      })
+      });
       if (result) {
-        console.log("result result", result)
-        const { rows, count } = result
+        console.log("result result", result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count: count,
-        })
+        });
         // updateTotalCount(getTotalCount(maxLimit, count))
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      console.log(e);
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateAppStateHandler = newState => {
-    updateAppState({ ...appState, ...newState })
-  }
+  const updateAppStateHandler = (newState) => {
+    updateAppState({ ...appState, ...newState });
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         searchText: value,
-      })
+      });
     } catch (e) {
-      toastr.error("Error", e.toString())
-      console.log(e)
+      toastr.error("Error", e.toString());
+      console.log(e);
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const nameByBodyTemplate = ({ user }) => {
-    console.log({ user })
+    console.log({ user });
     return (
       <React.Fragment>
         <span>{`${user.firstName} ${user.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneNumberBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{user ? formatPhoneNumber(user.phoneNumber) : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const emailBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{user.email ? user.email : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const joinedOnBodyTemplate = rowData => {
+  const joinedOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ user }) => {
     return (
@@ -161,7 +161,7 @@ const SalesUserList = ({
                   onClick={() => {
                     window.open(
                       `/admin/sales/users/agencies/${user.id}?name=${user.firstName}`
-                    )
+                    );
                   }}
                 >
                   View Agencies
@@ -175,7 +175,7 @@ const SalesUserList = ({
                   onClick={() => {
                     window.open(
                       `/admin/sales/users/performance/${user.id}?name=${user.firstName}`
-                    )
+                    );
                   }}
                 >
                   View Performance
@@ -189,7 +189,7 @@ const SalesUserList = ({
                   onClick={() => {
                     window.open(
                       `/admin/sales/users/callLogs/${user.id}?name=${user.firstName}`
-                    )
+                    );
                   }}
                 >
                   View Call Logs
@@ -199,13 +199,13 @@ const SalesUserList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -332,17 +332,17 @@ const SalesUserList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
 function mapStateToProps(state, ownProps) {
-  return {}
+  return {};
 }
 
 const mapDispatchToProps = {
   updateRecordChangeStatus,
   getHomeCareAgencyDataChangeRecord,
   getSaleUserList,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(SalesUserList)
+export default connect(mapStateToProps, mapDispatchToProps)(SalesUserList);

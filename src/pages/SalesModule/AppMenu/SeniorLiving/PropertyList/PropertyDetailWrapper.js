@@ -1,22 +1,22 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef, Fragment } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef, Fragment } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getPropertyDetail,
   getPropertyFeatures,
-} from "../../../../../store/Actions/partnerAction"
+} from "../../../../../store/Actions/partnerAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ImageSlider from "components/Common/ImageSlider/CarouselSlider"
-import { formatNumber } from "store/utils/util"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ImageSlider from "components/Common/ImageSlider/CarouselSlider";
+import { formatNumber } from "store/utils/util";
 
 const PropertyDetailWrapper = ({
   userDetails,
@@ -26,50 +26,50 @@ const PropertyDetailWrapper = ({
   match: { params },
 }) => {
   // declare state
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     isAccessAllowed: null,
-  })
-  const [isLoading, toggleLoader] = useState(false)
-  const [pId, setPropertyId] = useState(null)
-  const [photoList, setPhotoList] = useState({ list: [], count: 0 })
-  const [propertyData, updatePropertyData] = useState(null)
-  const [propertyFeatures, updatePropertyFeatures] = useState(null)
+  });
+  const [isLoading, toggleLoader] = useState(false);
+  const [pId, setPropertyId] = useState(null);
+  const [photoList, setPhotoList] = useState({ list: [], count: 0 });
+  const [propertyData, updatePropertyData] = useState(null);
+  const [propertyFeatures, updatePropertyFeatures] = useState(null);
 
   useEffect(() => {
     if (params && params.id) {
-      let id = params.id
-      setPropertyId(id)
-      getDataHandler(id)
+      let id = params.id;
+      setPropertyId(id);
+      getDataHandler(id);
     }
-  }, [])
+  }, []);
 
-  const getDataHandler = async aId => {
+  const getDataHandler = async (aId) => {
     try {
-      toggleLoader(true)
-      let result = await getPropertyDetail({ propertyId: aId })
-      let features = await getPropertyFeatures({ propertyId: aId })
-      console.log(`Property`, result)
-      console.log(`Features`, features)
+      toggleLoader(true);
+      let result = await getPropertyDetail({ propertyId: aId });
+      let features = await getPropertyFeatures({ propertyId: aId });
+      console.log(`Property`, result);
+      console.log(`Features`, features);
       if (result && features) {
-        updatePropertyData(result.profile)
-        updatePropertyFeatures(features)
-        let photos = result.profile.photos
+        updatePropertyData(result.profile);
+        updatePropertyFeatures(features);
+        let photos = result.profile.photos;
         if (photos && photos.length > 0 && photos[0].photo_url) {
-          let urlList = photos.map(item => item.photo_url)
-          setPhotoList({ list: urlList, count: urlList.length })
+          let urlList = photos.map((item) => item.photo_url);
+          setPhotoList({ list: urlList, count: urlList.length });
         }
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      toggleLoader(false)
-      console.log(e)
-      toastr.error("Error", e.toString())
+      toggleLoader(false);
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -561,7 +561,7 @@ const PropertyDetailWrapper = ({
                               <hr />
 
                               <Fragment>
-                                {propertyData.careTypes.map(item => {
+                                {propertyData.careTypes.map((item) => {
                                   return (
                                     <dl
                                       className="row"
@@ -571,7 +571,7 @@ const PropertyDetailWrapper = ({
                                         {item.typeDetail.title}
                                       </dt>
                                     </dl>
-                                  )
+                                  );
                                 })}
                               </Fragment>
                               <br />
@@ -595,7 +595,7 @@ const PropertyDetailWrapper = ({
 
                               <div className="row">
                                 <Fragment>
-                                  {propertyFeatures.services.map(item => {
+                                  {propertyFeatures.services.map((item) => {
                                     return (
                                       <dl
                                         className="col-sm-4"
@@ -605,7 +605,7 @@ const PropertyDetailWrapper = ({
                                           {item.service.title}
                                         </dt>
                                       </dl>
-                                    )
+                                    );
                                   })}
                                 </Fragment>
                               </div>
@@ -630,7 +630,7 @@ const PropertyDetailWrapper = ({
 
                               <div className="row">
                                 <Fragment>
-                                  {propertyFeatures.amenities.map(item => {
+                                  {propertyFeatures.amenities.map((item) => {
                                     return (
                                       <dl
                                         className="col-sm-4"
@@ -640,7 +640,7 @@ const PropertyDetailWrapper = ({
                                           {item.amenity.title}
                                         </dt>
                                       </dl>
-                                    )
+                                    );
                                   })}
                                 </Fragment>
                               </div>
@@ -665,7 +665,7 @@ const PropertyDetailWrapper = ({
 
                               <div className="row">
                                 <Fragment>
-                                  {propertyFeatures.communities.map(item => {
+                                  {propertyFeatures.communities.map((item) => {
                                     return (
                                       <dl
                                         className="col-sm-4"
@@ -675,7 +675,7 @@ const PropertyDetailWrapper = ({
                                           {item.community.title}
                                         </dt>
                                       </dl>
-                                    )
+                                    );
                                   })}
                                 </Fragment>
                               </div>
@@ -727,20 +727,20 @@ const PropertyDetailWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getPropertyDetail,
   getPropertyFeatures,
-}
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(PropertyDetailWrapper)
+)(PropertyDetailWrapper);

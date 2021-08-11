@@ -1,26 +1,26 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import Pagination from "react-js-pagination"
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap"
-import { toastr } from "react-redux-toastr"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import Pagination from "react-js-pagination";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import { toastr } from "react-redux-toastr";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import "./DataTableDemo.css"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import "./DataTableDemo.css";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 import {
   formatDate,
   addPlus,
   getQueryParams,
-} from "../../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
-import DatePicker from "react-datepicker"
+} from "../../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
+import DatePicker from "react-datepicker";
 
 //redux & actions
-import { getAgencySalesAssignedHistory } from "../../../../store/Actions/salesAction"
+import { getAgencySalesAssignedHistory } from "../../../../store/Actions/salesAction";
 
 const AssignHistoryList = ({
   userDetails,
@@ -30,170 +30,170 @@ const AssignHistoryList = ({
   location,
 }) => {
   // declare states
-  const [queryParams, updateQueryParams] = useState(null)
+  const [queryParams, updateQueryParams] = useState(null);
   const [appState, updateAppState] = useState({
     activePage: 1,
     startDate: null,
     endDate: null,
     selectedStatus: "All",
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     modalBodyData: null,
-  })
-  const { selectedStatus, startDate, endDate, activePage } = appState
-  const { rows, count } = listState
-  const { isDetailModalOpen, modalBodyData } = modalData
+  });
+  const { selectedStatus, startDate, endDate, activePage } = appState;
+  const { rows, count } = listState;
+  const { isDetailModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    let qParams = getQueryParams(location.search)
-    updateQueryParams(qParams)
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
     if (params && params.id) {
-      getDataList()
+      getDataList();
     }
-  }, [selectedStatus, startDate, endDate, activePage])
+  }, [selectedStatus, startDate, endDate, activePage]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAgencySalesAssignedHistory({
         pageNumber: activePage,
         startDate,
         endDate,
         selectedStatus,
         agencyId: params && params.id,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelEndDateSearch = date => {
+  const handelEndDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const toggleDataViewerModal = data => {
+  const toggleDataViewerModal = (data) => {
     updateModalData({
       ...modalData,
       isDetailModalOpen: !isDetailModalOpen,
       modalBodyData: data,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const assignedToBodyTemplate = ({ saleUser }) => {
     return (
       <React.Fragment>
         <span> {`${saleUser.firstName} ${saleUser.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneBodyTemplate = ({ saleUser }) => {
     return (
       <React.Fragment>
         <span>{formatPhoneNumber(addPlus(saleUser.phoneNumber))}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const emailBodyTemplate = ({ saleUser }) => {
     return (
       <React.Fragment>
         <span> {saleUser.email}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const startDateBodyTemplate = rowData => {
+  const startDateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {formatDate(rowData.startDate)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const endDateBodyTemplate = rowData => {
+  const endDateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.endDate ? formatDate(rowData.endDate) : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.status ? "Active" : "Closed"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const assignedByBodyTemplate = ({ admin }) => {
     return (
       <React.Fragment>
         <span> {`${admin.firstName} ${admin.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ id, saleUser }) => {
     return (
@@ -207,7 +207,7 @@ const AssignHistoryList = ({
                   onClick={() => {
                     window.open(
                       `/admin/sales/agency/salesActivity/${id}?name=${saleUser.firstName}&agency=${queryParams.name}`
-                    )
+                    );
                   }}
                   toolTip="View Activity"
                   btnClass="normal"
@@ -217,8 +217,8 @@ const AssignHistoryList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -386,17 +386,17 @@ const AssignHistoryList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   homeCare: state.homeCare,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getAgencySalesAssignedHistory,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AssignHistoryList)
+export default connect(mapStateToProps, mapDispatchToProps)(AssignHistoryList);

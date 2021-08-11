@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,30 +14,30 @@ import {
   Badge,
   InputGroup,
   Button,
-} from "reactstrap"
-import Switch from "react-switch"
+} from "reactstrap";
+import Switch from "react-switch";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   updateSalesScheduleStatus,
   deleteSalesSchedule,
   getSalesSchedules,
-} from "../../../../store/Actions/salesAction"
+} from "../../../../store/Actions/salesAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ReactTooltip from "react-tooltip"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import { formatPhoneNumber } from "react-phone-number-input"
-import { addPlus, formatDate, getFrontUrl } from "store/utils/util"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ReactTooltip from "react-tooltip";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import { formatPhoneNumber } from "react-phone-number-input";
+import { addPlus, formatDate, getFrontUrl } from "store/utils/util";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const ScheduleListWrapper = ({
   getSalesSchedules,
@@ -52,145 +52,145 @@ const ScheduleListWrapper = ({
     startDate: null,
     endDate: null,
     selectedStatus: "all",
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     modalBodyData: null,
-  })
-  const { selectedStatus, startDate, endDate, activePage } = appState
-  const { rows, count } = listState
-  const { isDetailModalOpen, modalBodyData } = modalData
+  });
+  const { selectedStatus, startDate, endDate, activePage } = appState;
+  const { rows, count } = listState;
+  const { isDetailModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    getAllScheduleList()
-  }, [selectedStatus, startDate, endDate, activePage])
+    getAllScheduleList();
+  }, [selectedStatus, startDate, endDate, activePage]);
 
   const getAllScheduleList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getSalesSchedules({
         pageNumber: activePage,
         startDate,
         endDate,
         selectedStatus,
-      })
+      });
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
-  const handlePageChange = pNumber => {
+  };
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
-  const handelEndDateSearch = date => {
+  };
+  const handelEndDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const changeSaleStatus = async e => {
+  const changeSaleStatus = async (e) => {
     try {
-      let id = e.target.id
-      let value = e.target.value
-      console.log(`Id is ${id}`)
-      console.log(`Value is ${value}`)
-      let result = await updateSalesScheduleStatus(id, value)
-      let newRows = rows.map(item => {
+      let id = e.target.id;
+      let value = e.target.value;
+      console.log(`Id is ${id}`);
+      console.log(`Value is ${value}`);
+      let result = await updateSalesScheduleStatus(id, value);
+      let newRows = rows.map((item) => {
         if (item.id == id) {
-          item.status = value
+          item.status = value;
         }
-        return item
-      })
+        return item;
+      });
       updateListState({
         ...listState,
         rows: newRows,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const deleteScheduleHandler = async (id, agencyId) => {
     try {
-      let result = await deleteSalesSchedule(id, agencyId)
-      let newRows = rows.filter(item => item.id != id)
+      let result = await deleteSalesSchedule(id, agencyId);
+      let newRows = rows.filter((item) => item.id != id);
       updateListState({
         ...listState,
         rows: newRows,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const toggleDataViewerModal = data => {
+  const toggleDataViewerModal = (data) => {
     updateModalData({
       ...modalData,
       isDetailModalOpen: !isDetailModalOpen,
       modalBodyData: data,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const titleBodyTemplate = ({ business }) => {
     return (
       <React.Fragment>
         <span>{business.title ? business.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneNumberBodyTemplate = ({ business }) => {
     return (
@@ -201,44 +201,44 @@ const ScheduleListWrapper = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const zipCodeBodyTemplate = ({ business }) => {
     return (
       <React.Fragment>
         <span>{business.zipCode ? business.zipCode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const cityBodyTemplate = ({ business }) => {
     return (
       <React.Fragment>
         <span>{business.city ? business.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const stateBodyTemplate = ({ business }) => {
     return (
       <React.Fragment>
         <span>{business.state ? business.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const scheduledOnBodyTemplate = rowData => {
+  const scheduledOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           {rowData.followupDate ? formatDate(rowData.followupDate) : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -253,10 +253,10 @@ const ScheduleListWrapper = ({
           </select>
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -265,9 +265,9 @@ const ScheduleListWrapper = ({
               <span>
                 <ButtonComp
                   icon="sticky-note-o"
-                  onClick={e => {
-                    e.preventDefault()
-                    toggleDataViewerModal(rowData.note)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleDataViewerModal(rowData.note);
                   }}
                   toolTip="View Note"
                   btnClass="normal"
@@ -275,12 +275,12 @@ const ScheduleListWrapper = ({
                 {status == 0 && (
                   <ButtonComp
                     icon="trash"
-                    onClick={e => {
-                      e.preventDefault()
+                    onClick={(e) => {
+                      e.preventDefault();
                       deleteScheduleHandler(
                         rowData.id,
                         rowData.business.agencyId
-                      )
+                      );
                     }}
                     toolTip="Delete"
                     btnClass="danger"
@@ -291,8 +291,8 @@ const ScheduleListWrapper = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -450,19 +450,22 @@ const ScheduleListWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   homeCare: state.homeCare,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getSalesSchedules,
   updateSalesScheduleStatus,
   deleteSalesSchedule,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ScheduleListWrapper)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ScheduleListWrapper);

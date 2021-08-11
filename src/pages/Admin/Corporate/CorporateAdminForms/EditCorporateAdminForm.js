@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { Fragment, useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { toastr } from "react-redux-toastr"
+import MetaTags from "react-meta-tags";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
 import {
   Container,
   Row,
@@ -13,43 +13,43 @@ import {
   Media,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
 //Import Breadcrumb
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
 //redux & actions
-import { useDispatch } from "react-redux"
-import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction"
+import { useDispatch } from "react-redux";
+import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction";
 import {
   editCorporateManager,
   getCorporateUserDetail,
-} from "../../../../store/Actions/corporateAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/corporateAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const EditCorporateAdminForm = ({ match: { params } }) => {
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   // declare state
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
-  const [userDetail, setUserDetail] = useState(null)
-  const [suggestedPlaceList, updatePlaceList] = useState([])
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
+  const [userDetail, setUserDetail] = useState(null);
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
   const [formData, updateFormData] = useState({
     firstName: "",
     lastName: "",
@@ -60,8 +60,8 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
     zipcode: "",
     location: "",
     address: "",
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
   // destructure states
   const {
@@ -74,14 +74,14 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
     zipcode,
     address,
     location,
-  } = formData
+  } = formData;
 
   // app functions
   useEffect(() => {
     if (params && params.id) {
-      getDataHandler(params.id)
+      getDataHandler(params.id);
     }
-  }, [])
+  }, []);
 
   useEffect(() => {
     if (userDetail) {
@@ -94,73 +94,73 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
         city: userDetail.city || "",
         zipcode: userDetail.zipcode || "",
         address: userDetail.address || "",
-      })
+      });
     }
-  }, [userDetail])
+  }, [userDetail]);
 
-  const getDataHandler = async userId => {
+  const getDataHandler = async (userId) => {
     try {
-      const result = await dispatch(getCorporateUserDetail({ id: userId }))
-      console.log(`User Detail `, result)
+      const result = await dispatch(getCorporateUserDetail({ id: userId }));
+      console.log(`User Detail `, result);
       if (result) {
-        setUserDetail(result)
+        setUserDetail(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const updateFormHandler = newData => {
+  const updateFormHandler = (newData) => {
     updateFormData({
       ...formData,
       ...newData,
-    })
-  }
-  const onChange = e => {
-    let name = e.target.name
-    let value = e.target.value
-    updateFormHandler({ [name]: value })
-  }
+    });
+  };
+  const onChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    updateFormHandler({ [name]: value });
+  };
 
   const onPlaceChange = (city, state, zipcode) => {
     updateFormHandler({
       state,
       city,
       zipcode,
-    })
-  }
+    });
+  };
 
-  const handleKeyWordChangeForLocationZipCode = async value => {
-    let val = value
-    onPlaceChange("", "", value)
+  const handleKeyWordChangeForLocationZipCode = async (value) => {
+    let val = value;
+    onPlaceChange("", "", value);
     if (val && val.trim() !== "") {
-      let result = await dispatch(getSuggestedLocationByZipCode(val))
+      let result = await dispatch(getSuggestedLocationByZipCode(val));
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city}, ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const onLocationSelectHandler = value => {
+  const onLocationSelectHandler = (value) => {
     if (value) {
-      const { state_name, city, zip, state_id } = value
-      onPlaceChange(city, state_name, zip)
+      const { state_name, city, zip, state_id } = value;
+      onPlaceChange(city, state_name, zip);
     }
-  }
+  };
 
   const onSubmitHandler = async () => {
     try {
       if (isLoading) {
-        throw "A process is in progress. Please wait"
+        throw "A process is in progress. Please wait";
       }
       if (!params || !params.id) {
-        throw "No User Id found"
+        throw "No User Id found";
       }
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await dispatch(
         editCorporateManager({
           firstName,
@@ -173,20 +173,20 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
           address,
           id: params.id,
         })
-      )
-      toggleLoader(false)
+      );
+      toggleLoader(false);
       if (result) {
-        history.goBack()
+        history.goBack();
       }
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -352,8 +352,8 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
                                 maxLength={14}
                                 type="text"
                                 value={phoneNumber}
-                                onChange={value => {
-                                  updateFormHandler({ phoneNumber: value })
+                                onChange={(value) => {
+                                  updateFormHandler({ phoneNumber: value });
                                 }}
                                 style={{ width: "100%" }}
                               />
@@ -393,7 +393,7 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
                                 id="city"
                                 name="city"
                                 value={city}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -408,7 +408,7 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
                                 id="state"
                                 name="state"
                                 value={state}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -426,7 +426,7 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
                                 id="address"
                                 name="address"
                                 value={address}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -459,7 +459,7 @@ const EditCorporateAdminForm = ({ match: { params } }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default EditCorporateAdminForm
+export default EditCorporateAdminForm;

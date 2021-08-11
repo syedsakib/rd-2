@@ -1,23 +1,23 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import { useForm } from "react-hook-form"
-import CustomEditor from "components/Common/Editor/Editor"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import { useForm } from "react-hook-form";
+import CustomEditor from "components/Common/Editor/Editor";
 
 //redux & actions
 import {
   getCurrentNews,
   updateNews,
-} from "../../../../store/Actions/adminAction"
+} from "../../../../store/Actions/adminAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const NewsPortal = ({
   getCurrentNews,
@@ -26,88 +26,88 @@ const NewsPortal = ({
   isAuthenticated,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     isLoading: false,
-  })
+  });
   const [formData, updateFormData] = useState({
     title: "",
-  })
+  });
   const [editorContent, updateEditorContent] = useState({
     content: "",
     initialContent: "",
-  })
-  const { isLoading } = appState
-  const { content, initialContent } = editorContent
-  const { title } = formData
+  });
+  const { isLoading } = appState;
+  const { content, initialContent } = editorContent;
+  const { title } = formData;
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
-  }
+  };
 
   useEffect(() => {
-    getFormData()
-  }, [])
+    getFormData();
+  }, []);
 
   const getFormData = async () => {
     try {
-      let result = await getCurrentNews()
-      console.log(result)
+      let result = await getCurrentNews();
+      console.log(result);
       if (result) {
         updateFormData({
           ...formData,
           title: result.title,
-        })
+        });
         updateEditorContent({
           ...editorContent,
           initialContent: result.content,
           content: result.content,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const toggleLoader = value => {
+  const toggleLoader = (value) => {
     updateAppState({
       ...appState,
       isLoading: value,
-    })
-  }
+    });
+  };
 
-  const onFormSubmit = async e => {
+  const onFormSubmit = async (e) => {
     try {
       if (!content || content === "") {
-        throw "Content is required"
+        throw "Content is required";
       }
-      toggleLoader(true)
-      let result = await updateNews(title, content)
-      toggleLoader(false)
+      toggleLoader(true);
+      let result = await updateNews(title, content);
+      toggleLoader(false);
     } catch (e) {
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
-  const onChange = e => {
+  };
+  const onChange = (e) => {
     updateFormData({
       ...formData,
       [e.target.name]: e.target.value,
-    })
-  }
-  const onContentChangeHandler = newContent => {
+    });
+  };
+  const onContentChangeHandler = (newContent) => {
     updateEditorContent({
       ...editorContent,
       content: newContent,
-    })
-  }
+    });
+  };
 
   if (isAuthenticated && !userDetails) {
-    toastr.error("Error", "You need to login first")
-    history.push("/admin/login")
+    toastr.error("Error", "You need to login first");
+    history.push("/admin/login");
   }
 
   return (
@@ -146,7 +146,7 @@ const NewsPortal = ({
                               className="form-control"
                               name="title"
                               id="title"
-                              onChange={e => onChange(e)}
+                              onChange={(e) => onChange(e)}
                               value={title}
                               ref={register({
                                 required: {
@@ -207,17 +207,17 @@ const NewsPortal = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   isAuthenticated: state.global.isAuthenticated,
-})
+});
 
 const mapDispatchToProps = {
   getCurrentNews,
   updateNews,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(NewsPortal)
+export default connect(mapStateToProps, mapDispatchToProps)(NewsPortal);

@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { useHistory } from "react-router-dom"
-import { toastr } from "react-redux-toastr"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -12,14 +12,14 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
-} from "reactstrap"
-import DatePicker from "react-datepicker"
+} from "reactstrap";
+import DatePicker from "react-datepicker";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 import {
   formatDate,
   calculatePercentage,
@@ -27,16 +27,16 @@ import {
   getCurrentDate,
   getFirstMonthDate,
   getQueryParams,
-} from "../../../../store/utils/util"
+} from "../../../../store/utils/util";
 
 //redux & actions
 import {
   getUserSaleList,
   countSaleUserEarning,
-} from "../../../../store/Actions/salesAction"
-import { formatPhoneNumber } from "react-phone-number-input"
-import ButtonComp from "components/Common/Button/Button"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../../store/Actions/salesAction";
+import { formatPhoneNumber } from "react-phone-number-input";
+import ButtonComp from "components/Common/Button/Button";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const SaleUserPerformenceList = ({
   userDetails,
@@ -53,43 +53,43 @@ const SaleUserPerformenceList = ({
     endDate: getCurrentDate(),
     selectedStatus: "all",
     searchText: "",
-  })
-  const [isLoading, toggleLoader] = useState(false)
-  const [isCalculating, toggleCalculator] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
+  const [isCalculating, toggleCalculator] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalEarning, updateTotalEarning] = useState(0)
-  const [queryParams, updateQueryParams] = useState(null)
+  });
+  const [totalEarning, updateTotalEarning] = useState(0);
+  const [queryParams, updateQueryParams] = useState(null);
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     modalBodyData: null,
-  })
+  });
 
   const { selectedStatus, startDate, endDate, activePage, searchText } =
-    appState
-  const { rows, count } = listState
-  const { isDetailModalOpen, modalBodyData } = modalData
+    appState;
+  const { rows, count } = listState;
+  const { isDetailModalOpen, modalBodyData } = modalData;
 
   useEffect(() => {
-    let qParams = getQueryParams(location.search)
-    updateQueryParams(qParams)
-  }, [])
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
+  }, []);
 
   useEffect(() => {
     if (params && params.id) {
-      getAllDataList()
+      getAllDataList();
     }
-  }, [selectedStatus, startDate, endDate, activePage, searchText])
+  }, [selectedStatus, startDate, endDate, activePage, searchText]);
 
   useEffect(() => {
-    fetchTotalEarningHandler()
-  }, [selectedStatus, startDate, endDate, searchText])
+    fetchTotalEarningHandler();
+  }, [selectedStatus, startDate, endDate, searchText]);
 
   const getAllDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getUserSaleList({
         pageNumber: activePage,
         startDate,
@@ -97,103 +97,103 @@ const SaleUserPerformenceList = ({
         selectedStatus,
         searchText,
         userId: params && params.id,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const fetchTotalEarningHandler = async () => {
     try {
-      toggleCalculator(true)
+      toggleCalculator(true);
       let result = await countSaleUserEarning({
         startDate,
         endDate,
         selectedStatus,
         searchText,
         userId: params && params.id,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result || result === 0) {
-        console.log(result)
-        updateTotalEarning(result)
+        console.log(result);
+        updateTotalEarning(result);
       }
-      toggleCalculator(false)
+      toggleCalculator(false);
     } catch (e) {
-      toggleCalculator(false)
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      toggleCalculator(false);
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         ...appState,
         searchText: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handelEndDateSearch = date => {
+  const handelEndDateSearch = (date) => {
     try {
       updateAppState({
         ...appState,
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const toggleDataViewerModal = data => {
+  const toggleDataViewerModal = (data) => {
     updateModalData({
       ...modalData,
       isDetailModalOpen: !isDetailModalOpen,
       modalBodyData: data,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const titleByBodyTemplate = ({ profile }) => {
     return (
@@ -204,69 +204,69 @@ const SaleUserPerformenceList = ({
             : rowData.title}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneNumberBodyTemplate = ({ profile }) => {
     return (
       <React.Fragment>
         <span>{formatPhoneNumber(addPlus(profile.phoneNumber))}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const packageBodyTemplate = rowData => {
+  const packageBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.packageTitle} (${rowData.quantity})`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const priceBodyTemplate = rowData => {
+  const priceBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`$${rowData.basePrice}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const paymentMethodBodyTemplate = rowData => {
+  const paymentMethodBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.paymentMethod}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const processedOnBodyTemplate = rowData => {
+  const processedOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.processedOn)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const firstPurchaseBodyTemplate = rowData => {
+  const firstPurchaseBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.isFirstPurchase === 1 ? "Yes" : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const comissionBodyTemplate = rowData => {
-    let commission = 5
+  const comissionBodyTemplate = (rowData) => {
+    let commission = 5;
     if (rowData.isFirstPurchase === 1) {
-      commission = 10
+      commission = 10;
     }
-    let commissionAmount = calculatePercentage(basePrice, commission)
+    let commissionAmount = calculatePercentage(basePrice, commission);
     return (
       <React.Fragment>
         <span>{`$${commissionAmount} (${commission}%)`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ profile }) => {
     return (
@@ -277,10 +277,10 @@ const SaleUserPerformenceList = ({
               <span>
                 <ButtonComp
                   icon="eye"
-                  onClick={e => {
+                  onClick={(e) => {
                     window.open(
                       `/admin/sales/agency/viewDetail/${profile.agencyId}?name=${profile.title}`
-                    )
+                    );
                   }}
                   toolTip="View Detail"
                   btnClass="normal"
@@ -290,12 +290,12 @@ const SaleUserPerformenceList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -477,21 +477,21 @@ const SaleUserPerformenceList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   homeCare: state.homeCare,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getUserSaleList,
   countSaleUserEarning,
-}
+};
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(SaleUserPerformenceList)
+)(SaleUserPerformenceList);

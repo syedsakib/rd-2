@@ -1,8 +1,8 @@
-import axios from "axios"
-import { toastr } from "react-redux-toastr"
-import { postRequest, postRequestWithAuth } from "./apiAction"
+import axios from "axios";
+import { toastr } from "react-redux-toastr";
+import { postRequest, postRequestWithAuth } from "./apiAction";
 
-export const getAppLogs = (pageNumber, options) => async dispatch => {
+export const getAppLogs = (pageNumber, options) => async (dispatch) => {
   try {
     const {
       searchText,
@@ -11,7 +11,7 @@ export const getAppLogs = (pageNumber, options) => async dispatch => {
       endDate,
       sortingOrder,
       sortingColumn,
-    } = options
+    } = options;
     let res = await postRequestWithAuth("developer/getAppLogs", {
       pageNumber,
       searchText,
@@ -20,13 +20,13 @@ export const getAppLogs = (pageNumber, options) => async dispatch => {
       endDate,
       sortingOrder,
       sortingColumn,
-    })
+    });
     if (res.data.status === 200) {
-      return res.data.data
+      return res.data.data;
     } else {
-      return false
+      return false;
     }
   } catch (err) {
-    toastr.error("Error", "Something went wrong, Please try again")
+    toastr.error("Error", "Something went wrong, Please try again");
   }
-}
+};

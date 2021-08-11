@@ -1,28 +1,28 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
+import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
-import DatePicker from "react-datepicker"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
+import DatePicker from "react-datepicker";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getDataProcessList,
   cancelDataUpdateProcess,
   updateProcessApprovalStatus,
-} from "../../../../store/Actions/scrapeAction"
+} from "../../../../store/Actions/scrapeAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import { addPlus, formatDate } from "store/utils/util"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import { addPlus, formatDate } from "store/utils/util";
 
 const ProcessList = ({
   getDataProcessList,
@@ -31,117 +31,117 @@ const ProcessList = ({
   userDetails,
 }) => {
   // declare states
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [filterState, updateFilterState] = useState({
     selectedStatus: "all",
     startDate: null,
     endDate: null,
     activePage: 1,
-  })
+  });
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalCount, updateTotalCount] = useState(0)
-  const { selectedStatus, startDate, endDate, activePage } = filterState
-  const { rows, count } = listState
+  });
+  const [totalCount, updateTotalCount] = useState(0);
+  const { selectedStatus, startDate, endDate, activePage } = filterState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getDataListHandler()
-  }, [activePage, selectedStatus, startDate, endDate])
+    getDataListHandler();
+  }, [activePage, selectedStatus, startDate, endDate]);
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getDataProcessList({
         pageNumber: activePage,
         selectedStatus,
         startDate,
         endDate,
         activePage,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        console.log(result)
-        const { rows, count } = result
+        console.log(result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
-        updateTotalCount(count)
+        });
+        updateTotalCount(count);
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const onStatusChange = value => {
+  const onStatusChange = (value) => {
     try {
       updateFilterStateHandler({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateFilterStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const handelDateSearch = date => {
+  const handelDateSearch = (date) => {
     try {
       updateFilterStateHandler({
         startDate: date,
         endDate: new Date(),
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-  const handelEndDateSearch = date => {
+  };
+  const handelEndDateSearch = (date) => {
     try {
       updateFilterStateHandler({
         endDate: date,
-      })
+      });
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const cancelDataProcessHandler = async processId => {
+  const cancelDataProcessHandler = async (processId) => {
     try {
       showConfirmAlert({
         title: "Are you sure?",
         desc: "Do you want to cancel this process?",
-        handler: async userResult => {
+        handler: async (userResult) => {
           if (userResult === 2) {
-            return
+            return;
           }
-          let result = await cancelDataUpdateProcess(processId)
+          let result = await cancelDataUpdateProcess(processId);
           if (result) {
-            getDataListHandler()
+            getDataListHandler();
           }
         },
         yesBtnText: "Yes",
         noBtnText: "No",
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   const proccessApprovalStatusHandler = async (processId, processStatus) => {
     try {
@@ -150,79 +150,79 @@ const ProcessList = ({
         desc: `Do you want to ${
           processStatus === 1 ? "Approve" : "Reject"
         } this process?`,
-        handler: async userResult => {
+        handler: async (userResult) => {
           if (userResult === 2) {
-            return
+            return;
           }
           let result = await updateProcessApprovalStatus(
             processId,
             processStatus
-          )
+          );
           if (result) {
-            getDataListHandler()
+            getDataListHandler();
           }
         },
         yesBtnText: "Yes",
         noBtnText: "No",
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const processNoBodyTemplate = rowData => {
+  const processNoBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {`Process-${rowData.id}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const dataCountBodyTemplate = rowData => {
+  const dataCountBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.totalDataCount ? rowData.totalDataCount : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const insertedBodyTemplate = rowData => {
+  const insertedBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.dataInserted ? rowData.dataInserted : 0}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const updatedBodyTemplate = rowData => {
+  const updatedBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.dataUpdated ? rowData.dataUpdated : 0}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const skippedBodyTemplate = rowData => {
+  const skippedBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.dataSkipped ? rowData.dataSkipped : 0}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const createdAtBodyTemplate = rowData => {
+  const createdAtBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const createdByBodyTemplate = rowData => {
+  const createdByBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -230,8 +230,8 @@ const ProcessList = ({
             `${rowData.adminUser.firstName} ${rowData.adminUser.lastName}`}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const cancelledByBodyTemplate = ({ processStatus, cancelUser }) => {
     return (
@@ -242,16 +242,16 @@ const ProcessList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.processStatus}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ processStatus, id }) => {
     return (
@@ -266,7 +266,7 @@ const ProcessList = ({
                     <ButtonComp
                       icon="check"
                       onClick={() => {
-                        proccessApprovalStatusHandler(is, 1)
+                        proccessApprovalStatusHandler(is, 1);
                       }}
                       toolTip="Approve"
                       btnClass="normal"
@@ -275,7 +275,7 @@ const ProcessList = ({
                     <ButtonComp
                       icon="ban"
                       onClick={() => {
-                        proccessApprovalStatusHandler(id, 2)
+                        proccessApprovalStatusHandler(id, 2);
                       }}
                       toolTip="Reject"
                       btnClass="danger"
@@ -285,7 +285,7 @@ const ProcessList = ({
               <ButtonComp
                 icon="eye"
                 onClick={() => {
-                  history.push(`/admin/scrape/process/dataList/${id}`)
+                  history.push(`/admin/scrape/process/dataList/${id}`);
                 }}
                 toolTip="View DataList"
                 btnClass="normal"
@@ -297,7 +297,7 @@ const ProcessList = ({
                   <ButtonComp
                     icon="close"
                     onClick={() => {
-                      cancelDataProcessHandler(id)
+                      cancelDataProcessHandler(id);
                     }}
                     toolTip="Cancel"
                     btnClass="danger"
@@ -307,8 +307,8 @@ const ProcessList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -354,8 +354,8 @@ const ProcessList = ({
                       <select
                         className="form-control form-select"
                         value={selectedStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value)
+                        onChange={(e) => {
+                          onStatusChange(e.target.value);
                         }}
                       >
                         <option value="all">All</option>
@@ -491,18 +491,18 @@ const ProcessList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
-})
+});
 
 const mapDispatchToProps = {
   getDataProcessList,
   cancelDataUpdateProcess,
   updateProcessApprovalStatus,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProcessList)
+export default connect(mapStateToProps, mapDispatchToProps)(ProcessList);

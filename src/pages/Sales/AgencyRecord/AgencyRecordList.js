@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -14,162 +14,162 @@ import {
   InputGroup,
   Button,
   Badge,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import { formatDate } from "../../../store/utils/util"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import { formatDate } from "../../../store/utils/util";
 
 //redux & actions
 import {
   getHomeCareAgencyDataChangeRecord,
   updateRecordChangeStatus,
-} from "../../../store/Actions/adminAction"
-import DetailModal from "./DetailModal"
-import showConfirmAlert from "components/Common/ConfirmAlert/ConfirmAlert"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/adminAction";
+import DetailModal from "./DetailModal";
+import showConfirmAlert from "components/Common/ConfirmAlert/ConfirmAlert";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const AgencyRecordList = ({
   getHomeCareAgencyDataChangeRecord,
   updateRecordChangeStatus,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appState, updateAppState] = useState({
     activePage: 1,
     searchText: "",
     selectedStatus: "pending",
     sortColumn: "",
     sortOrder: 0,
-  })
-  const [selectedRecordId, setSelectedRecordId] = useState(0)
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [selectedRecordId, setSelectedRecordId] = useState(0);
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
 
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //
-  const [totalCount, updateTotalCount] = useState(0)
+  const [totalCount, updateTotalCount] = useState(0);
   const { activePage, searchText, selectedStatus, sortColumn, sortOrder } =
-    appState
-  const { rows, count } = listState
+    appState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getDataList()
-  }, [searchText, selectedStatus, activePage, sortColumn, sortOrder])
+    getDataList();
+  }, [searchText, selectedStatus, activePage, sortColumn, sortOrder]);
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getHomeCareAgencyDataChangeRecord({
         activePage,
         searchText,
         selectedStatus,
         sortColumn,
         sortOrder,
-      })
+      });
       if (result) {
-        console.log("result result", result)
-        const { rows, count } = result
+        console.log("result result", result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count: count.length,
-        })
+        });
         // updateTotalCount(getTotalCount(maxLimit, count))
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
-      toggleLoader(false)
+      console.log(e);
+      toastr.error("Error", e.toString());
+      toggleLoader(false);
     }
-  }
+  };
 
-  const updateAppStateHandler = newState => {
-    updateAppState({ ...appState, ...newState })
-  }
+  const updateAppStateHandler = (newState) => {
+    updateAppState({ ...appState, ...newState });
+  };
 
-  const onStatusChange = e => {
+  const onStatusChange = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         selectedStatus: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppStateHandler({
         searchText: value,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = pNumber => {
+  const handlePageChange = (pNumber) => {
     updateAppStateHandler({
       activePage: pNumber,
-    })
-  }
+    });
+  };
 
-  const toggleViewModal = recordId => {
-    setIsModalOpen(!isModalOpen)
-    setSelectedRecordId(recordId)
-  }
+  const toggleViewModal = (recordId) => {
+    setIsModalOpen(!isModalOpen);
+    setSelectedRecordId(recordId);
+  };
 
-  const approveHandler = id => {
+  const approveHandler = (id) => {
     showConfirmAlert({
       title: "Are you sure?",
       desc: "Do you want approve these changes?",
       yesBtnText: "Yes",
       noBtnText: "No",
-      handler: async result => {
+      handler: async (result) => {
         if (result === 2) {
-          return
+          return;
         }
-        this.changeStatusHandler("approved", id)
+        this.changeStatusHandler("approved", id);
       },
-    })
-  }
+    });
+  };
 
-  const rejectHandler = id => {
+  const rejectHandler = (id) => {
     showConfirmAlert({
       title: "Are you sure?",
       desc: "Do you want reject these changes?",
       yesBtnText: "Yes",
       noBtnText: "No",
-      handler: result => {
+      handler: (result) => {
         if (result === 2) {
-          return
+          return;
         }
-        this.changeStatusHandler("rejected", id)
+        this.changeStatusHandler("rejected", id);
       },
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
   const titleByBodyTemplate = ({ record }) => {
     return (
       <React.Fragment>
         <span>{record.title}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const updatedByBodyTemplate = ({ record }) => {
     return (
@@ -180,8 +180,8 @@ const AgencyRecordList = ({
           "N/A"
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const emailBodyTemplate = ({ record }) => {
     return (
@@ -190,8 +190,8 @@ const AgencyRecordList = ({
           {record.salesCreator.email ? record.salesCreator.email : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const phoneBodyTemplate = ({ record }) => {
     return (
@@ -203,18 +203,18 @@ const AgencyRecordList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const updatedOnBodyTemplate = rowData => {
+  const updatedOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.approvalStatus == "pending" ? (
@@ -240,8 +240,8 @@ const AgencyRecordList = ({
           </Badge>
         )}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({ id, record }) => {
     return (
@@ -280,13 +280,13 @@ const AgencyRecordList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -452,16 +452,16 @@ const AgencyRecordList = ({
         />
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
 function mapStateToProps(state, ownProps) {
-  return {}
+  return {};
 }
 
 const mapDispatchToProps = {
   updateRecordChangeStatus,
   getHomeCareAgencyDataChangeRecord,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgencyRecordList)
+export default connect(mapStateToProps, mapDispatchToProps)(AgencyRecordList);

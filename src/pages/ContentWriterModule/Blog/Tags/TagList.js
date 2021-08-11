@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -12,149 +12,149 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { formatDate } from "../../../../store/utils/util"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { formatDate } from "../../../../store/utils/util";
 
 //redux & actions
-import { getTagList, deleteTag } from "../../../../store/Actions/adminAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ReactTooltip from "react-tooltip"
+import { getTagList, deleteTag } from "../../../../store/Actions/adminAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ReactTooltip from "react-tooltip";
 
 const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [appStates, updateAppState] = useState({
     activePage: 1,
     searchText: "",
-  })
+  });
   const [tagList, updateTagList] = useState({
     rows: [],
     count: 0,
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [modalData, updateModalData] = useState({
     showAddModal: false,
     showEditModal: false,
     selectedTag: null,
-  })
-  const { activePage, searchText } = appStates
-  const { rows, count } = tagList
-  const { showAddModal, showEditModal, selectedTag } = modalData
+  });
+  const { activePage, searchText } = appStates;
+  const { rows, count } = tagList;
+  const { showAddModal, showEditModal, selectedTag } = modalData;
 
   useEffect(() => {
-    getTagListHandler()
-  }, [activePage, searchText])
+    getTagListHandler();
+  }, [activePage, searchText]);
 
   const getTagListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getTagList({
         pageNumber: activePage,
         searchText,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateTagList({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handleSearchInput = e => {
-    let val = e.target.value
+  const handleSearchInput = (e) => {
+    let val = e.target.value;
     updateAppState({
       ...appStates,
       searchText: val,
-    })
-  }
-  const handlePageChange = pageNumber => {
+    });
+  };
+  const handlePageChange = (pageNumber) => {
     updateAppState({
       ...appStates,
       activePage: pageNumber,
-    })
-  }
+    });
+  };
 
   const toggleModal = (type, tag) => {
     if (type === "insert") {
       updateModalData({
         ...modalData,
         showAddModal: !showAddModal,
-      })
+      });
     } else if (type === "edit") {
       updateModalData({
         ...modalData,
         showEditModal: !showEditModal,
         selectedTag: tag,
-      })
+      });
     }
-  }
+  };
 
-  const deleteTagHandler = async id => {
+  const deleteTagHandler = async (id) => {
     try {
-      let result = await deleteTag(id)
+      let result = await deleteTag(id);
       if (result) {
-        let newRows = rows.filter(item => item.id !== id)
+        let newRows = rows.filter((item) => item.id !== id);
         updateTagList({
           ...tagList,
           rows: newRows,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.title ? rowData.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const descriptionBodyTemplate = rowData => {
+  const descriptionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.description}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const addedOnBodyTemplate = rowData => {
+  const addedOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{formatDate(rowData.createdAt)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const addedByBodyTemplate = ({ user }) => {
     return (
       <React.Fragment>
         <span>{`${user.firstName} ${user.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -178,7 +178,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                 className="btn-view-status tb-icon"
                 title="edit"
                 onClick={() => {
-                  deleteTagHandler(rowData.id)
+                  deleteTagHandler(rowData.id);
                 }}
                 data-tip="Delete"
               >
@@ -189,8 +189,8 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -334,17 +334,17 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   isAuthenticated: state.global.isAuthenticated,
-})
+});
 
 const mapDispatchToProps = {
   getTagList,
   deleteTag,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(TagList)
+export default connect(mapStateToProps, mapDispatchToProps)(TagList);

@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -13,32 +13,32 @@ import {
   CardBody,
   Badge,
   InputGroup,
-} from "reactstrap"
-import Switch from "react-switch"
+} from "reactstrap";
+import Switch from "react-switch";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../store/Actions/userAction"
+} from "../../../../store/Actions/userAction";
 import {
   getHomeCareAgencyList,
   getSaleUsers,
   assignBusinessToSales,
   updateAgencyStatus,
-} from "../../../../store/Actions/salesAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ReactTooltip from "react-tooltip"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import { formatPhoneNumber } from "react-phone-number-input"
-import { addPlus } from "store/utils/util"
+} from "../../../../store/Actions/salesAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ReactTooltip from "react-tooltip";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import { formatPhoneNumber } from "react-phone-number-input";
+import { addPlus } from "store/utils/util";
 
 const HomeCareAgencyList = ({
   getHomeCareAgencyList,
@@ -61,19 +61,19 @@ const HomeCareAgencyList = ({
     isAllSelected: false,
     maxLimit: 2000,
     selectedStatus: 1,
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
-  const [totalCount, updateTotalCount] = useState(0)
-  const [saleUserList, updateSaleUsers] = useState([])
-  const [stateList, updateStateList] = useState([])
-  const [stateCities, updateStateCityList] = useState([])
-  const [cityList, updateCityList] = useState([])
-  const [zipCodeList, updateZipCodeList] = useState([])
-  const [selectedAgencies, updateSelectedAgencies] = useState([])
+  });
+  const [totalCount, updateTotalCount] = useState(0);
+  const [saleUserList, updateSaleUsers] = useState([]);
+  const [stateList, updateStateList] = useState([]);
+  const [stateCities, updateStateCityList] = useState([]);
+  const [cityList, updateCityList] = useState([]);
+  const [zipCodeList, updateZipCodeList] = useState([]);
+  const [selectedAgencies, updateSelectedAgencies] = useState([]);
   const {
     selectedAssignStatus,
     selectedClaimStatus,
@@ -86,41 +86,41 @@ const HomeCareAgencyList = ({
     isAllSelected,
     maxLimit,
     selectedStatus,
-  } = appState
-  const { rows, count } = listState
+  } = appState;
+  const { rows, count } = listState;
 
   useEffect(() => {
-    getSaleUserHandler()
-    getUsStatesHandler()
-    agencyListDataFetchHandler()
-  }, [])
+    getSaleUserHandler();
+    getUsStatesHandler();
+    agencyListDataFetchHandler();
+  }, []);
 
   useEffect(() => {
-    updateSelectedAgencies([])
-  }, [isAllSelected])
+    updateSelectedAgencies([]);
+  }, [isAllSelected]);
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getAllUSStates()
+      let result = await getAllUSStates();
       if (result) {
-        updateStateList(result)
+        updateStateList(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const getSaleUserHandler = async () => {
     try {
-      let result = await getSaleUsers()
+      let result = await getSaleUsers();
       //      console.log(`Sale User `, result);
       if (result) {
-        updateSaleUsers(result)
+        updateSaleUsers(result);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const agencyListDataFetchHandler = async (
     activePage = 1,
@@ -135,9 +135,9 @@ const HomeCareAgencyList = ({
     selectedStatus
   ) => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       if (resetSelection) {
-        updateSelectedAgencies([])
+        updateSelectedAgencies([]);
       }
       let result = await getHomeCareAgencyList(activePage, {
         selectedAssignStatus,
@@ -148,30 +148,30 @@ const HomeCareAgencyList = ({
         searchText,
         mxLimit,
         selectedStatus,
-      })
+      });
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
-        updateTotalCount(getTotalCount(maxLimit, count))
+        });
+        updateTotalCount(getTotalCount(maxLimit, count));
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
       updateAppState({
         ...appState,
         searchText: value,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       agencyListDataFetchHandler(
         1,
         selectedAssignStatus,
@@ -183,11 +183,11 @@ const HomeCareAgencyList = ({
         maxLimit,
         true,
         selectedStatus
-      )
+      );
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
   const onStatusChange = (value, statusType) => {
     try {
       if (statusType === "assignStatus") {
@@ -196,7 +196,7 @@ const HomeCareAgencyList = ({
           selectedAssignStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           value,
@@ -208,14 +208,14 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       } else if (statusType === "claimStatus") {
         updateAppState({
           ...appState,
           selectedClaimStatus: value,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedAssignStatus,
@@ -227,27 +227,27 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       } else if (statusType === "maxLimit") {
-        console.log(`Entered MaxLimit`)
+        console.log(`Entered MaxLimit`);
         updateAppState({
           ...appState,
           isAllSelected: false,
           activePage: 1,
           maxLimit: value,
-        })
-        updateTotalCount(getTotalCount(value, count))
+        });
+        updateTotalCount(getTotalCount(value, count));
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
-  const handlePageChange = pNumber => {
+  };
+  const handlePageChange = (pNumber) => {
     updateAppState({
       ...appState,
       activePage: pNumber,
-    })
-    console.log(`Selected State is ${selectedState}`)
+    });
+    console.log(`Selected State is ${selectedState}`);
     agencyListDataFetchHandler(
       pNumber,
       selectedAssignStatus,
@@ -259,26 +259,26 @@ const HomeCareAgencyList = ({
       maxLimit,
       false,
       selectedStatus
-    )
-  }
+    );
+  };
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       updateAppState({
         ...appState,
         selectedState: val,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
-          const cities = [...new Set(result.map(item => item.city))]
-          updateStateCityList(result)
+          const cities = [...new Set(result.map((item) => item.city))];
+          updateStateCityList(result);
           updateCityList(
-            cities.map(item => ({ value: item, text: item, key: item }))
-          )
+            cities.map((item) => ({ value: item, text: item, key: item }))
+          );
           agencyListDataFetchHandler(
             1,
             selectedAssignStatus,
@@ -290,12 +290,12 @@ const HomeCareAgencyList = ({
             maxLimit,
             true,
             selectedStatus
-          )
+          );
         }
       } else {
-        updateStateCityList([])
-        updateCityList([])
-        updateZipCodeList([])
+        updateStateCityList([]);
+        updateCityList([]);
+        updateZipCodeList([]);
 
         agencyListDataFetchHandler(
           1,
@@ -308,42 +308,42 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
-        updateZipCodeList(allZipList)
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        updateZipCodeList(allZipList);
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           isAllSelected: false,
           activePage: 1,
-        })
+        });
 
         agencyListDataFetchHandler(
           1,
@@ -356,15 +356,15 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       } else {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         updateAppState({
           ...appState,
           selectedCities: cities,
           selectedZipCodes: [],
           isAllSelected: false,
-        })
+        });
 
         agencyListDataFetchHandler(
           1,
@@ -377,23 +377,23 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateAppState({
         ...appState,
         selectedZipCodes: zips,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
-        updateZipCodeList([])
+        updateZipCodeList([]);
         agencyListDataFetchHandler(
           1,
           selectedAssignStatus,
@@ -405,7 +405,7 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       } else {
         agencyListDataFetchHandler(
           1,
@@ -418,105 +418,108 @@ const HomeCareAgencyList = ({
           maxLimit,
           true,
           selectedStatus
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const onUserSelection = e => {
-    let value = e.target.value
+  const onUserSelection = (e) => {
+    let value = e.target.value;
     updateAppState({
       ...appState,
       selectedUser: value,
-    })
-  }
+    });
+  };
 
-  const onAgencySelection = id => {
+  const onAgencySelection = (id) => {
     try {
       // console.log(`Id is ${id}`);
       if (id === 0) {
         updateAppState({
           ...appState,
           isAllSelected: !isAllSelected,
-        })
+        });
       } else {
-        let newAgencySelectionList
-        let isExist = selectedAgencies.filter(item => item == id)
+        let newAgencySelectionList;
+        let isExist = selectedAgencies.filter((item) => item == id);
         if (isExist[0]) {
-          newAgencySelectionList = selectedAgencies.filter(item => item !== id)
+          newAgencySelectionList = selectedAgencies.filter(
+            (item) => item !== id
+          );
         } else {
-          newAgencySelectionList = [...selectedAgencies, id]
+          newAgencySelectionList = [...selectedAgencies, id];
         }
-        updateSelectedAgencies(newAgencySelectionList)
+        updateSelectedAgencies(newAgencySelectionList);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const selectionChecker = id => {
-    let result = selectedAgencies.filter(item => item == id)
+  const selectionChecker = (id) => {
+    let result = selectedAgencies.filter((item) => item == id);
     if (isAllSelected) {
       if (result[0]) {
-        return false
+        return false;
       }
-      return true
+      return true;
     } else if (result[0]) {
-      return true
+      return true;
     }
-    return false
-  }
+    return false;
+  };
 
   const countSelectedAgencies = () => {
     if (isAllSelected) {
-      let totalAgencies = totalCount - selectedAgencies.length
-      return totalAgencies
+      let totalAgencies = totalCount - selectedAgencies.length;
+      return totalAgencies;
     } else {
-      return selectedAgencies.length
+      return selectedAgencies.length;
     }
-  }
+  };
 
   const confirmRequestHandler = () => {
     try {
       if (!isAllSelected && selectedAgencies.length === 0) {
-        throw "No agency has been selected"
+        throw "No agency has been selected";
       }
       if (!selectedUser) {
-        throw "No User Selected"
+        throw "No User Selected";
       }
-      const maxLimit = 2000
-      let totalSelectedAgencies = countSelectedAgencies()
+      const maxLimit = 2000;
+      let totalSelectedAgencies = countSelectedAgencies();
       if (totalSelectedAgencies > maxLimit) {
-        throw "Max 2000 Agencies can be assigned per transaction"
+        throw "Max 2000 Agencies can be assigned per transaction";
       }
       let selectedUserData = saleUserList.filter(
-        item => item.id === parseInt(selectedUser)
-      )
-      if (!selectedUserData || !selectedUserData[0]) throw "No Sales User Found"
+        (item) => item.id === parseInt(selectedUser)
+      );
+      if (!selectedUserData || !selectedUserData[0])
+        throw "No Sales User Found";
 
       showConfirmAlert({
         title: "Are you sure?",
         desc: `Do you want to assign These agencies to ${selectedUserData[0].firstName} ${selectedUserData[0].lastName}?`,
         yesBtnText: "Yes",
         noBtnText: "No",
-        handler: async result => {
+        handler: async (result) => {
           if (result === 2) {
-            return
+            return;
           }
-          assignBusinessHandler()
+          assignBusinessHandler();
         },
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const assignBusinessHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await assignBusinessToSales({
         selectedAssignStatus,
         selectedClaimStatus,
@@ -528,13 +531,13 @@ const HomeCareAgencyList = ({
         selectedAgencies,
         selectedUser,
         maxLimit,
-      })
+      });
 
       updateAppState({
         ...appState,
         isAllSelected: false,
         activePage: 1,
-      })
+      });
 
       // update list
       agencyListDataFetchHandler(
@@ -548,29 +551,29 @@ const HomeCareAgencyList = ({
         maxLimit,
         true,
         selectedStatus
-      )
+      );
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const getTotalCount = (newLimit, resultCount) => {
     //    console.log(`Count is ${newLimit}`);
     if (newLimit !== "all") {
-      return resultCount > newLimit ? newLimit : resultCount
+      return resultCount > newLimit ? newLimit : resultCount;
     }
-    return resultCount
-  }
+    return resultCount;
+  };
 
-  const onSelectedStatusChangeHandler = e => {
-    const val = e.target.value
+  const onSelectedStatusChangeHandler = (e) => {
+    const val = e.target.value;
     updateAppState({
       ...appState,
       isAllSelected: false,
       selectedStatus: val,
       activePage: 1,
-    })
+    });
 
     agencyListDataFetchHandler(
       1,
@@ -583,16 +586,16 @@ const HomeCareAgencyList = ({
       maxLimit,
       true,
       val
-    )
-  }
+    );
+  };
 
-  const onStatusChangeHandler = async rowdata => {
+  const onStatusChangeHandler = async (rowdata) => {
     try {
       const result = await updateAgencyStatus({
         agencyId: rowdata.id,
         agencyStatus: !status.status,
-      })
-      console.log(result)
+      });
+      console.log(result);
       if (result) {
         agencyListDataFetchHandler(
           activePage,
@@ -605,41 +608,41 @@ const HomeCareAgencyList = ({
           maxLimit,
           false,
           selectedStatus
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const checkBodyTemplate = rowData => {
+  const checkBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <input
           type="checkbox"
           // value={index}
           onChange={() => {
-            onAgencySelection(rowData.id)
+            onAgencySelection(rowData.id);
           }}
           checked={selectionChecker(rowData.id)}
         />
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.title ? rowData.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -648,49 +651,49 @@ const HomeCareAgencyList = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
-  const cityBodyTemplate = rowData => {
+    );
+  };
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipCode ? rowData.zipCode : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const isAssignedBodyTemplate = rowData => {
+  const isAssignedBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.isAssigned === 1 ? "Yes" : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const isClaimedBodyTemplate = rowData => {
+  const isClaimedBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.isClaimed === 1 ? "Yes" : "No"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -700,10 +703,10 @@ const HomeCareAgencyList = ({
           />
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -714,15 +717,15 @@ const HomeCareAgencyList = ({
                 onClick={() => {
                   window.open(
                     `/admin/homeCare/agency/viewDetail/${rowData.id}?name=${rowData.title}`
-                  )
+                  );
                 }}
                 toolTip="View Agency"
                 btnClass="normal"
               />
               <ButtonComp
                 icon="link"
-                onClick={e => {
-                  window.open(`${getFrontUrl()}/home-care/${rowData.slug}`)
+                onClick={(e) => {
+                  window.open(`${getFrontUrl()}/home-care/${rowData.slug}`);
                 }}
                 toolTip="Go to Page"
                 btnClass="normal"
@@ -732,7 +735,7 @@ const HomeCareAgencyList = ({
                 onClick={() => {
                   window.open(
                     `/admin/homeCare/agency/assignHistory/${rowData.id}?name=${rowData.title}`
-                  )
+                  );
                 }}
                 toolTip="Assign History"
                 btnClass="normal"
@@ -741,8 +744,8 @@ const HomeCareAgencyList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -780,7 +783,7 @@ const HomeCareAgencyList = ({
                               <option value={state_name} key={`s-${index}`}>
                                 {state_name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -845,8 +848,8 @@ const HomeCareAgencyList = ({
                       <select
                         className="form-control form-select"
                         value={selectedAssignStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "assignStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "assignStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -859,8 +862,8 @@ const HomeCareAgencyList = ({
                       <select
                         className="form-control form-select"
                         value={selectedClaimStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "claimStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "claimStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -873,8 +876,8 @@ const HomeCareAgencyList = ({
                       <select
                         className="form-control form-select"
                         value={maxLimit}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "maxLimit")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "maxLimit");
                         }}
                       >
                         <option value="all">All</option>
@@ -903,12 +906,12 @@ const HomeCareAgencyList = ({
                             const {
                               user: { firstName, lastName, email },
                               id,
-                            } = item
+                            } = item;
                             return (
                               <option value={id} key={`s-${id}`}>
                                 {`${firstName} ${lastName} - (${email})`}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -1040,12 +1043,12 @@ const HomeCareAgencyList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getHomeCareAgencyList,
@@ -1054,6 +1057,6 @@ const mapDispatchToProps = {
   getSaleUsers,
   assignBusinessToSales,
   updateAgencyStatus,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeCareAgencyList)
+export default connect(mapStateToProps, mapDispatchToProps)(HomeCareAgencyList);

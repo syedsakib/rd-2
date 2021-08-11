@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { Fragment, useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory } from "react-router-dom"
+import MetaTags from "react-meta-tags";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory } from "react-router-dom";
 import {
   Container,
   Row,
@@ -13,40 +13,40 @@ import {
   Media,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
 //Import Breadcrumb
-import { useForm } from "react-hook-form"
+import { useForm } from "react-hook-form";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import ReactTags from "components/Common/ReactTags/ReactTags"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import ReactTags from "components/Common/ReactTags/ReactTags";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
 //redux & actions
-import { useDispatch } from "react-redux"
-import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction"
-import { addCorporateManager } from "../../../../store/Actions/corporateAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import { useDispatch } from "react-redux";
+import { getSuggestedLocationByZipCode } from "../../../../store/Actions/customerAction";
+import { addCorporateManager } from "../../../../store/Actions/corporateAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const CreateCorporateAdminForm = ({ match: { params } }) => {
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   // declare state
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
-  const [suggestedPlaceList, updatePlaceList] = useState([])
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
   const [formData, updateFormData] = useState({
     firstName: "",
     lastName: "",
@@ -58,8 +58,8 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
     zipcode: "",
     location: "",
     address: "",
-  })
-  const dispatch = useDispatch()
+  });
+  const dispatch = useDispatch();
 
   // destructure states
   const {
@@ -73,60 +73,60 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
     zipcode,
     address,
     location,
-  } = formData
+  } = formData;
 
   // app functions
-  const updateFormHandler = newData => {
+  const updateFormHandler = (newData) => {
     updateFormData({
       ...formData,
       ...newData,
-    })
-  }
-  const onChange = e => {
-    let name = e.target.name
-    let value = e.target.value
-    updateFormHandler({ [name]: value })
-  }
+    });
+  };
+  const onChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    updateFormHandler({ [name]: value });
+  };
 
   const onPlaceChange = (city, state, zipcode) => {
     updateFormHandler({
       state,
       city,
       zipcode,
-    })
-  }
+    });
+  };
 
-  const handleKeyWordChangeForLocationZipCode = async value => {
-    let val = value
-    onPlaceChange("", "", value)
+  const handleKeyWordChangeForLocationZipCode = async (value) => {
+    let val = value;
+    onPlaceChange("", "", value);
     if (val && val.trim() !== "") {
-      let result = await dispatch(getSuggestedLocationByZipCode(val))
+      let result = await dispatch(getSuggestedLocationByZipCode(val));
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city}, ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const onLocationSelectHandler = value => {
+  const onLocationSelectHandler = (value) => {
     if (value) {
-      const { state_name, city, zip, state_id } = value
-      onPlaceChange(city, state_name, zip)
+      const { state_name, city, zip, state_id } = value;
+      onPlaceChange(city, state_name, zip);
     }
-  }
+  };
 
   const onSubmitHandler = async () => {
     try {
       if (isLoading) {
-        throw "A process is in progress. Please wait"
+        throw "A process is in progress. Please wait";
       }
       if (!params || !params.id) {
-        throw "No Corporate Id found"
+        throw "No Corporate Id found";
       }
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await dispatch(
         addCorporateManager({
           firstName,
@@ -139,20 +139,20 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
           address,
           id: params.id,
         })
-      )
+      );
       if (result) {
-        history.push(`/admin/corporate/managers/${params.id}`)
+        history.push(`/admin/corporate/managers/${params.id}`);
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -314,8 +314,8 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
                                 maxLength={14}
                                 type="text"
                                 value={phoneNumber}
-                                onChange={value => {
-                                  updateFormHandler({ phoneNumber: value })
+                                onChange={(value) => {
+                                  updateFormHandler({ phoneNumber: value });
                                 }}
                                 style={{ width: "100%" }}
                               />
@@ -355,7 +355,7 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
                                 id="city"
                                 name="city"
                                 value={city}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -370,7 +370,7 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
                                 id="state"
                                 name="state"
                                 value={state}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -388,7 +388,7 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
                                 id="address"
                                 name="address"
                                 value={address}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -421,7 +421,7 @@ const CreateCorporateAdminForm = ({ match: { params } }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default CreateCorporateAdminForm
+export default CreateCorporateAdminForm;

@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -12,21 +12,21 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
   getAllCMS,
   offStatusOfTemplate,
-} from "../../../../store/Actions/adminAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ReactTooltip from "react-tooltip"
+} from "../../../../store/Actions/adminAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ReactTooltip from "react-tooltip";
 
 const CMSList = ({ getAllCMS }) => {
   // declare states
@@ -34,81 +34,81 @@ const CMSList = ({ getAllCMS }) => {
     activePage: 1,
     searchText: "",
     limit: 10,
-  })
-  const [isLoading, toggleLoader] = useState(false)
-  const [listState, updateListState] = useState({ rows: [], count: 0 })
+  });
+  const [isLoading, toggleLoader] = useState(false);
+  const [listState, updateListState] = useState({ rows: [], count: 0 });
 
   // destructure state
-  const { activePage, searchText, limit } = filterState
-  const { rows, count } = listState
+  const { activePage, searchText, limit } = filterState;
+  const { rows, count } = listState;
 
   // app functions
   useEffect(() => {
-    getDataList()
-  }, [activePage, searchText])
+    getDataList();
+  }, [activePage, searchText]);
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
   const getDataList = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllCMS({
         pageNumber: activePage,
         searchText,
         limit,
-      })
-      console.log(`Cms List `, result)
+      });
+      console.log(`Cms List `, result);
       if (result) {
-        const { rows, count } = result
-        updateListState({ rows, count })
+        const { rows, count } = result;
+        updateListState({ rows, count });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const handlePageChange = newPage => {
+  const handlePageChange = (newPage) => {
     updateFilterStateHandler({
       activePage: newPage,
-    })
-  }
+    });
+  };
 
-  const handleSearchKeyWordChange = e => {
-    let val = e.target.value
+  const handleSearchKeyWordChange = (e) => {
+    let val = e.target.value;
     updateFilterStateHandler({
       activePage: 1,
       searchText: val,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.pageName ? rowData.pageName : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const descriptionBodyTemplate = rowData => {
+  const descriptionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.metaDesc ? rowData.metaDesc : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -134,8 +134,8 @@ const CMSList = ({ getAllCMS }) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -258,17 +258,17 @@ const CMSList = ({ getAllCMS }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   isAuthenticated: state.global.isAuthenticated,
-})
+});
 
 const mapDispatchToProps = {
   getAllCMS,
   offStatusOfTemplate,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CMSList)
+export default connect(mapStateToProps, mapDispatchToProps)(CMSList);

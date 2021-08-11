@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -12,23 +12,23 @@ import {
   CardBody,
   Badge,
   InputGroup,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import { formatDate, formatNumber } from "../../../store/utils/util"
-import ButtonComp from "components/Common/Button/Button"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import { formatDate, formatNumber } from "../../../store/utils/util";
+import ButtonComp from "components/Common/Button/Button";
 
 //redux & actions
 import {
   getInternalUserList,
   updateInternalUserStatus,
   getRoleTypeList,
-} from "../../../store/Actions/roleAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/roleAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const InternalUserList = ({
   getInternalUserList,
@@ -36,157 +36,157 @@ const InternalUserList = ({
   getRoleTypeList,
 }) => {
   // declare states
-  const history = useHistory()
+  const history = useHistory();
   const [filterState, updateFilterState] = useState({
     activePage: 1,
     searchText: "",
     limit: 10,
     selectedRole: "all",
     selectedStatus: 1,
-  })
-  const [listState, updateListState] = useState({ rows: [], count: 0 })
-  const [isLoading, toggleLoader] = useState(false)
-  const [roleTypeList, updateRoleTypeList] = useState([])
+  });
+  const [listState, updateListState] = useState({ rows: [], count: 0 });
+  const [isLoading, toggleLoader] = useState(false);
+  const [roleTypeList, updateRoleTypeList] = useState([]);
 
   // destructure states
-  const { rows, count } = listState
+  const { rows, count } = listState;
   const { activePage, searchText, limit, selectedRole, selectedStatus } =
-    filterState
+    filterState;
 
   // app functions
   useEffect(() => {
-    getRoleTypeListHandler()
-  }, [])
+    getRoleTypeListHandler();
+  }, []);
 
   useEffect(() => {
-    getDataListHandler()
-  }, [selectedRole, searchText, activePage, selectedStatus])
+    getDataListHandler();
+  }, [selectedRole, searchText, activePage, selectedStatus]);
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
   const getRoleTypeListHandler = async () => {
     try {
-      let result = await getRoleTypeList({ roleType: "Internal" })
-      console.log(`Role List `, result)
+      let result = await getRoleTypeList({ roleType: "Internal" });
+      console.log(`Role List `, result);
       if (result) {
-        let mappedList = result.map(item => ({
+        let mappedList = result.map((item) => ({
           id: item.id,
           name: item.roleName,
-        }))
-        updateRoleTypeList(mappedList)
+        }));
+        updateRoleTypeList(mappedList);
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getInternalUserList({
         pageNumber: activePage,
         selectedRole,
         searchText,
         limit,
         selectedStatus,
-      })
-      console.log(`Internal User List `, result)
+      });
+      console.log(`Internal User List `, result);
       if (result) {
-        const { rows, count } = result
-        updateListState({ rows, count })
+        const { rows, count } = result;
+        updateListState({ rows, count });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
+      console.log(e);
+      toggleLoader(false);
     }
-  }
+  };
 
   const updateUserStatusHandler = async (userId, userStatus) => {
     try {
       let result = await updateInternalUserStatus({
         userId,
         userStatus,
-      })
+      });
       if (result) {
-        getDataListHandler()
+        getDataListHandler();
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const handlePageChange = page => {
+  const handlePageChange = (page) => {
     updateFilterStateHandler({
       activePage: page,
-    })
-  }
+    });
+  };
 
-  const onSearchChange = e => {
-    let value = e.target.value
+  const onSearchChange = (e) => {
+    let value = e.target.value;
     updateFilterStateHandler({
       searchText: value,
       activePage: 1,
-    })
-  }
+    });
+  };
 
-  const onRoleChange = e => {
-    let value = e.target.value
+  const onRoleChange = (e) => {
+    let value = e.target.value;
     updateFilterStateHandler({
       selectedRole: value,
       activePage: 1,
-    })
-  }
+    });
+  };
 
-  const onStatusChange = e => {
-    let value = e.target.value
+  const onStatusChange = (e) => {
+    let value = e.target.value;
     updateFilterStateHandler({
       selectedStatus: value,
       activePage: 1,
-    })
-  }
+    });
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const nameBodyTemplate = rowData => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{`${rowData.firstName} ${rowData.lastName}`}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const emailBodyTemplate = rowData => {
+  const emailBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span style={{ textTransform: "lowercase" }}>{rowData.email}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneBodyTemplate = rowData => {
+  const phoneBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {rowData.phoneNumber ? formatNumber(`${rowData.phoneNumber}`) : "N/A"}
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const createdOnBodyTemplate = rowData => {
+  const createdOnBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {formatDate(`${rowData.createdAt}`)}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const statusBodyTemplate = rowData => {
+  const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -207,10 +207,10 @@ const InternalUserList = ({
           )}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -219,9 +219,9 @@ const InternalUserList = ({
               <span>
                 <ButtonComp
                   icon="edit"
-                  onClick={e => {
-                    e.preventDefault()
-                    history.push(`/admin/userManagement/edit/${rowData.id}`)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    history.push(`/admin/userManagement/edit/${rowData.id}`);
                   }}
                   toolTip="Edit"
                   btnClass="normal"
@@ -232,9 +232,9 @@ const InternalUserList = ({
                   <span>
                     <ButtonComp
                       icon="ban"
-                      onClick={e => {
-                        e.preventDefault()
-                        updateUserStatusHandler(rowData.id, 0)
+                      onClick={(e) => {
+                        e.preventDefault();
+                        updateUserStatusHandler(rowData.id, 0);
                       }}
                       toolTip="Disable"
                       btnClass="danger"
@@ -244,9 +244,9 @@ const InternalUserList = ({
                   <span>
                     <ButtonComp
                       icon="toggle-on"
-                      onClick={e => {
-                        e.preventDefault()
-                        updateUserStatusHandler(rowData.id, 1)
+                      onClick={(e) => {
+                        e.preventDefault();
+                        updateUserStatusHandler(rowData.id, 1);
                       }}
                       toolTip="Enable"
                       btnClass="normal"
@@ -258,8 +258,8 @@ const InternalUserList = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -324,12 +324,12 @@ const InternalUserList = ({
                         <option value="all">All</option>
                         {roleTypeList &&
                           roleTypeList.length > 0 &&
-                          roleTypeList.map(item => {
+                          roleTypeList.map((item) => {
                             return (
                               <option value={item.id} key={`r-l-${item.id}`}>
                                 {item.name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -355,7 +355,7 @@ const InternalUserList = ({
                           <ButtonComp
                             icon="sync"
                             onClick={() => {
-                              getDataListHandler()
+                              getDataListHandler();
                             }}
                             toolTip="refresh"
                             tooltipType="info"
@@ -449,17 +449,17 @@ const InternalUserList = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getInternalUserList,
   updateInternalUserStatus,
   getRoleTypeList,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(InternalUserList)
+export default connect(mapStateToProps, mapDispatchToProps)(InternalUserList);

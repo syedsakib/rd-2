@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -15,21 +15,21 @@ import {
   NavLink,
   TabContent,
   TabPane,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
-import { formatDate, getQueryParams } from "../../../../store/utils/util"
-import classnames from "classnames"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
+import { formatDate, getQueryParams } from "../../../../store/utils/util";
+import classnames from "classnames";
 
-import AgencyDetail from "./AgencyDetail"
-import AgencyActivities from "../AgencyActivities/AgencyActivities"
-import AgencyLeadList from "../AgencyLeads/AgencyLeadList"
-import AgencyTransactionList from "../AgencyTransactions/AgencyTransactionList"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import AgencyDetail from "./AgencyDetail";
+import AgencyActivities from "../AgencyActivities/AgencyActivities";
+import AgencyLeadList from "../AgencyLeads/AgencyLeadList";
+import AgencyTransactionList from "../AgencyTransactions/AgencyTransactionList";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const AgencyDetailWrapper = ({
   userDetails,
@@ -38,19 +38,19 @@ const AgencyDetailWrapper = ({
   location,
 }) => {
   // declare states
-  const history = useHistory()
-  const [queryParams, updateQueryParams] = useState(null)
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [queryParams, updateQueryParams] = useState(null);
+  const [isLoading, toggleLoader] = useState(false);
 
   useEffect(() => {
-    toggleLoader(true)
-    let qParams = getQueryParams(location.search)
-    updateQueryParams(qParams)
-    toggleLoader(false)
-    console.log(queryParams)
-  }, [])
+    toggleLoader(true);
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
+    toggleLoader(false);
+    console.log(queryParams);
+  }, []);
 
-  const [activeTab, toggleTab] = useState("1")
+  const [activeTab, toggleTab] = useState("1");
 
   return (
     <React.Fragment>
@@ -90,7 +90,7 @@ const AgencyDetailWrapper = ({
                             active: activeTab === "1",
                           })}
                           onClick={() => {
-                            toggleTab("1")
+                            toggleTab("1");
                           }}
                         >
                           Profile
@@ -103,7 +103,7 @@ const AgencyDetailWrapper = ({
                             active: activeTab === "2",
                           })}
                           onClick={() => {
-                            toggleTab("2")
+                            toggleTab("2");
                           }}
                         >
                           Leads
@@ -116,7 +116,7 @@ const AgencyDetailWrapper = ({
                             active: activeTab === "3",
                           })}
                           onClick={() => {
-                            toggleTab("3")
+                            toggleTab("3");
                           }}
                         >
                           Transactions
@@ -129,7 +129,7 @@ const AgencyDetailWrapper = ({
                             active: activeTab === "4",
                           })}
                           onClick={() => {
-                            toggleTab("4")
+                            toggleTab("4");
                           }}
                         >
                           Activity
@@ -178,14 +178,17 @@ const AgencyDetailWrapper = ({
         </div>
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   appSize: state.global.appSize,
-})
+});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgencyDetailWrapper)
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AgencyDetailWrapper);

@@ -1,10 +1,10 @@
-import React, { Fragment, useEffect, useState } from "react"
-import { Modal, ModalBody, ModalHeader } from "reactstrap"
-import RecordItem from "./RecordItem"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
+import React, { Fragment, useEffect, useState } from "react";
+import { Modal, ModalBody, ModalHeader } from "reactstrap";
+import RecordItem from "./RecordItem";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
 
-import { getSaleRecordComparisonData } from "../../../store/Actions/adminAction"
+import { getSaleRecordComparisonData } from "../../../store/Actions/adminAction";
 
 const DetailViewModal = ({
   openModal,
@@ -14,40 +14,40 @@ const DetailViewModal = ({
 }) => {
   const [appState, updateAppState] = useState({
     isLoading: true,
-  })
+  });
   const [recordData, updateRecordData] = useState({
     sales: null,
     agency: null,
-  })
+  });
 
-  const { sales, agency } = recordData
-  const { isLoading } = appState
+  const { sales, agency } = recordData;
+  const { isLoading } = appState;
 
   useEffect(() => {
     if (recordId) {
-      getRecordData(recordId)
+      getRecordData(recordId);
     }
-  }, [recordId])
+  }, [recordId]);
 
-  const getRecordData = async recordId => {
+  const getRecordData = async (recordId) => {
     try {
-      const result = await getSaleRecordComparisonData(recordId)
-      console.log(result)
+      const result = await getSaleRecordComparisonData(recordId);
+      console.log(result);
       if (result) {
         updateRecordData({
           sales: result.saleRecord,
           agency: result.agencyRecord,
-        })
+        });
       }
       updateAppState({
         ...appState,
         isLoading: false,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   return (
     <div>
@@ -92,11 +92,11 @@ const DetailViewModal = ({
         </ModalBody>
       </Modal>
     </div>
-  )
-}
+  );
+};
 
 const mapDispatchToProps = {
   getSaleRecordComparisonData,
-}
+};
 
-export default connect(null, mapDispatchToProps)(DetailViewModal)
+export default connect(null, mapDispatchToProps)(DetailViewModal);

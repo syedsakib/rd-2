@@ -1,4 +1,4 @@
-import React from "react"
+import React from "react";
 
 const RecordItem = ({ title, record }) => {
   return (
@@ -97,7 +97,7 @@ const RecordItem = ({ title, record }) => {
                     <li className="record-value-list-item" key={`s-${id}`}>
                       {service.title}
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -117,7 +117,7 @@ const RecordItem = ({ title, record }) => {
                     <li className="record-value-list-item" key={`s-${id}`}>
                       {`${location.zip} ${location.city} , ${location.state_name}`}
                     </li>
-                  )
+                  );
                 })}
               </ul>
             </div>
@@ -127,7 +127,7 @@ const RecordItem = ({ title, record }) => {
         </dd>
       </dl>
     </div>
-  )
-}
+  );
+};
 
-export default RecordItem
+export default RecordItem;

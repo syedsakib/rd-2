@@ -1,10 +1,10 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
-import ReactTooltip from "react-tooltip"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
+import ReactTooltip from "react-tooltip";
 import {
   Container,
   Row,
@@ -14,102 +14,105 @@ import {
   CardBody,
   InputGroup,
   CardImg,
-} from "reactstrap"
+} from "reactstrap";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
 
 //redux & actions
-import { getAllWriters, deleteWriter } from "../../../store/Actions/adminAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import {
+  getAllWriters,
+  deleteWriter,
+} from "../../../store/Actions/adminAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const WriterListPage = ({ getAllWriters, deleteWriter }) => {
   // declare states
-  const [listState, updateListState] = useState({ rows: [], count: 0 })
-  const [isLoading, toggleLoader] = useState(false)
+  const [listState, updateListState] = useState({ rows: [], count: 0 });
+  const [isLoading, toggleLoader] = useState(false);
   const [filterState, updateFilterState] = useState({
     searchText: "",
     limit: 10,
     activePage: 1,
     sortingColumn: "createdAt",
     sortingOrder: "desc",
-  })
+  });
 
   // extract states
-  const { rows, count } = listState
+  const { rows, count } = listState;
   const { activePage, searchText, limit, sortingColumn, sortingOrder } =
-    filterState
+    filterState;
 
   // app functions
   useEffect(() => {
-    getDataListHandler()
-  }, [activePage, searchText])
+    getDataListHandler();
+  }, [activePage, searchText]);
 
   const getDataListHandler = async () => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAllWriters({
         pageNumber: activePage,
         searchText,
         sortingColumn,
         sortingOrder,
-      })
+      });
       if (result) {
-        console.log(`writers`, result)
-        const { rows, count } = result
+        console.log(`writers`, result);
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toggleLoader(false)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
-  const updateFilterStateHandler = newState => {
+  const updateFilterStateHandler = (newState) => {
     updateFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const handleSearchText = value => {
+  const handleSearchText = (value) => {
     updateFilterStateHandler({
       activePage: 1,
       searchText: value,
-    })
-  }
+    });
+  };
 
-  const handlePageChange = pageNumber => {
+  const handlePageChange = (pageNumber) => {
     updateFilterStateHandler({
       activePage: pageNumber,
-    })
-  }
+    });
+  };
 
-  const deleteWriterHandler = async data => {
+  const deleteWriterHandler = async (data) => {
     try {
-      let result = await deleteWriter(data.id)
+      let result = await deleteWriter(data.id);
       if (result) {
-        let newList = rows.filter(d => d.id !== data.id)
-        updateListState({ rows: newList, count: count - 1 })
+        let newList = rows.filter((d) => d.id !== data.id);
+        updateListState({ rows: newList, count: count - 1 });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const nameBodyTemplate = rowData => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span className="d-flex justify-content-start align-items-center">
@@ -122,28 +125,28 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
           {rowData.name ? rowData.name : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const designationBodyTemplate = rowData => {
+  const designationBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span> {rowData.designation ? rowData.designation : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const bioBodyTemplate = rowData => {
+  const bioBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
           <span> {rowData.bio ? rowData.bio.substr(0, 100) : "N/A"}</span>
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const actionBodyTemplate = rowData => {
+  const actionBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         {
@@ -170,9 +173,9 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
                 <span
                   className="btn-view-status tb-icon"
                   title="edit"
-                  onClick={e => {
-                    e.preventDefault()
-                    deleteWriterHandler(rowData)
+                  onClick={(e) => {
+                    e.preventDefault();
+                    deleteWriterHandler(rowData);
                   }}
                   data-tip="Delete"
                 >
@@ -184,8 +187,8 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -215,8 +218,8 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
                           type="text"
                           className="form-control"
                           placeholder="Enter name to search"
-                          onChange={e => {
-                            handleSearchText(e.target.value)
+                          onChange={(e) => {
+                            handleSearchText(e.target.value);
                           }}
                         />
                       </InputGroup>
@@ -327,16 +330,16 @@ const WriterListPage = ({ getAllWriters, deleteWriter }) => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getAllWriters,
   deleteWriter,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(WriterListPage)
+export default connect(mapStateToProps, mapDispatchToProps)(WriterListPage);

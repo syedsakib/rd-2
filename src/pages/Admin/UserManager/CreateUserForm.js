@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { Fragment, useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import { toastr } from "react-redux-toastr"
+import MetaTags from "react-meta-tags";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { toastr } from "react-redux-toastr";
 
 import {
   Container,
@@ -14,31 +14,31 @@ import {
   Media,
   Button,
   Input,
-} from "reactstrap"
+} from "reactstrap";
 
 //Import Breadcrumb
-import { useForm } from "react-hook-form"
-import { isPossiblePhoneNumber } from "react-phone-number-input"
+import { useForm } from "react-hook-form";
+import { isPossiblePhoneNumber } from "react-phone-number-input";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import avatar from "../../../assets/images/users/avatar-1.jpg"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import avatar from "../../../assets/images/users/avatar-1.jpg";
 
-import ErrorView from "components/Common/ErrorView/ErrorView"
-import ReactTags from "components/Common/ReactTags/ReactTags"
-import PhoneInput from "react-phone-input-2"
-import "react-phone-input-2/lib/style.css"
-import { addCode } from "../../../store/utils/util"
-import SearchSelect from "components/Common/SearchSelect/SearchSelect"
+import ErrorView from "components/Common/ErrorView/ErrorView";
+import ReactTags from "components/Common/ReactTags/ReactTags";
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+import { addCode } from "../../../store/utils/util";
+import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
 //redux & actions
-import { useSelector, useDispatch } from "react-redux"
+import { useSelector, useDispatch } from "react-redux";
 import {
   getRoleTypeList,
   addInternalUser,
-} from "../../../store/Actions/roleAction"
-import { getSuggestedLocationByZipCode } from "../../../store/Actions/customerAction"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+} from "../../../store/Actions/roleAction";
+import { getSuggestedLocationByZipCode } from "../../../store/Actions/customerAction";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 const CreateUserForm = ({
   getSuggestedLocationByZipCode,
@@ -48,20 +48,20 @@ const CreateUserForm = ({
   const { register, handleSubmit, errors } = useForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
-  })
+  });
   const errorTexts = {
     required: "This field is required",
     pattern: "Numbers and special chars not allowed",
-  }
+  };
 
   // declare state
-  const history = useHistory()
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [isLoading, toggleLoader] = useState(false);
   const [roleState, updateRoleState] = useState({
     roleTypeList: [],
     prevUserRoles: [],
-  })
-  const [suggestedPlaceList, updatePlaceList] = useState([])
+  });
+  const [suggestedPlaceList, updatePlaceList] = useState([]);
   const [formData, updateFormData] = useState({
     firstName: "",
     lastName: "",
@@ -72,8 +72,8 @@ const CreateUserForm = ({
     zipcode: "",
     location: "",
     address: "",
-  })
-  const [selectedRoles, updateSelectedRoleList] = useState([])
+  });
+  const [selectedRoles, updateSelectedRoleList] = useState([]);
 
   // destructure states
   const {
@@ -86,87 +86,87 @@ const CreateUserForm = ({
     zipcode,
     address,
     location,
-  } = formData
-  const { roleTypeList, prevUserRoles } = roleState
+  } = formData;
+  const { roleTypeList, prevUserRoles } = roleState;
 
   // app functions
   useEffect(() => {
-    getRoleTypeListHandler()
-  }, [])
+    getRoleTypeListHandler();
+  }, []);
 
   const getRoleTypeListHandler = async () => {
     try {
-      let result = await getRoleTypeList({ roleType: "Internal" })
-      console.log(`Role Type List`, result)
+      let result = await getRoleTypeList({ roleType: "Internal" });
+      console.log(`Role Type List`, result);
       if (result) {
-        let mappedList = result.map(item => ({
+        let mappedList = result.map((item) => ({
           id: item.id,
           name: item.roleName,
-        }))
+        }));
         updateRoleState({
           ...roleState,
           roleTypeList: mappedList,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
-  const updateFormHandler = newData => {
+  const updateFormHandler = (newData) => {
     updateFormData({
       ...formData,
       ...newData,
-    })
-  }
-  const onChange = e => {
-    let name = e.target.name
-    let value = e.target.value
-    updateFormHandler({ [name]: value })
-  }
+    });
+  };
+  const onChange = (e) => {
+    let name = e.target.name;
+    let value = e.target.value;
+    updateFormHandler({ [name]: value });
+  };
 
   const onPlaceChange = (city, state, zipcode) => {
     updateFormHandler({
       state,
       city,
       zipcode,
-    })
-  }
+    });
+  };
 
-  const handleKeyWordChangeForLocationZipCode = async value => {
-    let val = value
-    onPlaceChange("", "", value)
+  const handleKeyWordChangeForLocationZipCode = async (value) => {
+    let val = value;
+    onPlaceChange("", "", value);
     if (val && val.trim() !== "") {
-      let result = await getSuggestedLocationByZipCode(val)
+      let result = await getSuggestedLocationByZipCode(val);
       if (result) {
-        let optionList = result.map(item => ({
+        let optionList = result.map((item) => ({
           label: `${item.zip} ${item.city}, ${item.state_name}`,
           value: item,
-        }))
-        updatePlaceList(optionList)
+        }));
+        updatePlaceList(optionList);
       }
     }
-  }
+  };
 
-  const onLocationSelectHandler = value => {
+  const onLocationSelectHandler = (value) => {
     if (value) {
-      const { state_name, city, zip, state_id } = value
-      onPlaceChange(city, state_name, zip)
+      const { state_name, city, zip, state_id } = value;
+      onPlaceChange(city, state_name, zip);
     }
-  }
+  };
 
-  const onChangeTag = sList => {
-    updateSelectedRoleList(sList)
-  }
+  const onChangeTag = (sList) => {
+    updateSelectedRoleList(sList);
+  };
 
   const onSubmitHandler = async () => {
     try {
-      console.log(`FormData`, formData)
-      console.log(`Role List `, selectedRoles)
+      console.log(`FormData`, formData);
+      console.log(`Role List `, selectedRoles);
       if (!selectedRoles || selectedRoles.length === 0) {
-        throw "At least one role needs to be selected"
+        throw "At least one role needs to be selected";
       }
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await addInternalUser({
         firstName,
         lastName,
@@ -177,21 +177,21 @@ const CreateUserForm = ({
         zipcode,
         address,
         roleList: selectedRoles,
-      })
-      console.log(`Add Role `, result)
-      toggleLoader(true)
+      });
+      console.log(`Add Role `, result);
+      toggleLoader(true);
       if (result) {
-        history.push("/admin/userManagement")
+        history.push("/admin/userManagement");
       }
     } catch (e) {
-      console.log(e)
-      toggleLoader(true)
-      toastr.error("Error", e.toString())
+      console.log(e);
+      toggleLoader(true);
+      toastr.error("Error", e.toString());
     }
-  }
+  };
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   return (
@@ -247,7 +247,7 @@ const CreateUserForm = ({
                                 id="firstName"
                                 name="firstName"
                                 value={firstName}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                                 ref={register({
                                   required: {
                                     value: true,
@@ -280,7 +280,7 @@ const CreateUserForm = ({
                                 id="lastName"
                                 name="lastName"
                                 value={lastName}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                                 ref={register({
                                   required: {
                                     value: true,
@@ -347,8 +347,8 @@ const CreateUserForm = ({
                                 maxLength={14}
                                 type="text"
                                 value={phoneNumber}
-                                onChange={value => {
-                                  updateFormHandler({ phoneNumber: value })
+                                onChange={(value) => {
+                                  updateFormHandler({ phoneNumber: value });
                                 }}
                                 style={{ width: "100%" }}
                               />
@@ -388,7 +388,7 @@ const CreateUserForm = ({
                                 id="city"
                                 name="city"
                                 value={city}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -403,7 +403,7 @@ const CreateUserForm = ({
                                 id="state"
                                 name="state"
                                 value={state}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -421,7 +421,7 @@ const CreateUserForm = ({
                                 id="address"
                                 name="address"
                                 value={address}
-                                onChange={e => onChange(e)}
+                                onChange={(e) => onChange(e)}
                               />
                             </div>
                           </div>
@@ -462,17 +462,17 @@ const CreateUserForm = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
 const mapDispatchToProps = {
   getSuggestedLocationByZipCode,
   getRoleTypeList,
   addInternalUser,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(CreateUserForm)
+export default connect(mapStateToProps, mapDispatchToProps)(CreateUserForm);

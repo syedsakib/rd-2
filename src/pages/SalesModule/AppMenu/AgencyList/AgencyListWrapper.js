@@ -1,9 +1,9 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect, useRef } from "react"
-import { toastr } from "react-redux-toastr"
-import { connect, useDispatch } from "react-redux"
-import { Link, useHistory } from "react-router-dom"
-import Pagination from "react-js-pagination"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect, useRef } from "react";
+import { toastr } from "react-redux-toastr";
+import { connect, useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import Pagination from "react-js-pagination";
 import {
   Container,
   Row,
@@ -15,14 +15,14 @@ import {
   InputGroup,
   Button,
   Input,
-} from "reactstrap"
-import Switch from "react-switch"
+} from "reactstrap";
+import Switch from "react-switch";
 
-import { DataTable } from "primereact/datatable"
-import { Column } from "primereact/column"
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../../components/Common/Breadcrumb"
+import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
@@ -33,26 +33,26 @@ import {
   getSalesUserStates,
   updateAgencyFilterState,
   updateAgencyLocationFilterState,
-} from "../../../../store/Actions/salesAction"
-import { getEmailTemplateByType } from "../../../../store/Actions/mailAction"
+} from "../../../../store/Actions/salesAction";
+import { getEmailTemplateByType } from "../../../../store/Actions/mailAction";
 import {
   getAllUSStates,
   getCitiesWithZipCodes,
-} from "../../../../store/Actions/userAction"
+} from "../../../../store/Actions/userAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
-import ButtonComp from "components/Common/Button/Button"
-import ReactTooltip from "react-tooltip"
-import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox"
-import { formatPhoneNumber } from "react-phone-number-input"
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
+import ReactTooltip from "react-tooltip";
+import MultiSelectCheckbox from "components/Common/MultiSelectbox/MultiSelectBox";
+import { formatPhoneNumber } from "react-phone-number-input";
 import {
   addPlus,
   formatDate,
   generateHomeCareUrl,
   getFrontUrl,
-} from "store/utils/util"
-import DatePicker from "react-datepicker"
-import "react-datepicker/dist/react-datepicker.css"
+} from "store/utils/util";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 const AgencyListWrapper = ({
   getAssignedAgencyList,
@@ -69,7 +69,7 @@ const AgencyListWrapper = ({
   updateAgencyLocationFilterState,
 }) => {
   // declare state
-  const history = useHistory()
+  const history = useHistory();
   const {
     activePage,
     selectedSaleStatus,
@@ -79,15 +79,15 @@ const AgencyListWrapper = ({
     selectedZipCodes,
     searchText,
     selectedRadius,
-  } = filterState
+  } = filterState;
   const [appState, updateAppState] = useState({
     isFileExporting: false,
-  })
-  const [isLoading, toggleLoader] = useState(false)
+  });
+  const [isLoading, toggleLoader] = useState(false);
   const [listState, updateListState] = useState({
     rows: [],
     count: 0,
-  })
+  });
   const [modalData, updateModalData] = useState({
     isDetailModalOpen: false,
     isNoteViewerModalOpen: false,
@@ -102,11 +102,11 @@ const AgencyListWrapper = ({
     callBackHandler: null,
     selectedAgencyUrl: null,
     selectedContactAgency: null,
-  })
+  });
 
-  const { stateList, stateCities, cityList, zipCodeList } = locationFilterState
+  const { stateList, stateCities, cityList, zipCodeList } = locationFilterState;
 
-  const { rows, count } = listState
+  const { rows, count } = listState;
   const {
     isDetailModalOpen,
     isNoteViewerModalOpen,
@@ -121,25 +121,25 @@ const AgencyListWrapper = ({
     callBackHandler,
     selectedAgencyUrl,
     selectedContactAgency,
-  } = modalData
+  } = modalData;
 
-  const updateFilterState = newState => {
+  const updateFilterState = (newState) => {
     updateAgencyFilterState({
       ...filterState,
       ...newState,
-    })
-  }
+    });
+  };
 
-  const updateLocationFilterState = newState => {
+  const updateLocationFilterState = (newState) => {
     updateAgencyLocationFilterState({
       ...locationFilterState,
       ...newState,
-    })
-  }
+    });
+  };
 
   useEffect(() => {
-    getUsStatesHandler()
-    getEmailTemplateHandler()
+    getUsStatesHandler();
+    getEmailTemplateHandler();
     agencyListDataFetchHandler(
       activePage,
       selectedSaleStatus,
@@ -148,39 +148,39 @@ const AgencyListWrapper = ({
       selectedCities,
       selectedZipCodes,
       searchText
-    )
-  }, [])
+    );
+  }, []);
 
   const getEmailTemplateHandler = async () => {
     try {
-      let result = await getEmailTemplateByType(35)
-      console.log(result)
+      let result = await getEmailTemplateByType(35);
+      console.log(result);
       if (result) {
         updateModalData({
           ...modalData,
           emailTemplate: result,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const getUsStatesHandler = async () => {
     try {
-      let result = await getSalesUserStates()
+      let result = await getSalesUserStates();
       if (result) {
-        let sList = result.map(item => ({ state_name: item.state }))
+        let sList = result.map((item) => ({ state_name: item.state }));
         updateLocationFilterState({
           stateList: sList,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const agencyListDataFetchHandler = async (
     activePage = 1,
@@ -193,7 +193,7 @@ const AgencyListWrapper = ({
     sRadius = selectedRadius
   ) => {
     try {
-      toggleLoader(true)
+      toggleLoader(true);
       let result = await getAssignedAgencyList(activePage, {
         selectedSaleStatus,
         selectedClaimStatus,
@@ -202,30 +202,30 @@ const AgencyListWrapper = ({
         selectedZipCodes,
         searchText,
         selectedRadius: sRadius,
-      })
-      console.log("agencyListDataFetchHandler", result)
+      });
+      console.log("agencyListDataFetchHandler", result);
       if (result) {
-        const { rows, count } = result
+        const { rows, count } = result;
         updateListState({
           rows,
           count,
-        })
+        });
       }
-      toggleLoader(false)
+      toggleLoader(false);
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const handleSearchInput = e => {
+  const handleSearchInput = (e) => {
     try {
-      let value = e.target.value
+      let value = e.target.value;
 
       updateFilterState({
         searchText: value,
         activePage: 1,
-      })
+      });
 
       agencyListDataFetchHandler(
         1,
@@ -235,19 +235,19 @@ const AgencyListWrapper = ({
         selectedCities,
         selectedZipCodes,
         value
-      )
+      );
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
   const onStatusChange = (value, statusType) => {
     try {
       if (statusType === "saleStatus") {
         updateFilterState({
           selectedSaleStatus: value,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           value,
@@ -257,12 +257,12 @@ const AgencyListWrapper = ({
           selectedZipCodes,
           searchText,
           selectedRadius
-        )
+        );
       } else if (statusType === "claimStatus") {
         updateFilterState({
           selectedClaimStatus: value,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -272,22 +272,22 @@ const AgencyListWrapper = ({
           selectedZipCodes,
           searchText,
           selectedRadius
-        )
+        );
       } else if (statusType === "onRadiusChange") {
         updateFilterState({
           selectedRadius: value,
           activePage: 1,
-        })
+        });
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
-  const handlePageChange = pNumber => {
+  };
+  const handlePageChange = (pNumber) => {
     updateFilterState({
       activePage: pNumber,
-    })
+    });
     agencyListDataFetchHandler(
       pNumber,
       selectedSaleStatus,
@@ -297,29 +297,29 @@ const AgencyListWrapper = ({
       selectedZipCodes,
       searchText,
       selectedRadius
-    )
-  }
+    );
+  };
 
-  const onStateChange = async e => {
+  const onStateChange = async (e) => {
     try {
-      const val = e.target.value
+      const val = e.target.value;
       updateFilterState({
         selectedState: val,
         activePage: 1,
-      })
+      });
       if (val !== "all") {
-        let result = await getCitiesWithZipCodes(val)
+        let result = await getCitiesWithZipCodes(val);
         if (result) {
-          const cities = [...new Set(result.map(item => item.city))]
-          const fCities = cities.map(item => ({
+          const cities = [...new Set(result.map((item) => item.city))];
+          const fCities = cities.map((item) => ({
             value: item,
             text: item,
             key: item,
-          }))
+          }));
           updateLocationFilterState({
             stateCities: result,
             cityList: fCities,
-          })
+          });
           agencyListDataFetchHandler(
             1,
             selectedSaleStatus,
@@ -328,14 +328,14 @@ const AgencyListWrapper = ({
             [],
             [],
             searchText
-          )
+          );
         }
       } else {
         updateLocationFilterState({
           stateCities: [],
           cityList: [],
           zipCodeList: [],
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -344,43 +344,43 @@ const AgencyListWrapper = ({
           [],
           [],
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onCityChange = async cities => {
+  const onCityChange = async (cities) => {
     try {
       if (cities.length > 0) {
-        let allZipList = []
+        let allZipList = [];
         for (let c of cities) {
           let zips = stateCities
-            .filter(item => item.city === c)
-            .map(item => ({
+            .filter((item) => item.city === c)
+            .map((item) => ({
               value: item.zip,
               text: item.zip,
               key: item.zip,
-            }))
-          allZipList = [...allZipList, ...zips]
+            }));
+          allZipList = [...allZipList, ...zips];
         }
         updateLocationFilterState({
           zipCodeList: allZipList,
-        })
-        let newZipCodes = selectedZipCodes.filter(item => {
-          let result = allZipList.filter(it => it.key === item)
+        });
+        let newZipCodes = selectedZipCodes.filter((item) => {
+          let result = allZipList.filter((it) => it.key === item);
           if (result[0]) {
-            return item
+            return item;
           }
-          return null
-        })
+          return null;
+        });
         updateFilterState({
           selectedCities: cities,
           selectedZipCodes: newZipCodes,
           activePage: 1,
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -389,15 +389,15 @@ const AgencyListWrapper = ({
           cities,
           newZipCodes,
           searchText
-        )
+        );
       } else {
         updateLocationFilterState({
           zipCodeList: [],
-        })
+        });
         updateFilterState({
           selectedCities: cities,
           selectedZipCodes: [],
-        })
+        });
         agencyListDataFetchHandler(
           1,
           selectedSaleStatus,
@@ -406,20 +406,20 @@ const AgencyListWrapper = ({
           cities,
           [],
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
-  const onZipCodeChange = zips => {
+  const onZipCodeChange = (zips) => {
     try {
       updateFilterState({
         selectedZipCodes: zips,
         activePage: 1,
-      })
+      });
       if (zips.length === 0) {
         agencyListDataFetchHandler(
           1,
@@ -429,7 +429,7 @@ const AgencyListWrapper = ({
           selectedCities,
           [],
           searchText
-        )
+        );
       } else {
         agencyListDataFetchHandler(
           1,
@@ -439,60 +439,62 @@ const AgencyListWrapper = ({
           selectedCities,
           zips,
           searchText
-        )
+        );
       }
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const changeSaleStatus = async (id, value) => {
     try {
-      let result = await updateAgencySaleStatus(id, value)
-      changeSaleStatusHandler(id, value)
+      let result = await updateAgencySaleStatus(id, value);
+      changeSaleStatusHandler(id, value);
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const changeSaleStatusHandler = async (id, value) => {
     try {
-      let newRows = rows.map(item => {
+      let newRows = rows.map((item) => {
         if (item.id == id) {
-          item.saleStatus = value
+          item.saleStatus = value;
         }
-        return item
-      })
+        return item;
+      });
       if (selectedSaleStatus !== "all") {
-        newRows = newRows.filter(item => item.saleStatus === selectedSaleStatus)
+        newRows = newRows.filter(
+          (item) => item.saleStatus === selectedSaleStatus
+        );
       }
       updateListState({
         ...listState,
         rows: newRows,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
 
   const openDetailModalHandler = (e, data) => {
     updateModalData({
       ...modalData,
       modalBodyData: data || null,
       isDetailModalOpen: !isDetailModalOpen,
-    })
-  }
+    });
+  };
 
   const toggleNoteViewerModal = (e, businessId) => {
     updateModalData({
       ...modalData,
       isNoteViewerModalOpen: !isNoteViewerModalOpen,
       selectedBusinessId: businessId,
-    })
-  }
+    });
+  };
 
   const toggleContactViewerModal = (e, businessId, contactData) => {
     updateModalData({
@@ -500,8 +502,8 @@ const AgencyListWrapper = ({
       isContactViewerModalOpen: !isContactViewerModalOpen,
       selectedBusinessId: businessId,
       selectedContactAgency: contactData,
-    })
-  }
+    });
+  };
 
   const toggleEmailSenderModal = (e, id, email, title, url) => {
     updateModalData({
@@ -512,8 +514,8 @@ const AgencyListWrapper = ({
       selectedBusinessId: id,
       callBackHandler: null,
       selectedAgencyUrl: url,
-    })
-  }
+    });
+  };
 
   const toggleReminderModalModal = (id, email, title, callBack) => {
     updateModalData({
@@ -523,15 +525,15 @@ const AgencyListWrapper = ({
       selectedBusinessTitle: title,
       selectedBusinessId: id,
       callBackHandler: callBack,
-    })
-  }
+    });
+  };
 
   const exportDataList = async () => {
     try {
       updateAppState({
         ...appState,
         isFileExporting: true,
-      })
+      });
       let result = await exportAssignedAgencyList({
         selectedSaleStatus,
         selectedClaimStatus,
@@ -539,28 +541,28 @@ const AgencyListWrapper = ({
         selectedCities,
         selectedZipCodes,
         searchText,
-      })
+      });
       updateAppState({
         ...appState,
         isFileExporting: false,
-      })
+      });
     } catch (e) {
-      console.log(e)
-      toastr.error(e.toString())
+      console.log(e);
+      toastr.error(e.toString());
     }
-  }
+  };
   //TABLE COMPONENTS
-  const dt = useRef(null)
+  const dt = useRef(null);
 
-  const titleBodyTemplate = rowData => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.title ? rowData.title : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const phoneNumberBodyTemplate = rowData => {
+  const phoneNumberBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>
@@ -569,32 +571,32 @@ const AgencyListWrapper = ({
             : "N/A"}
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const zipCodeBodyTemplate = rowData => {
+  const zipCodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.zipCode ? rowData.zipCode : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const cityBodyTemplate = rowData => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
-  const stateBodyTemplate = rowData => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
         <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const statusBodyTemplate = ({ id, title, email, saleStatus }) => {
     return (
@@ -604,14 +606,14 @@ const AgencyListWrapper = ({
             className="form-control form-select"
             id={id}
             value={saleStatus || "not-contacted"}
-            onChange={e => {
-              let value = e.target.value
+            onChange={(e) => {
+              let value = e.target.value;
               if (value === "followup") {
                 toggleReminderModalModal(id, email, title, () => {
-                  changeSaleStatusHandler(id, value)
-                })
+                  changeSaleStatusHandler(id, value);
+                });
               } else {
-                changeSaleStatus(id, value)
+                changeSaleStatus(id, value);
               }
             }}
           >
@@ -626,8 +628,8 @@ const AgencyListWrapper = ({
           </select>
         </span>
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   const actionBodyTemplate = ({
     id,
@@ -639,7 +641,7 @@ const AgencyListWrapper = ({
     slug,
     sales,
   }) => {
-    let approvalStatus = sales ? sales.approvalStatus : null
+    let approvalStatus = sales ? sales.approvalStatus : null;
     return (
       <React.Fragment>
         {
@@ -648,65 +650,65 @@ const AgencyListWrapper = ({
               <span>
                 <ButtonComp
                   icon="eye"
-                  onClick={e => {
-                    history.push(`/sales/agency/${id}?name=${title}`, appState)
+                  onClick={(e) => {
+                    history.push(`/sales/agency/${id}?name=${title}`, appState);
                   }}
                   toolTip="View Detail"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="link"
-                  onClick={e => {
-                    window.open(`${getFrontUrl()}/home-care/${slug}`)
+                  onClick={(e) => {
+                    window.open(`${getFrontUrl()}/home-care/${slug}`);
                   }}
                   toolTip="Go to Page"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="pencil-square-o"
-                  onClick={e => {
+                  onClick={(e) => {
                     history.push({
                       pathname: `/sales/editAgency/${id}`,
                       pageNo: activePage,
-                    })
+                    });
                   }}
                   toolTip="Edit Data"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="sticky-note-o"
-                  onClick={e => {
-                    toggleNoteViewerModal(e, id)
+                  onClick={(e) => {
+                    toggleNoteViewerModal(e, id);
                   }}
                   toolTip="Notes"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="envelope"
-                  onClick={e => {
-                    let url = generateHomeCareUrl(state, city, slug)
-                    toggleEmailSenderModal(e, id, email, title, url)
+                  onClick={(e) => {
+                    let url = generateHomeCareUrl(state, city, slug);
+                    toggleEmailSenderModal(e, id, email, title, url);
                   }}
                   toolTip="Send Mail"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="calendar"
-                  onClick={e => {
+                  onClick={(e) => {
                     toggleReminderModalModal(id, email, title, () => {
-                      changeSaleStatusHandler(id, "followup")
-                    })
+                      changeSaleStatusHandler(id, "followup");
+                    });
                   }}
                   toolTip="Create Schedule"
                   btnClass="normal"
                 />
                 <ButtonComp
                   icon="address-book"
-                  onClick={e => {
+                  onClick={(e) => {
                     toggleContactViewerModal(e, id, {
                       title,
                       phoneNumber,
-                    })
+                    });
                   }}
                   toolTip="Contacts"
                   btnClass="normal"
@@ -715,7 +717,7 @@ const AgencyListWrapper = ({
                   <button
                     type="button"
                     class="btn btn-warning"
-                    onClick={e => {}}
+                    onClick={(e) => {}}
                     data-tooltip="Pending"
                   >
                     <i class="fa fa-clock-o"></i>
@@ -724,7 +726,7 @@ const AgencyListWrapper = ({
                   <button
                     type="button"
                     class="btn btn-info"
-                    onClick={e => {}}
+                    onClick={(e) => {}}
                     data-tooltip="Approved"
                   >
                     <i class="fa fa-check"></i>
@@ -733,7 +735,7 @@ const AgencyListWrapper = ({
                   <button
                     type="button"
                     class="btn btn-danger"
-                    onClick={e => {}}
+                    onClick={(e) => {}}
                     data-tooltip="Rejected"
                   >
                     <i class="fa fa-times"></i>
@@ -744,8 +746,8 @@ const AgencyListWrapper = ({
           </span>
         }
       </React.Fragment>
-    )
-  }
+    );
+  };
 
   //TABLE COMPONENTS END
 
@@ -779,7 +781,7 @@ const AgencyListWrapper = ({
                               <option value={state_name} key={`s-${index}`}>
                                 {state_name}
                               </option>
-                            )
+                            );
                           })}
                       </select>
                     </div>
@@ -830,8 +832,8 @@ const AgencyListWrapper = ({
                       <select
                         className="form-control form-select"
                         value={selectedSaleStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "saleStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "saleStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -852,8 +854,8 @@ const AgencyListWrapper = ({
                       <select
                         className="form-control form-select"
                         value={selectedClaimStatus}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "claimStatus")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "claimStatus");
                         }}
                       >
                         <option value="all">All</option>
@@ -866,7 +868,7 @@ const AgencyListWrapper = ({
                       <Input
                         type="text"
                         placeholder="Set radius in KM"
-                        onBlur={e => {
+                        onBlur={(e) => {
                           agencyListDataFetchHandler(
                             1,
                             selectedSaleStatus,
@@ -876,10 +878,10 @@ const AgencyListWrapper = ({
                             selectedZipCodes,
                             searchText,
                             e.target.value
-                          )
+                          );
                         }}
-                        onChange={e => {
-                          onStatusChange(e.target.value, "onRadiusChange")
+                        onChange={(e) => {
+                          onStatusChange(e.target.value, "onRadiusChange");
                         }}
                         value={selectedRadius}
                         disabled={
@@ -991,16 +993,16 @@ const AgencyListWrapper = ({
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
   homeCare: state.homeCare,
   appSize: state.global.appSize,
   filterState: state.sale.agencyListFilterState,
   locationFilterState: state.sale.agencyListLocationFilterState,
-})
+});
 
 const mapDispatchToProps = {
   getAssignedAgencyList,
@@ -1013,6 +1015,6 @@ const mapDispatchToProps = {
   getSalesUserStates,
   updateAgencyFilterState,
   updateAgencyLocationFilterState,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(AgencyListWrapper)
+export default connect(mapStateToProps, mapDispatchToProps)(AgencyListWrapper);

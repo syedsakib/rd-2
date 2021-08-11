@@ -1,8 +1,8 @@
-import MetaTags from "react-meta-tags"
-import React, { useState, useEffect } from "react"
-import { connect } from "react-redux"
-import { toastr } from "react-redux-toastr"
-import { Link, useHistory, Redirect } from "react-router-dom"
+import MetaTags from "react-meta-tags";
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { toastr } from "react-redux-toastr";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import {
   Container,
   Row,
@@ -11,37 +11,37 @@ import {
   CardHeader,
   CardBody,
   Button,
-} from "reactstrap"
-import jSuites from "jsuites"
+} from "reactstrap";
+import jSuites from "jsuites";
 
 //Import Breadcrumb
-import Breadcrumb from "../../../components/Common/Breadcrumb"
-import LoaderComponent from "components/Common/Loader/LoaderComponent"
+import Breadcrumb from "../../../components/Common/Breadcrumb";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
 //redux & actions
 
-const ApplicantDetails = props => {
+const ApplicantDetails = (props) => {
   // declare states
-  const history = useHistory()
-  const [applicantDetails, setApplicantDetails] = useState([])
-  const [redirect, setRedirect] = useState(false)
-  const [isLoading, toggleLoader] = useState(false)
+  const history = useHistory();
+  const [applicantDetails, setApplicantDetails] = useState([]);
+  const [redirect, setRedirect] = useState(false);
+  const [isLoading, toggleLoader] = useState(false);
 
   const setApplicantDetailsHandler = () => {
-    setApplicantDetails(props && props.location.state.applicantsDetails)
-  }
+    setApplicantDetails(props && props.location.state.applicantsDetails);
+  };
   // app functions
   useEffect(() => {
-    setApplicantDetailsHandler()
-  }, [applicantDetails])
+    setApplicantDetailsHandler();
+  }, [applicantDetails]);
 
   if (isLoading) {
-    return <LoaderComponent />
+    return <LoaderComponent />;
   }
 
   if (redirect) {
-    toastr.error("Error", "Unauthorized access,please login again as admin")
-    return <Redirect to="/admins/login" />
+    toastr.error("Error", "Unauthorized access,please login again as admin");
+    return <Redirect to="/admins/login" />;
   }
 
   return (
@@ -232,13 +232,13 @@ const ApplicantDetails = props => {
         </Container>
       </div>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   userDetails: state.userDetails.loggedInUser,
-})
+});
 
-const mapDispatchToProps = {}
+const mapDispatchToProps = {};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApplicantDetails)
+export default connect(mapStateToProps, mapDispatchToProps)(ApplicantDetails);
