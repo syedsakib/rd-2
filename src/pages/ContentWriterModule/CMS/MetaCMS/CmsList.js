@@ -143,7 +143,7 @@ const CMSList = ({ getAllCMS }) => {
     <React.Fragment>
       <div className="page-content">
         <MetaTags>
-          <title>Profile | Skote - React Admin & Dashboard Template</title>
+          <title>BoomersHub | Admin Dashboard</title>
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
