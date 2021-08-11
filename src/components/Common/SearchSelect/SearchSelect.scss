@@ -1,0 +1,82 @@
+@import "../../../assets/scss/custom-variables";
+
+$border: 1px solid rgba(189, 189, 189, 0.3);
+$bgColor: #ffffff;
+
+.search-select-wrapper {
+  .form-group {
+    margin: 0px;
+  }
+
+  .input-box-wrapper {
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    .input-box-inner-wrapper {
+      flex-grow: 1;
+      .search-field {
+        border: none;
+        outline: none !important;
+        &:focus {
+          outline: none !important;
+          box-shadow: none;
+        }
+      }
+    }
+    .close-btn-wrapper {
+      cursor: pointer;
+      flex-grow: 0;
+      flex-shrink: 0;
+      margin: 0 5px;
+      .close-btn {
+        font-size: 22px;
+        color: $pinkNew;
+        &:hover {
+          color: lighten($pinkNew, 5%);
+        }
+      }
+    }
+  }
+
+  .result-row-wrapper {
+    position: relative;
+    width: 100%;
+
+    .result-row-inner-wrapper {
+      position: absolute;
+      overflow: auto;
+      width: 100%;
+      z-index: 10;
+      background-color: $bgColor;
+      border-top: $border;
+      border-left: $border;
+      border-right: $border;
+
+      .result-row {
+        display: flex;
+        align-items: center;
+        border-bottom: $border;
+        &:hover {
+          background-color: darken($bgColor, 3%);
+        }
+        .result-row-content-body {
+          flex-grow: 1;
+          cursor: pointer;
+          padding: 15px 15px;
+          .result-row-content {
+            font-size: 16px;
+          }
+        }
+        .result-row-content-btn-list {
+          flex-shrink: 0;
+          flex-grow: 0;
+          padding: 0 10px;
+          display: flex;
+          .btn-wrapper {
+            margin: 0 2px;
+          }
+        }
+      }
+    }
+  }
+}

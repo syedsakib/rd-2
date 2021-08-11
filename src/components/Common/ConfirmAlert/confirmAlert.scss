@@ -1,0 +1,31 @@
+@import "../../../assets/scss/custom-variables.scss";
+
+.react-confirm-alert-overlay {
+  z-index: 3000;
+}
+
+.custom-confirm-ui {
+  background-color: #2f353a;
+  padding: 20px 30px;
+  border: 1px solid $border-color;
+  color: #fff;
+
+  .c-title {
+    margin: 0px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 25px;
+  }
+  .confirm-body {
+    margin-bottom: 25px;
+    p {
+      margin: 0px;
+    }
+  }
+  .c-btn-wrapper {
+    .btn {
+      margin-right: 10px;
+      font-size: 16px;
+    }
+  }
+}

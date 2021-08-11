@@ -1,0 +1,66 @@
+@import "../../../assets/scss/custom-variables";
+
+.table-row-btn-wrapper {
+  display: flex;
+  //justify-content: center;
+  align-items: flex-start;
+
+  .btn-label {
+    font-size: 14px;
+    margin-left: 6px;
+  }
+
+  .b-normal {
+    background-color: #2eb2b1;
+    &:hover {
+      background-color: lighten(#2eb2b1, 3%);
+    }
+  }
+  .b-default {
+    background-color: #6d6d6d;
+    &:hover {
+      //background-color: lighten(#6d6d6d,3%);
+    }
+  }
+  .b-disabled {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+    &:hover {
+      background-color: #cccccc;
+    }
+  }
+  .b-danger {
+    background-color: $pinkNew;
+    &:hover {
+      background-color: lighten($pinkNew, 3%);
+    }
+  }
+  .b-success {
+    background-color: #6eb45b;
+    &:hover {
+      background-color: lighten(#6eb45b, 3%);
+    }
+  }
+
+  .table-col-btn-box {
+    cursor: pointer;
+    padding: 2px 12px;
+    color: white;
+    @include box-shadow();
+    border: 1px ridge rgba(214, 212, 212, 0.5);
+    margin-right: 6px;
+    margin-bottom: 6px;
+    @include border-radius(4px);
+    .b-title {
+      font-size: 14px;
+      margin-left: 6px;
+    }
+    .b-icon {
+      position: relative;
+      .fa {
+        font-size: 14px;
+      }
+    }
+  }
+}
