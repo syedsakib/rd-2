@@ -66,6 +66,7 @@ import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/Proper
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle"
+import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle"
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal"
 
 const userRoutes = [
@@ -206,6 +207,10 @@ const userRoutes = [
   {
     path: "/cw/blog/comments",
     component: CommentsList,
+  },
+  {
+    path: "/cw/blog/edit/:id",
+    component: EditArticle,
   },
   {
     path: "/cw/blog/news",

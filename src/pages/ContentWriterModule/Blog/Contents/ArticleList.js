@@ -146,7 +146,7 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Link
                 to={{
                   pathname: `/cw/blog/edit/${rowData.id}`,
