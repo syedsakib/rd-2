@@ -58,6 +58,7 @@ import AddAgencyWrapper from "pages/SalesModule/AppMenu/AddAgency/AddAgencyWrapp
 import ArticleList from "pages/ContentWriterModule/Blog/Contents/ArticleList"
 import TagList from "pages/ContentWriterModule/Blog/Tags/TagList"
 import WriterList from "pages/ContentWriterModule/Writer/WriterList"
+import AddWriter from "pages/ContentWriterModule/Writer/AddWriter"
 import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList"
 import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList"
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList"
@@ -65,7 +66,7 @@ import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/Proper
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle"
-import AddWriter from "pages/ContentWriterModule/Writer/AddWriter"
+import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -205,6 +206,10 @@ const userRoutes = [
   {
     path: "/cw/blog/comments",
     component: CommentsList,
+  },
+  {
+    path: "/cw/blog/news",
+    component: NewsPortal,
   },
 
   //====================================================

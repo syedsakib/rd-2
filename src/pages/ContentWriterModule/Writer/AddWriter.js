@@ -270,12 +270,12 @@ const AddWriter = ({ addWriter }) => {
                                   Profile Image{" "}
                                 </label>
                                 <div className="row">
-                                  <div className="col-sm-6">
+                                  <div className="col-sm-8">
                                     <StyledDropZone
                                       onDrop={file => onChangeCoverPic(file)}
                                     />
                                   </div>
-                                  <div className="col-sm-6">
+                                  <div className="col-sm-4">
                                     {coverImageData && coverImageData !== "" ? (
                                       <div>
                                         <figure className="upload-img-outer">
