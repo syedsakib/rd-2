@@ -184,7 +184,7 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
         <Container fluid>
           {/* Render Breadcrumb */}
           <Breadcrumb title="CW" breadcrumbItem="article list" />
-
+          {/* mt-3 */}
           <Row>
             <Col lg="12">
               <Card>

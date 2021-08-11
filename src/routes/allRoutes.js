@@ -64,6 +64,7 @@ import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessL
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList"
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
+import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle"
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -163,6 +164,10 @@ const userRoutes = [
   {
     path: "/cw/blog",
     component: ArticleList,
+  },
+  {
+    path: "/cw/blog/create",
+    component: AddArticle,
   },
   {
     path: "/cw/blog/tags",

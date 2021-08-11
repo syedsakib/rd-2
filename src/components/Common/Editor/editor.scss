@@ -1,0 +1,32 @@
+
+.editor-box{
+
+  .jodit-workplace{
+    min-height: 500px !important;
+    p {
+      margin: 0px;
+    }
+    /*
+      ul{
+        display:list-item;
+        list-style-position:inside;
+        margin-left: 30px;
+        li {list-style-type: disc;}
+      }
+
+
+      ol {
+        list-style: none;
+        counter-reset: my-awesome-counter;
+        margin-left: 10px;
+        li {
+          counter-increment: my-awesome-counter;
+          &:before {
+            content: counter(my-awesome-counter) ". ";
+            font-weight: bold;
+          }
+        }
+      }*/
+  }
+}
+
