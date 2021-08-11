@@ -319,255 +319,14 @@ const EditArticle = ({
                 <CardHeader></CardHeader>
                 <CardBody>
                   <div className="row filter-row">
-                    <form onSubmit={handleSubmit(onFormSubmit)}>
-                      <div className="row">
-                        <div className="col-sm-12">
-                          <label className="">
-                            H1 Tag{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="title"
-                            id="title"
-                            onChange={e => onChange(e)}
-                            value={title}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["title"] &&
-                            errors["title"].type === "required" && (
-                              <ErrorView message={errors["title"].message} />
-                            )}
-                        </div>
-                        <div className="col-sm-12 mt-3">
-                          <label className="">
-                            URL Title{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="urlTitle"
-                            id="urlTitle"
-                            onChange={e => onChange(e)}
-                            value={urlTitle}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["urlTitle"] &&
-                            errors["urlTitle"].type === "required" && (
-                              <ErrorView message={errors["urlTitle"].message} />
-                            )}
-                        </div>
-                        <div className="col-sm-12 col-md-6 mt-3">
-                          <label className="">
-                            Category{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <select
-                            className="form-select form-control selector-input"
-                            value={category}
-                            onChange={e => onChange(e)}
-                            name="category"
-                            id="category"
-                          >
-                            <option value={0} disabled>
-                              Select Category
-                            </option>
-                            {categoryList &&
-                              categoryList.map(({ id, title }) => {
-                                return (
-                                  <option key={`cat-${id}`} value={id}>
-                                    {title}
-                                  </option>
-                                )
-                              })}
-                          </select>
-                        </div>
-                        <div className="col-sm-12 col-md-6 mt-3">
-                          <label className="">
-                            Writers{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <select
-                            className="form-select form-control selector-input"
-                            value={writer}
-                            onChange={e => onChange(e)}
-                            name="writer"
-                            id="writer"
-                          >
-                            <option value={0} disabled>
-                              Select Writer
-                            </option>
-                            {writerList &&
-                              writerList.map(({ id, name }) => {
-                                return (
-                                  <option key={`wr-${id}`} value={id}>
-                                    {name}
-                                  </option>
-                                )
-                              })}
-                          </select>
-                        </div>
-                        <div className="col-sm-12 mt-3">
-                          <label className="">
-                            Meta Descriptione{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            value={metaDesc}
-                            type="text"
-                            className="form-control"
-                            name="metaDesc"
-                            id="metaDesc"
-                            onChange={e => onChange(e)}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["metaDesc"] &&
-                            errors["metaDesc"].type === "required" && (
-                              <ErrorView message={errors["metaDesc"].message} />
-                            )}
-                        </div>
-                        <div className="col-sm-12 mt-3">
-                          <label className="">
-                            Alt Text{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="altText"
-                            id="altText"
-                            onChange={e => onChange(e)}
-                            value={altText}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["altText"] &&
-                            errors["altText"].type === "required" && (
-                              <ErrorView message={errors["altText"].message} />
-                            )}
-                        </div>
-                        <div className="col-sm-12 mt-3">
-                          <label className="">
-                            Meta Title{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="metaTitle"
-                            id="metaTitle"
-                            onChange={e => onChange(e)}
-                            value={metaTitle}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["metaTitle"] &&
-                            errors["metaTitle"].type === "required" && (
-                              <ErrorView
-                                message={errors["metaTitle"].message}
-                              />
-                            )}
-                        </div>
-                        <div className="col-sm-12 mt-3">
-                          <label className="">
-                            Meta KeyWords{" "}
-                            <sup className="lbl-star" style={{ color: "red" }}>
-                              *
-                            </sup>
-                          </label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            name="metaKeyword"
-                            id="metaKeyword"
-                            onChange={e => onChange(e)}
-                            value={metaKeyword}
-                            ref={register({
-                              required: {
-                                value: true,
-                                message: errorTexts["required"],
-                              },
-                            })}
-                          />
-                          {errors["metaKeyword"] &&
-                            errors["metaKeyword"].type === "required" && (
-                              <ErrorView
-                                message={errors["metaKeyword"].message}
-                              />
-                            )}
-                        </div>
-                        <div className="row mt-5">
-                          <div className="col-sm-12">
-                            <div className="form-group">
-                              <label className="pro-lbl-1">Upload Image </label>
-                              <div className="row">
-                                <div className="col-sm-6">
-                                  <StyledDropZone
-                                    onDrop={file => onChangeCoverPic(file)}
-                                  />
-                                </div>
-                                <div className="col-sm-6">
-                                  {coverImageData && coverImageData !== "" ? (
-                                    <div>
-                                      <figure className="upload-img-outer">
-                                        <img
-                                          className="rounded ms-2"
-                                          alt="cover image"
-                                          width="200"
-                                          height="115"
-                                          src={coverImageData}
-                                        />
-                                      </figure>
-                                    </div>
-                                  ) : null}
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-5">
+                    {isLoading ? (
+                      <LoaderComponent />
+                    ) : (
+                      <form onSubmit={handleSubmit(onFormSubmit)}>
+                        <div className="row">
                           <div className="col-sm-12">
                             <label className="">
-                              Content{" "}
+                              H1 Tag{" "}
                               <sup
                                 className="lbl-star"
                                 style={{ color: "red" }}
@@ -575,19 +334,275 @@ const EditArticle = ({
                                 *
                               </sup>
                             </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="title"
+                              id="title"
+                              onChange={e => onChange(e)}
+                              value={title}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["title"] &&
+                              errors["title"].type === "required" && (
+                                <ErrorView message={errors["title"].message} />
+                              )}
+                          </div>
+                          <div className="col-sm-12 mt-3">
+                            <label className="">
+                              URL Title{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="urlTitle"
+                              id="urlTitle"
+                              onChange={e => onChange(e)}
+                              value={urlTitle}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["urlTitle"] &&
+                              errors["urlTitle"].type === "required" && (
+                                <ErrorView
+                                  message={errors["urlTitle"].message}
+                                />
+                              )}
+                          </div>
+                          <div className="col-sm-12 col-md-6 mt-3">
+                            <label className="">
+                              Category{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <select
+                              className="form-select form-control selector-input"
+                              value={category}
+                              onChange={e => onChange(e)}
+                              name="category"
+                              id="category"
+                            >
+                              <option value={0} disabled>
+                                Select Category
+                              </option>
+                              {categoryList &&
+                                categoryList.map(({ id, title }) => {
+                                  return (
+                                    <option key={`cat-${id}`} value={id}>
+                                      {title}
+                                    </option>
+                                  )
+                                })}
+                            </select>
+                          </div>
+                          <div className="col-sm-12 col-md-6 mt-3">
+                            <label className="">
+                              Writers{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <select
+                              className="form-select form-control selector-input"
+                              value={writer}
+                              onChange={e => onChange(e)}
+                              name="writer"
+                              id="writer"
+                            >
+                              <option value={0} disabled>
+                                Select Writer
+                              </option>
+                              {writerList &&
+                                writerList.map(({ id, name }) => {
+                                  return (
+                                    <option key={`wr-${id}`} value={id}>
+                                      {name}
+                                    </option>
+                                  )
+                                })}
+                            </select>
+                          </div>
+                          <div className="col-sm-12 mt-3">
+                            <label className="">
+                              Meta Descriptione{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <input
+                              value={metaDesc}
+                              type="text"
+                              className="form-control"
+                              name="metaDesc"
+                              id="metaDesc"
+                              onChange={e => onChange(e)}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["metaDesc"] &&
+                              errors["metaDesc"].type === "required" && (
+                                <ErrorView
+                                  message={errors["metaDesc"].message}
+                                />
+                              )}
+                          </div>
+                          <div className="col-sm-12 mt-3">
+                            <label className="">
+                              Alt Text{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="altText"
+                              id="altText"
+                              onChange={e => onChange(e)}
+                              value={altText}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["altText"] &&
+                              errors["altText"].type === "required" && (
+                                <ErrorView
+                                  message={errors["altText"].message}
+                                />
+                              )}
+                          </div>
+                          <div className="col-sm-12 mt-3">
+                            <label className="">
+                              Meta Title{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="metaTitle"
+                              id="metaTitle"
+                              onChange={e => onChange(e)}
+                              value={metaTitle}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["metaTitle"] &&
+                              errors["metaTitle"].type === "required" && (
+                                <ErrorView
+                                  message={errors["metaTitle"].message}
+                                />
+                              )}
+                          </div>
+                          <div className="col-sm-12 mt-3">
+                            <label className="">
+                              Meta KeyWords{" "}
+                              <sup
+                                className="lbl-star"
+                                style={{ color: "red" }}
+                              >
+                                *
+                              </sup>
+                            </label>
+                            <input
+                              type="text"
+                              className="form-control"
+                              name="metaKeyword"
+                              id="metaKeyword"
+                              onChange={e => onChange(e)}
+                              value={metaKeyword}
+                              ref={register({
+                                required: {
+                                  value: true,
+                                  message: errorTexts["required"],
+                                },
+                              })}
+                            />
+                            {errors["metaKeyword"] &&
+                              errors["metaKeyword"].type === "required" && (
+                                <ErrorView
+                                  message={errors["metaKeyword"].message}
+                                />
+                              )}
+                          </div>
+                          <div className="row mt-5">
                             <div className="col-sm-12">
-                              <TinyMCEEditor
-                                onChange={onContentChangeHandler}
-                                value={initialContent}
-                              />
+                              <div className="form-group">
+                                <label className="pro-lbl-1">
+                                  Upload Image{" "}
+                                </label>
+                                <div className="row">
+                                  <div className="col-sm-6">
+                                    <StyledDropZone
+                                      onDrop={file => onChangeCoverPic(file)}
+                                    />
+                                  </div>
+                                  <div className="col-sm-6">
+                                    {coverImageData && coverImageData !== "" ? (
+                                      <div>
+                                        <figure className="upload-img-outer">
+                                          <img
+                                            className="rounded ms-2"
+                                            alt="cover image"
+                                            width="200"
+                                            height="115"
+                                            src={coverImageData}
+                                          />
+                                        </figure>
+                                      </div>
+                                    ) : null}
+                                  </div>
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        {suggestionList && suggestionList.length > 0 && (
-                          <div className="row pt-5">
-                            <div className="col=sm-12">
+                          <div className="row mt-5">
+                            <div className="col-sm-12">
                               <label className="">
-                                Tags{" "}
+                                Content{" "}
                                 <sup
                                   className="lbl-star"
                                   style={{ color: "red" }}
@@ -595,30 +610,51 @@ const EditArticle = ({
                                   *
                                 </sup>
                               </label>
-                              <ReactTags
-                                suggestionList={suggestionList}
-                                onChange={onChangeTag}
-                              />
+                              <div className="col-sm-12">
+                                <TinyMCEEditor
+                                  onChange={onContentChangeHandler}
+                                  value={initialContent}
+                                />
+                              </div>
                             </div>
                           </div>
-                        )}
-                        <div className="text-center mt-4">
-                          <Link
-                            className="btn btn-danger  btn-label btn-lg mx-2"
-                            to="/cw/blog"
-                          >
-                            <i className="bx bx-block label-icon"></i> Cancel
-                          </Link>
-                          <button
-                            type="submit"
-                            className="btn btn-primary  btn-label btn-lg"
-                          >
-                            <i className="bx bx-check-double label-icon"></i>{" "}
-                            Save Changes
-                          </button>
+                          {suggestionList && suggestionList.length > 0 && (
+                            <div className="row pt-5">
+                              <div className="col=sm-12">
+                                <label className="">
+                                  Tags{" "}
+                                  <sup
+                                    className="lbl-star"
+                                    style={{ color: "red" }}
+                                  >
+                                    *
+                                  </sup>
+                                </label>
+                                <ReactTags
+                                  suggestionList={suggestionList}
+                                  onChange={onChangeTag}
+                                />
+                              </div>
+                            </div>
+                          )}
+                          <div className="text-center mt-4">
+                            <Link
+                              className="btn btn-danger  btn-label btn-lg mx-2"
+                              to="/cw/blog"
+                            >
+                              <i className="bx bx-block label-icon"></i> Cancel
+                            </Link>
+                            <button
+                              type="submit"
+                              className="btn btn-primary  btn-label btn-lg"
+                            >
+                              <i className="bx bx-check-double label-icon"></i>{" "}
+                              Save Changes
+                            </button>
+                          </div>
                         </div>
-                      </div>
-                    </form>
+                      </form>
+                    )}
                   </div>
                 </CardBody>
               </Card>
