@@ -129,35 +129,38 @@ const ImageEditor = ({ property, updatePropertyDetail, getPropertyPhotos }) => {
       {rows && rows.length > 0 ? (
         <div className="p-image-editor-wrapper">
           <div className="p-image-editor-inner-wrapper">
-            <DragDropContext onDragEnd={onDragEnd}>
-              <Droppable droppableId="droppable-1" type="CARD">
-                {(provided, snapshot) => (
-                  <div
-                    className="property-image-list"
-                    ref={provided.innerRef}
-                    style={{
-                      backgroundColor: snapshot.isDraggingOver
-                        ? "#f9fafa"
-                        : "white",
-                    }}
-                    {...provided.droppableProps}
-                  >
-                    {rows.map((item, index) => {
-                      return (
-                        <ImageBox
-                          key={`pImages-${index}`}
-                          item={item}
-                          onDelete={removeImageHandler}
-                          index={index}
-                          openModal={openInfoModal}
-                        />
-                      );
-                    })}
-                    {provided.placeholder}
-                  </div>
-                )}
-              </Droppable>
-            </DragDropContext>
+            <div className="overflow-auto p-4" style={{ maxHeight: "700px" }}>
+              <DragDropContext onDragEnd={onDragEnd}>
+                <Droppable droppableId="droppable-1" type="CARD">
+                  {(provided, snapshot) => (
+                    <div
+                      className="property-image-list"
+                      ref={provided.innerRef}
+                      style={{
+                        backgroundColor: snapshot.isDraggingOver
+                          ? "#f9fafa"
+                          : "white",
+                      }}
+                      {...provided.droppableProps}
+                    >
+                      {rows.map((item, index) => {
+                        return (
+                          <ImageBox
+                            key={`pImages-${index}`}
+                            item={item}
+                            onDelete={removeImageHandler}
+                            index={index}
+                            openModal={openInfoModal}
+                          />
+                        );
+                      })}
+                      {provided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+            </div>
+
             <div className="row mt-4">
               <div className="col-sm-12">
                 <div className="form-footer text-center">

@@ -146,43 +146,45 @@ const CareTypesForm = ({ property, pAmenityList, updatePropertyDetail }) => {
           <LoaderComponent />
         ) : (
           <div>
-            {careTypeList &&
-              careTypeList.map((item) => {
-                let { id, title } = item;
-                let labelID = `pct${id}`;
-                return (
-                  <div
-                    className="form-check form-check-success p-2"
-                    key={labelID}
-                  >
-                    <input
-                      type="checkbox"
-                      value={careTypes[id] || ""}
-                      id={labelID}
-                      checked={serviceChecked(id)}
-                      onChange={(e) => {
-                        onServiceSelect(id);
-                      }}
-                      className="form-check-input"
-                      style={{
-                        padding: "10px",
-                        cursor: "pointer",
-                      }}
-                    />
-
-                    <label
-                      className="form-check-label"
-                      htmlFor={labelID}
-                      style={{
-                        padding: "4px 0px 0px 20px",
-                        fontSize: "15px",
-                      }}
+            <div className="overflow-auto p-4" style={{ maxHeight: "700px" }}>
+              {careTypeList &&
+                careTypeList.map((item) => {
+                  let { id, title } = item;
+                  let labelID = `pct${id}`;
+                  return (
+                    <div
+                      className="form-check form-check-success p-2"
+                      key={labelID}
                     >
-                      {title}
-                    </label>
-                  </div>
-                );
-              })}
+                      <input
+                        type="checkbox"
+                        value={careTypes[id] || ""}
+                        id={labelID}
+                        checked={serviceChecked(id)}
+                        onChange={(e) => {
+                          onServiceSelect(id);
+                        }}
+                        className="form-check-input"
+                        style={{
+                          padding: "10px",
+                          cursor: "pointer",
+                        }}
+                      />
+
+                      <label
+                        className="form-check-label"
+                        htmlFor={labelID}
+                        style={{
+                          padding: "4px 0px 0px 20px",
+                          fontSize: "15px",
+                        }}
+                      >
+                        {title}
+                      </label>
+                    </div>
+                  );
+                })}
+            </div>
             <div className="row mt-4">
               <div className="col-sm-12">
                 <div className="form-footer text-center">
