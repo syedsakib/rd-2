@@ -63,6 +63,7 @@ import EditWriter from "pages/ContentWriterModule/Writer/EditWriter";
 import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList";
 import EditMetaCms from "pages/ContentWriterModule/CMS/MetaCMS/EditMetaCms";
 import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList";
+import ScrapeInvalidPropertyEditor from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyEditor/PropertyEditWrapper";
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
 import ProcessDataList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessDataList";
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
@@ -207,6 +208,10 @@ const userRoutes = [
   {
     path: "/cw/scrape/invalid-list",
     component: InvalidPropertyList,
+  },
+  {
+    path: "/cw/scrape/invalidProperty/edit/:id",
+    component: ScrapeInvalidPropertyEditor,
   },
   {
     path: "/cw/scrape/process",

@@ -311,7 +311,7 @@ const InvalidPropertyList = ({
                 icon="edit"
                 onClick={() => {
                   history.push(
-                    `/admin/scrape/invalidProperty/edit/${rowData.boom_hash}?name=${rowData.businessTitle}`
+                    `/cw/scrape/invalidProperty/edit/${rowData.boom_hash}?name=${rowData.businessTitle}`
                   );
                 }}
                 toolTip="Fix Invalid Property"
