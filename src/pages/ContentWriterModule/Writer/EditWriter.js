@@ -3,7 +3,15 @@ import React, { useState, useEffect, useRef } from "react";
 import { toastr } from "react-redux-toastr";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Input,
+} from "reactstrap";
 
 //Import Breadcrumb
 import Breadcrumb from "../../../components/Common/Breadcrumb";
@@ -245,9 +253,10 @@ const EditWriter = ({ getEditWriterData, editWriter, match: { params } }) => {
                                 *
                               </sup>
                             </label>
-                            <input
+                            <textarea
                               value={bio}
-                              type="text"
+                              type="textarea"
+                              rows="5"
                               className="form-control"
                               name="bio"
                               id="bio"
