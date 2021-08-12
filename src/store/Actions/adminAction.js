@@ -1688,6 +1688,7 @@ export const editTag = (title, description, id) => async (dispatch) => {
       description,
       id,
     });
+    console.log("results", result);
     const { msg, status } = result.data;
     if (status === 200) {
       toastr.success("Success", msg);

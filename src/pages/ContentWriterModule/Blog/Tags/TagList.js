@@ -25,6 +25,8 @@ import { formatDate } from "../../../../store/utils/util";
 import { getTagList, deleteTag } from "../../../../store/Actions/adminAction";
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
 import ReactTooltip from "react-tooltip";
+import EditTagModal from "./EditTagModal";
+import AddTagModal from "./AddTagModal";
 
 const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
   // declare states
@@ -166,9 +168,9 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                 id={rowData.id}
                 data-tip="Edit"
                 style={{ paddingRight: "20px" }}
-                // onClick={() => {
-                //   toggleModal("edit", data)
-                // }}
+                onClick={() => {
+                  toggleModal("edit", rowData);
+                }}
               >
                 <i class="fas fa-edit" style={{ color: "#495057" }}></i>
                 <ReactTooltip place="top" type="info" effect="float" />
@@ -227,10 +229,14 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                     <div className="col-md-6 text-end">
                       <div className="db-btn-group">
                         <Link
-                          to="/cw/blog/create"
+                          to="#"
                           title="Add Contact"
                           color="info"
                           className="btn btn-info btn-label"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            toggleModal("insert");
+                          }}
                         >
                           <i className="bx bx-plus-circle label-icon"></i>
                           Add New Tag
@@ -333,6 +339,21 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
           </Row>
         </Container>
       </div>
+      {showAddModal && (
+        <AddTagModal
+          openModal={showAddModal}
+          hideModal={toggleModal}
+          callBack={getTagListHandler}
+        />
+      )}
+      {showEditModal && (
+        <EditTagModal
+          openModal={showEditModal}
+          hideModal={toggleModal}
+          callBack={getTagListHandler}
+          tagData={selectedTag}
+        />
+      )}
     </React.Fragment>
   );
 };
