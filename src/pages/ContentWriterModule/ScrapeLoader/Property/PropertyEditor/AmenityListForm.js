@@ -65,7 +65,7 @@ const AmenityListForm = ({ property, pAmenityList, updatePropertyDetail }) => {
 
   return (
     <div>
-      <h3 className="form-title">Services</h3>
+      <h3 className="form-title">Amenities</h3>
       <hr />
       <br />
       <div style={{ textAlign: "center" }}>

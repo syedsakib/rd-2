@@ -69,7 +69,7 @@ const CommunityListForm = ({
 
   return (
     <div>
-      <h3 className="form-title">Services</h3>
+      <h3 className="form-title">Communities</h3>
       <hr />
       <br />
       <div style={{ textAlign: "center" }}>
