@@ -3,7 +3,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { toastr } from "react-redux-toastr";
 import { connect, useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
-import Pagination from "react-js-pagination";
+import { useForm } from "react-hook-form";
 import {
   Container,
   Row,
@@ -15,20 +15,14 @@ import {
   InputGroup,
 } from "reactstrap";
 
-import { DataTable } from "primereact/datatable";
-import { Column } from "primereact/column";
-
 //Import Breadcrumb
 import Breadcrumb from "../../../../components/Common/Breadcrumb";
-import {
-  formatDate,
-  formatNumber,
-  getFrontUrl,
-} from "../../../../store/utils/util";
+import { slugify } from "../../../../store/utils/util";
 import Switch from "react-switch";
 
 //redux & actions
 import {
+  editStructurePageCmsData,
   getStructureDataPageList,
   updateStructureCmsPageStatus,
 } from "../../../../store/Actions/cmsAction";
@@ -40,11 +34,12 @@ import {
 } from "../../../../store/Actions/userAction.js";
 
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
-import ReactTooltip from "react-tooltip";
+import TinyMceEditor from "components/Common/Editor/TinyMCEEDitor";
 import ButtonComp from "components/Common/Button/Button";
 import SearchSelect from "components/Common/SearchSelect/SearchSelect";
 
-const CMSPage = ({
+const AddStructureCMSPage = ({
+  editStructurePageCmsData,
   getStructureDataPageList,
   updateStructureCmsPageStatus,
   getseniorLivingtype,
@@ -53,59 +48,60 @@ const CMSPage = ({
   searchBlogByKeyword,
 }) => {
   // declare states
-  const history = useHistory();
+  const dispatch = useDispatch();
+  const { register, handleSubmit, errors } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onSubmit",
+  });
+  const errorTexts = {
+    required: "This field is required",
+    pattern: "Numbers and special chars not allowed",
+  };
+  // declare states
+  const [formData, updateFormData] = useState({
+    selectedCareType: "",
+    selectedState: "",
+    selectedCity: "",
+    selectedBlog: "",
+    selectedPageType: "#",
+    otherPageId: "",
+    content: "",
+  });
   const [isLoading, toggleLoader] = useState(false);
   const [stateList, updateStateList] = useState(null);
   const [cityList, updateCityList] = useState(null);
+  const [careTypes, updateCareTypes] = useState([]);
   const [suggestedArticleList, updateSuggestedArticleList] = useState([]);
-  const [refresh, updateRefresh] = useState(null);
   const [searchBoxState, updateSearchBoxState] = useState({
     articleSearchInput: "",
     citySearchInput: "",
   });
-  const [filterState, updateFilterState] = useState({
-    activePage: 1,
-    limit: 20,
-    selectedPageType: "all",
-    searchText: "",
-    selectedCareType: "all",
-    selectedState: "all",
-    selectedCity: "all",
-    selectedBlog: "",
-  });
-  const [listState, updateListState] = useState({
-    rows: [],
-    count: 0,
-  });
-  const [careTypes, updateCareTypes] = useState([]);
-  const [modalState, updateModalState] = useState({
-    modalName: null,
-    modalData: null,
-  });
 
-  // extract states
-  const { rows, count } = listState;
+  // destructure states
   const {
-    limit,
-    activePage,
-    searchText,
-    selectedCareType,
     selectedPageType,
-    selectedState,
     selectedCity,
     selectedBlog,
-  } = filterState;
-  const { modalName, modalData } = modalState;
+    selectedCareType,
+    selectedState,
+    otherPageId,
+    content,
+  } = formData;
   const { articleSearchInput, citySearchInput } = searchBoxState;
 
-  // app function
+  const [editorContent, updateEditorContent] = useState({
+    initialContent: content || "",
+  });
+  const { initialContent } = editorContent;
+
+  // app functions
   useEffect(() => {
     getCareTypeDataHandler();
     getUsStateHandler();
   }, []);
 
   useEffect(() => {
-    clearStateHandler();
+    // clearStateHandler();
   }, [selectedPageType]);
 
   useEffect(() => {
@@ -114,43 +110,6 @@ const CMSPage = ({
     }
   }, [selectedState]);
 
-  // app functions
-  useEffect(() => {
-    getDataListHandler();
-  }, [
-    activePage,
-    searchText,
-    selectedCareType,
-    selectedBlog,
-    selectedCity,
-    selectedPageType,
-    refresh,
-  ]);
-
-  const updateFilterStateHandler = (newState) => {
-    updateFilterState({
-      ...filterState,
-      ...newState,
-    });
-  };
-
-  const clearStateHandler = () => {
-    updateFilterStateHandler({
-      activePage: 1,
-      limit: 20,
-      searchText: "",
-      selectedCareType: "all",
-      selectedState: "all",
-      selectedCity: "all",
-      selectedBlog: "",
-    });
-    updateSearchBoxStateHandler({
-      articleSearchInput: "",
-      citySearchInput: "",
-    });
-    updateSuggestedArticleList([]);
-  };
-
   const updateSearchBoxStateHandler = (newState) => {
     updateSearchBoxState({
       ...searchBoxState,
@@ -158,32 +117,26 @@ const CMSPage = ({
     });
   };
 
-  const getDataListHandler = async () => {
-    try {
-      toggleLoader(true);
-      const result = await getStructureDataPageList({
-        pageNumber: activePage,
-        limit,
-        searchText,
-        selectedCareType,
-        selectedBlog,
-        selectedPageType,
-        selectedState,
-        selectedCity,
-      });
-      console.log("Structure Data Page List ", result);
-      if (result) {
-        const { rows, count } = result;
-        updateListState({
-          rows,
-          count: count.length,
-        });
-      }
-      toggleLoader(false);
-    } catch (e) {
-      console.log(e);
-      toggleLoader(false);
-    }
+  const updateFormDataHandler = (newState) => {
+    updateFormData({
+      ...formData,
+      ...newState,
+    });
+  };
+
+  const clearStateHandler = () => {
+    updateFormData({
+      otherPageId: "",
+      selectedCareType: "#",
+      selectedState: "#",
+      selectedCity: "#",
+      selectedBlog: "",
+    });
+    updateSearchBoxStateHandler({
+      articleSearchInput: "",
+      citySearchInput: "",
+    });
+    updateSuggestedArticleList([]);
   };
 
   const getCareTypeDataHandler = async () => {
@@ -232,16 +185,101 @@ const CMSPage = ({
     }
   };
 
-  const handlePageChange = (pageNumber) => {
-    updateFilterStateHandler({
-      activePage: pageNumber,
-    });
+  const onSubmit = async () => {
+    onSubmitHandler();
+  };
+
+  const onSubmitPublish = async () => {
+    onSubmitHandler(true);
+  };
+
+  const onSubmitHandler = async (shouldPublish) => {
+    try {
+      console.log(`Form Data `, formData);
+
+      if (isLoading) throw "A Process is in progress. Try again later";
+
+      if (!selectedPageType || selectedPageType === "#")
+        throw "Please select a page type";
+
+      if (
+        selectedPageType === "pillar" &&
+        (!selectedCareType || selectedCareType === "#")
+      )
+        throw "Please select a care type";
+
+      if (
+        selectedPageType === "state" &&
+        (!selectedCareType ||
+          selectedCareType === "#" ||
+          !selectedState ||
+          selectedState === "#")
+      )
+        throw "Care Type & state needs to be selected for State page type";
+
+      if (
+        selectedPageType === "city" &&
+        (!selectedCareType ||
+          selectedCareType === "#" ||
+          !selectedState ||
+          selectedState === "#" ||
+          !selectedCity ||
+          selectedCity === "#")
+      )
+        throw "Care Type & state needs to be selected for State page type";
+
+      if (selectedPageType === "blog" && (!selectedBlog || selectedBlog === ""))
+        throw "Please select an article";
+
+      if (selectedPageType === "other" && (!otherPageId || otherPageId === ""))
+        throw "Page Id is required";
+
+      if (!content || content === "") throw "Content is required";
+
+      const pageId = generatePageId();
+
+      toggleLoader(true);
+
+      const result = await editStructurePageCmsData({
+        selectedPageType,
+        pageId,
+        faqContent: content,
+        itemId: null,
+        shouldPublish,
+      });
+      if (result) {
+      }
+      toggleLoader(false);
+    } catch (e) {
+      toggleLoader(false);
+      toastr.error("Error", e.toString());
+      console.log(e);
+    }
+  };
+
+  const generatePageId = () => {
+    switch (selectedPageType) {
+      case "blog":
+        return selectedBlog;
+      case "pillar":
+        return slugify(selectedCareType);
+      case "state":
+        return `${slugify(selectedCareType)}-${selectedState}`;
+      case "city":
+        return `${slugify(selectedCareType)}-${selectedState}-${selectedCity}`;
+      case "other":
+        return slugify(otherPageId);
+      default:
+        return null;
+    }
   };
 
   const onChange = (e) => {
-    const el = e.target;
-    updateFilterStateHandler({
-      [el.name]: el.value,
+    const element = e.target;
+    const name = element.name;
+    const value = element.value;
+    updateFormDataHandler({
+      [name]: value,
     });
   };
 
@@ -250,14 +288,16 @@ const CMSPage = ({
     updateSearchBoxStateHandler({
       articleSearchInput: val,
     });
-    updateFilterStateHandler({
+    updateFormDataHandler({
       selectedBlog: "",
     });
     if (val) {
-      let result = await searchBlogByKeyword({
-        searchText: val,
-        limit: 10,
-      });
+      let result = await dispatch(
+        searchBlogByKeyword({
+          searchText: val,
+          limit: 10,
+        })
+      );
       if (result) {
         //console.log(`Article List `, result);
         let optionList = result.rows.map((item) => ({
@@ -271,10 +311,10 @@ const CMSPage = ({
 
   const onArticleSelectHandler = (value) => {
     if (value) {
-      const { id, categoryDetail, title } = value;
+      const { id, categoryDetail, title, urlTitle, slug } = value;
       const valueLabel = `(${categoryDetail?.title}) ${title}`;
-      updateFilterStateHandler({
-        selectedBlog: id,
+      updateFormDataHandler({
+        selectedBlog: `blog/${slug}`,
       });
       updateSearchBoxStateHandler({
         articleSearchInput: valueLabel,
@@ -282,99 +322,8 @@ const CMSPage = ({
     }
   };
 
-  const onCmsPageStatusChangeHandler = async (id, status) => {
-    try {
-      toggleLoader(true);
-      let result = await updateStructureCmsPageStatus({
-        itemId: id,
-        status,
-      });
-      if (result) {
-        updateRefresh(Date.now());
-      }
-      toggleLoader(false);
-    } catch (e) {
-      console.log(e);
-      toggleLoader(false);
-    }
-  };
-
-  //TABLE COMPONENTS
-  const dt = useRef(null);
-
-  const pageTypeBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <span> {rowData.page_type ? rowData.page_type : "N/A"}</span>
-      </React.Fragment>
-    );
-  };
-
-  const pageIdBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <span> {rowData.page_id ? rowData.page_id : "N/A"}</span>
-      </React.Fragment>
-    );
-  };
-
-  const createdAtBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <span>{formatDate(rowData.createdAt)}</span>
-      </React.Fragment>
-    );
-  };
-
-  const lastUpdatedOnBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <span>{formatDate(rowData.updatedAt)}</span>
-      </React.Fragment>
-    );
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        <span>
-          <Switch
-            //  onChange={() => updateArticleStatusHandler(rowData)}
-            checked={rowData.status}
-          />
-        </span>
-      </React.Fragment>
-    );
-  };
-
-  const actionBodyTemplate = (rowData) => {
-    return (
-      <React.Fragment>
-        {
-          <span>
-            <div className="d-flex justify-content-center">
-              <ButtonComp
-                icon="edit"
-                onClick={(e) => {
-                  window.open(`/cw/cms/structure/edit/${rowData.id}`);
-                }}
-                toolTip="Edit Content"
-                btnClass="normal"
-              />
-              <ButtonComp
-                icon="link"
-                onClick={(e) => {
-                  let url = `${getFrontUrl()}/`;
-                  window.open(`${url}${rowData.page_id}`);
-                }}
-                toolTip="Go To Page"
-                btnClass="normal"
-              />
-            </div>
-          </span>
-        }
-      </React.Fragment>
-    );
+  const onContentChangeHandler = (newContent) => {
+    updateFormDataHandler({ content: newContent });
   };
 
   //TABLE COMPONENTS END
@@ -387,7 +336,7 @@ const CMSPage = ({
         </MetaTags>
         <Container fluid>
           {/* Render Breadcrumb */}
-          <Breadcrumb title="CW" breadcrumbItem="page list" />
+          <Breadcrumb title="CW" breadcrumbItem="add structure data" />
 
           <Row>
             <Col lg="12">
@@ -396,17 +345,13 @@ const CMSPage = ({
                   <div className="col-md-12 text-end">
                     <div className="db-btn-group">
                       <Link
-                        to="#"
+                        to="/cw/cms/structure"
                         title="Add Contact"
                         color="info"
-                        className="btn btn-info btn-label"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          window.open(`/cw/cms/structure/create`);
-                        }}
+                        className="btn btn-danger btn-label"
                       >
-                        <i className="bx bx-plus-circle label-icon"></i>
-                        Add New Article
+                        <i className="bx bx-block label-icon"></i>
+                        Go Back
                       </Link>
                     </div>
                   </div>
@@ -421,7 +366,9 @@ const CMSPage = ({
                         value={selectedPageType}
                         onChange={onChange}
                       >
-                        <option value="all">All</option>
+                        <option value="#" disabled>
+                          Select Page Type
+                        </option>
                         <option value="pillar">Pillar</option>
                         <option value="blog">Blog</option>
                         <option value="state">State</option>
@@ -458,7 +405,7 @@ const CMSPage = ({
                           value={selectedCareType}
                           onChange={onChange}
                         >
-                          <option value="all">All</option>
+                          <option value="#">Select Care Type</option>
                           {careTypes?.map(({ title, id }) => {
                             return (
                               <option value={title} key={`c-${title}-${id}`}>
@@ -518,18 +465,21 @@ const CMSPage = ({
                   {selectedPageType === "other" && (
                     <div className="row filter-row">
                       <div className="col-md-12">
-                        <label className="filter-title">Search Page</label>
+                        <label className="filter-title">
+                          {" "}
+                          Page Id <sup className="lbl-star">*</sup>
+                        </label>
                         <InputGroup>
                           <input
                             type="text"
-                            className="form-control"
-                            name="searchText"
-                            placeholder="Search by keyword"
+                            name="otherPageId"
+                            placeholder="ex: adviser-registration/contact-us"
                             onChange={onChange}
-                            value={searchText}
+                            value={otherPageId}
+                            className="form-control"
                           />
                           <div className="input-group-text">
-                            <i class="fas fa-search-plus"></i>
+                            <i className="fas fa-search-plus"></i>
                           </div>
                         </InputGroup>
                       </div>
@@ -537,93 +487,48 @@ const CMSPage = ({
                   )}
 
                   <br />
-                  <div className="record-count-wrapper">
-                    <div className="row">
-                      <div className="col-sm-6">
-                        <ButtonComp
-                          icon="sync"
-                          onClick={() => {
-                            getDataListHandler();
-                          }}
-                          toolTip="refresh"
-                        />
-                      </div>
-                      <div className="col-sm-6 text-end">
-                        {count > 0 && (
-                          <div className="record-counter">
-                            Total Record Found ({count})
-                          </div>
-                        )}
-                      </div>
-                    </div>
-                  </div>
-                  <br />
 
                   {isLoading ? (
                     <LoaderComponent />
                   ) : (
-                    <div className="datatable-responsive-demo">
-                      <div className="card">
-                        <DataTable
-                          ref={dt}
-                          value={listState.rows}
-                          className="p-datatable-customers"
-                          emptyMessage="No data found."
+                    <div className="">
+                      <div className="row">
+                        <div className="col-sm-12">
+                          <div className="form-group">
+                            <label className="pro-lbl-1" htmlFor="content">
+                              Content{" "}
+                              <span className="highlight-text">
+                                Block (H3 = Question) (P = Answer)
+                              </span>{" "}
+                              <sup className="lbl-star">*</sup>
+                            </label>
+                            <TinyMceEditor
+                              onChange={onContentChangeHandler}
+                              value={initialContent}
+                              height={550}
+                              name={"content"}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      <div className="text-center mt-5">
+                        <Link
+                          className="btn btn-danger  btn-label btn-lg mx-2"
+                          to="/cw/cms/structure"
                         >
-                          <Column
-                            field="page_type"
-                            header="Page Type"
-                            body={pageTypeBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="page_id"
-                            header="Page Id"
-                            body={pageIdBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="createdAt"
-                            header="Created At"
-                            body={createdAtBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="updatedAt"
-                            header="Last Updated On"
-                            body={lastUpdatedOnBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="status"
-                            header="Status"
-                            body={statusBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="action"
-                            header="Action"
-                            body={actionBodyTemplate}
-                            sortable
-                          />
-                        </DataTable>
+                          <i className="bx bx-block label-icon"></i> Cancel
+                        </Link>
+                        <button
+                          type="submit"
+                          className="btn btn-primary  btn-label btn-lg"
+                          onClick={onSubmitPublish}
+                        >
+                          <i className="bx bx-check-double label-icon"></i> Save
+                          Changes
+                        </button>
                       </div>
                     </div>
                   )}
-
-                  <div>
-                    {!isLoading && count > limit && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          //activePage={activePage}
-                          //  itemsCountPerPage={limit}
-                          // totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          //  onChange={handlePageChange}
-                        />
-                      </div>
-                    )}
-                  </div>
                 </CardBody>
               </Card>
             </Col>
@@ -639,6 +544,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
+  editStructurePageCmsData,
   getStructureDataPageList,
   updateStructureCmsPageStatus,
   getseniorLivingtype,
@@ -647,4 +553,7 @@ const mapDispatchToProps = {
   searchBlogByKeyword,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(CMSPage);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddStructureCMSPage);

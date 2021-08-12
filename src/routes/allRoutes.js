@@ -71,6 +71,7 @@ import UpdateHistoryList from "pages/ContentWriterModule/ScrapeLoader/Property/U
 import PropertyEditWrapper from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyEditor/PropertyEditWrapper";
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList";
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage";
+import AddStructureCMSPage from "pages/ContentWriterModule/CMS/StructureCMS/AddStructureCMSPage";
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
 import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
@@ -205,6 +206,10 @@ const userRoutes = [
   {
     path: "/cw/cms/structure",
     component: CMSPage,
+  },
+  {
+    path: "/cw/cms/structure/create",
+    component: AddStructureCMSPage,
   },
   {
     path: "/cw/scrape/invalid-list",
