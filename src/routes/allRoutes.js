@@ -66,6 +66,7 @@ import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidP
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
 import ProcessDataList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessDataList";
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
+import PropertyEditWrapper from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyEditor/PropertyEditWrapper";
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList";
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage";
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
@@ -218,6 +219,10 @@ const userRoutes = [
   {
     path: "/cw/scrape",
     component: PropertyList,
+  },
+  {
+    path: "/CW/scrape/property/edit/:ID",
+    component: PropertyEditWrapper,
   },
   {
     path: "/cw/blog/comments",
