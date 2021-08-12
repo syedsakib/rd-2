@@ -67,6 +67,7 @@ import ScrapeInvalidPropertyEditor from "pages/ContentWriterModule/ScrapeLoader/
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
 import ProcessDataList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessDataList";
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
+import UpdateHistoryList from "pages/ContentWriterModule/ScrapeLoader/Property/UpdateHistoryList";
 import PropertyEditWrapper from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyEditor/PropertyEditWrapper";
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList";
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage";
@@ -226,8 +227,12 @@ const userRoutes = [
     component: PropertyList,
   },
   {
-    path: "/CW/scrape/property/edit/:ID",
+    path: "/cw/scrape/property/edit/:ID",
     component: PropertyEditWrapper,
+  },
+  {
+    path: "/cw/scrape/property/history/:id",
+    component: UpdateHistoryList,
   },
   {
     path: "/cw/blog/comments",
