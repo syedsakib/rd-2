@@ -61,6 +61,7 @@ import WriterList from "pages/ContentWriterModule/Writer/WriterList";
 import AddWriter from "pages/ContentWriterModule/Writer/AddWriter";
 import EditWriter from "pages/ContentWriterModule/Writer/EditWriter";
 import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList";
+import EditMetaCms from "pages/ContentWriterModule/CMS/MetaCMS/EditMetaCms";
 import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList";
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
@@ -192,6 +193,10 @@ const userRoutes = [
   {
     path: "/cw/cms/meta",
     component: CmsList,
+  },
+  {
+    path: "/cw/cms/meta/edit/:id",
+    component: EditMetaCms,
   },
   {
     path: "/cw/cms/structure",
