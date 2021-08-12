@@ -258,7 +258,7 @@ const ProcessList = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               {userDetails &&
                 userDetails.role == 1 &&
                 processStatus === "Pending" && (
