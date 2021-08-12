@@ -30,6 +30,7 @@ import {
 } from "../../../../store/Actions/adminAction";
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
 import ReactTooltip from "react-tooltip";
+import DetailViewModal from "./DetailViewModal";
 
 const CommentsList = ({
   getAllCommentList,
@@ -439,6 +440,13 @@ const CommentsList = ({
           </Row>
         </Container>
       </div>
+      {isDetailViewModalOpen && (
+        <DetailViewModal
+          openModal={isDetailViewModalOpen}
+          hideModal={toggleModal}
+          commentDetail={selectedComment}
+        />
+      )}
     </React.Fragment>
   );
 };
