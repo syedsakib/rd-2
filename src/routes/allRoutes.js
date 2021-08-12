@@ -1,73 +1,74 @@
-import React from "react"
-import { Redirect } from "react-router-dom"
+import React from "react";
+import { Redirect } from "react-router-dom";
 
 // Authentication related pages
-import Login from "../pages/Authentication/Login"
-import Logout from "../pages/Authentication/Logout"
-import Register from "../pages/Authentication/Register"
-import ForgetPwd from "../pages/Authentication/ForgetPassword"
+import Login from "../pages/Authentication/Login";
+import Logout from "../pages/Authentication/Logout";
+import Register from "../pages/Authentication/Register";
+import ForgetPwd from "../pages/Authentication/ForgetPassword";
 
 // Dashboard
-import Dashboard from "../pages/Dashboard/index"
+import Dashboard from "../pages/Dashboard/index";
 
 //1.1)  Profile
-import UserProfile from "../pages/Admin/Profile/user-profile"
-import ResetPassword from "pages/Admin/Profile/reset-password"
+import UserProfile from "../pages/Admin/Profile/user-profile";
+import ResetPassword from "pages/Admin/Profile/reset-password";
 
 //1.2) User Management
-import InternalUserList from "pages/Admin/UserManager/InternalUserList"
-import CreateUserForm from "pages/Admin/UserManager/CreateUserForm"
-import EditUserForm from "pages/Admin/UserManager/EditUserForm"
+import InternalUserList from "pages/Admin/UserManager/InternalUserList";
+import CreateUserForm from "pages/Admin/UserManager/CreateUserForm";
+import EditUserForm from "pages/Admin/UserManager/EditUserForm";
 
 //1.3)  Applicants Management
-import Applicants from "pages/Admin/Applicants/Applicants"
-import ApplicantDetail from "pages/Admin/Applicants/ApplicantDetail"
+import Applicants from "pages/Admin/Applicants/Applicants";
+import ApplicantDetail from "pages/Admin/Applicants/ApplicantDetail";
 
 //1.4) Corporate Management
-import CorporateList from "pages/Admin/Corporate/CorporateList/CorporateList"
-import CreateCorporateForm from "pages/Admin/Corporate/CorporateForms/AddCorporateForm"
-import EditCorporateForm from "pages/Admin/Corporate/EditCorporate/EditCorporateForm"
-import CorporateAdminList from "pages/Admin/Corporate/CorporateAdminList/CorporateAdminList"
-import CreateCorporateAdminForm from "pages/Admin/Corporate/CorporateAdminForms/CreateCorporateAdminForm"
-import EditCorporateAdminForm from "pages/Admin/Corporate/CorporateAdminForms/EditCorporateAdminForm"
+import CorporateList from "pages/Admin/Corporate/CorporateList/CorporateList";
+import CreateCorporateForm from "pages/Admin/Corporate/CorporateForms/AddCorporateForm";
+import EditCorporateForm from "pages/Admin/Corporate/EditCorporate/EditCorporateForm";
+import CorporateAdminList from "pages/Admin/Corporate/CorporateAdminList/CorporateAdminList";
+import CreateCorporateAdminForm from "pages/Admin/Corporate/CorporateAdminForms/CreateCorporateAdminForm";
+import EditCorporateAdminForm from "pages/Admin/Corporate/CorporateAdminForms/EditCorporateAdminForm";
 
 //1.4)  Call Center
-import OutgoingCallLogsList from "pages/CallCenter/callLogs/OutgoingCallLogsList"
-import IncomingCallLogsList from "pages/CallCenter/callLogs/IncomingCallLogsList"
+import OutgoingCallLogsList from "pages/CallCenter/callLogs/OutgoingCallLogsList";
+import IncomingCallLogsList from "pages/CallCenter/callLogs/IncomingCallLogsList";
 
 //1.5)  Sales CRM
-import AgencyList from "pages/Sales/SubscribedAgencies/AgencyList"
-import AgencyRecordList from "pages/Sales/AgencyRecord/AgencyRecordList"
-import SalesUserList from "pages/Sales/SaleUser/SalesUserList"
-import AgencyDetailWrapper from "pages/Sales/SubscribedAgencies/AgencyDetail/AgencyDetailWrapper"
-import AssignHistoryList from "pages/Sales/SubscribedAgencies/AssignHistory/AssignHistoryList"
-import AssignedAgencyList from "pages/Sales/SaleUser/AssignedAgencies/AssignedAgencyList"
-import SaleUserPerformenceList from "pages/Sales/SaleUser/PerformenceList/SaleUserPerformenceList"
-import CallLogList from "pages/Sales/SaleUser/CallLogs/CallLogList"
+import AgencyList from "pages/Sales/SubscribedAgencies/AgencyList";
+import AgencyRecordList from "pages/Sales/AgencyRecord/AgencyRecordList";
+import SalesUserList from "pages/Sales/SaleUser/SalesUserList";
+import AgencyDetailWrapper from "pages/Sales/SubscribedAgencies/AgencyDetail/AgencyDetailWrapper";
+import AssignHistoryList from "pages/Sales/SubscribedAgencies/AssignHistory/AssignHistoryList";
+import AssignedAgencyList from "pages/Sales/SaleUser/AssignedAgencies/AssignedAgencyList";
+import SaleUserPerformenceList from "pages/Sales/SaleUser/PerformenceList/SaleUserPerformenceList";
+import CallLogList from "pages/Sales/SaleUser/CallLogs/CallLogList";
 
 //2) Sales Dashboard
-import SellerCallLogList from "pages/SalesModule/AppMenu/CallLogs/CallLogList"
-import PropertyListWrapper from "pages/SalesModule/AppMenu/SeniorLiving/PropertyList/PropertyListWrapper"
-import PropertyDetailWrapper from "pages/SalesModule/AppMenu/SeniorLiving/PropertyList/PropertyDetailWrapper"
-import ScheduleListWrapper from "pages/SalesModule/AppMenu/ScheduleList/ScheduleList"
-import AgencyListWrapper from "pages/SalesModule/AppMenu/AgencyList/AgencyListWrapper"
-import SaleList from "pages/SalesModule/AppMenu/MySales/SaleList"
-import AddAgencyWrapper from "pages/SalesModule/AppMenu/AddAgency/AddAgencyWrapper"
+import SellerCallLogList from "pages/SalesModule/AppMenu/CallLogs/CallLogList";
+import PropertyListWrapper from "pages/SalesModule/AppMenu/SeniorLiving/PropertyList/PropertyListWrapper";
+import PropertyDetailWrapper from "pages/SalesModule/AppMenu/SeniorLiving/PropertyList/PropertyDetailWrapper";
+import ScheduleListWrapper from "pages/SalesModule/AppMenu/ScheduleList/ScheduleList";
+import AgencyListWrapper from "pages/SalesModule/AppMenu/AgencyList/AgencyListWrapper";
+import SaleList from "pages/SalesModule/AppMenu/MySales/SaleList";
+import AddAgencyWrapper from "pages/SalesModule/AppMenu/AddAgency/AddAgencyWrapper";
 
 //3) CW Dashboard
-import ArticleList from "pages/ContentWriterModule/Blog/Contents/ArticleList"
-import TagList from "pages/ContentWriterModule/Blog/Tags/TagList"
-import WriterList from "pages/ContentWriterModule/Writer/WriterList"
-import AddWriter from "pages/ContentWriterModule/Writer/AddWriter"
-import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList"
-import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList"
-import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList"
-import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList"
-import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList"
-import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage"
-import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle"
-import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle"
-import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal"
+import ArticleList from "pages/ContentWriterModule/Blog/Contents/ArticleList";
+import TagList from "pages/ContentWriterModule/Blog/Tags/TagList";
+import WriterList from "pages/ContentWriterModule/Writer/WriterList";
+import AddWriter from "pages/ContentWriterModule/Writer/AddWriter";
+import EditWriter from "pages/ContentWriterModule/Writer/EditWriter";
+import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList";
+import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList";
+import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
+import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
+import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList";
+import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage";
+import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
+import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
+import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -185,6 +186,10 @@ const userRoutes = [
     component: AddWriter,
   },
   {
+    path: "/cw/writer/edit/:id",
+    component: EditWriter,
+  },
+  {
     path: "/cw/cms/meta",
     component: CmsList,
   },
@@ -220,16 +225,16 @@ const userRoutes = [
   //====================================================
   // this route should be at the end of all other routes
   { path: "/", exact: true, component: () => <Redirect to="/dashboard" /> },
-]
+];
 
 const authRoutes = [
   { path: "/logout", component: Logout },
   { path: "/login", component: Login },
   { path: "/forgot-password", component: ForgetPwd },
   { path: "/register", component: Register },
-]
+];
 
-export { userRoutes, authRoutes }
+export { userRoutes, authRoutes };
 
 //2) Operations Dashboard
 // import HomeCareAgencyList from "pages/Operation/HomeCare/AgencyList/HomeCareAgencyList"
