@@ -15,23 +15,25 @@ import Breadcrumb from "../../../../components/Common/Breadcrumb";
 
 //redux & actions
 import {
-  getDataProcessList,
-  cancelDataUpdateProcess,
-  updateProcessApprovalStatus,
+  getDataProcessTrackerList,
+  exportToCsvProcessData,
 } from "../../../../store/Actions/scrapeAction";
 
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
 import ButtonComp from "components/Common/Button/Button";
-import { addPlus, formatDate } from "store/utils/util";
+import { formatDate, getQueryParams } from "store/utils/util";
 
-const ProcessList = ({
-  getDataProcessList,
-  cancelDataUpdateProcess,
-  updateProcessApprovalStatus,
+const ProcessDataList = ({
+  getDataProcessTrackerList,
+  exportToCsvProcessData,
+  match: { params },
+  location,
   userDetails,
 }) => {
   // declare states
   const history = useHistory();
+  const [queryParams, updateQueryParams] = useState(null);
+  const [processId, setProcessId] = useState(null);
   const [isLoading, toggleLoader] = useState(false);
   const [filterState, updateFilterState] = useState({
     selectedStatus: "all",
@@ -48,14 +50,25 @@ const ProcessList = ({
   const { rows, count } = listState;
 
   useEffect(() => {
-    getDataListHandler();
-  }, [activePage, selectedStatus, startDate, endDate]);
+    let qParams = getQueryParams(location.search);
+    updateQueryParams(qParams);
+    if (params && params.id) {
+      setProcessId(params.id);
+    }
+  }, []);
 
-  const getDataListHandler = async () => {
+  useEffect(() => {
+    if (processId) {
+      getDataListHandler(processId);
+    }
+  }, [activePage, selectedStatus, startDate, endDate, processId]);
+
+  const getDataListHandler = async (processId) => {
     try {
       toggleLoader(true);
-      let result = await getDataProcessList({
+      let result = await getDataProcessTrackerList({
         pageNumber: activePage,
+        processId,
         selectedStatus,
         startDate,
         endDate,
@@ -120,96 +133,45 @@ const ProcessList = ({
     }
   };
 
-  const cancelDataProcessHandler = async (processId) => {
-    try {
-      showConfirmAlert({
-        title: "Are you sure?",
-        desc: "Do you want to cancel this process?",
-        handler: async (userResult) => {
-          if (userResult === 2) {
-            return;
-          }
-          let result = await cancelDataUpdateProcess(processId);
-          if (result) {
-            getDataListHandler();
-          }
-        },
-        yesBtnText: "Yes",
-        noBtnText: "No",
-      });
-    } catch (e) {
-      console.log(e);
-      toastr.error("Error", e.toString());
-    }
-  };
-
-  const proccessApprovalStatusHandler = async (processId, processStatus) => {
-    try {
-      showConfirmAlert({
-        title: "Are you sure?",
-        desc: `Do you want to ${
-          processStatus === 1 ? "Approve" : "Reject"
-        } this process?`,
-        handler: async (userResult) => {
-          if (userResult === 2) {
-            return;
-          }
-          let result = await updateProcessApprovalStatus(
-            processId,
-            processStatus
-          );
-          if (result) {
-            getDataListHandler();
-          }
-        },
-        yesBtnText: "Yes",
-        noBtnText: "No",
-      });
-    } catch (e) {
-      console.log(e);
-      toastr.error("Error", e.toString());
-    }
-  };
-
   //TABLE COMPONENTS
   const dt = useRef(null);
 
-  const processNoBodyTemplate = (rowData) => {
+  const titleBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {`Process-${rowData.id}`}</span>
+        <span> {rowData.businessTitle ? rowData.businessTitle : "N/A"}</span>
       </React.Fragment>
     );
   };
 
-  const dataCountBodyTemplate = (rowData) => {
+  const addressBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.totalDataCount ? rowData.totalDataCount : "N/A"}</span>
+        <span> {rowData.address ? rowData.address : "N/A"}</span>
       </React.Fragment>
     );
   };
 
-  const insertedBodyTemplate = (rowData) => {
+  const stateBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span>{rowData.dataInserted ? rowData.dataInserted : 0}</span>
+        <span>{rowData.state ? rowData.state : "N/A"}</span>
       </React.Fragment>
     );
   };
 
-  const updatedBodyTemplate = (rowData) => {
+  const cityBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.dataUpdated ? rowData.dataUpdated : 0}</span>
+        <span> {rowData.city ? rowData.city : "N/A"}</span>
       </React.Fragment>
     );
   };
 
-  const skippedBodyTemplate = (rowData) => {
+  const zipcodeBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.dataSkipped ? rowData.dataSkipped : 0}</span>
+        <span> {rowData.zipcode ? rowData.zipcode : "N/A"}</span>
       </React.Fragment>
     );
   };
@@ -222,25 +184,10 @@ const ProcessList = ({
     );
   };
 
-  const createdByBodyTemplate = (rowData) => {
+  const skipReasonBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span>
-          {rowData.adminUser &&
-            `${rowData.adminUser.firstName} ${rowData.adminUser.lastName}`}
-        </span>
-      </React.Fragment>
-    );
-  };
-
-  const cancelledByBodyTemplate = ({ processStatus, cancelUser }) => {
-    return (
-      <React.Fragment>
-        <span>
-          {processStatus === "Cancelled" && cancelUser
-            ? `${cancelUser.firstName} ${cancelUser.lastName}`
-            : "N/A"}
-        </span>
+        <span> {rowData.skipReason ? rowData.skipReason : "N/A"}</span>
       </React.Fragment>
     );
   };
@@ -248,61 +195,27 @@ const ProcessList = ({
   const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.processStatus}</span>
+        <span> {rowData.status}</span>
       </React.Fragment>
     );
   };
 
-  const actionBodyTemplate = ({ processStatus, id }) => {
+  const actionBodyTemplate = ({ boom_hash, businessTitle }) => {
     return (
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
-              {userDetails &&
-                userDetails.role == 1 &&
-                processStatus === "Pending" && (
-                  <Fragment>
-                    <ButtonComp
-                      icon="check"
-                      onClick={() => {
-                        proccessApprovalStatusHandler(is, 1);
-                      }}
-                      toolTip="Approve"
-                      btnClass="normal"
-                    />
-
-                    <ButtonComp
-                      icon="ban"
-                      onClick={() => {
-                        proccessApprovalStatusHandler(id, 2);
-                      }}
-                      toolTip="Reject"
-                      btnClass="danger"
-                    />
-                  </Fragment>
-                )}
+            <div className="d-flex justify-content-center">
               <ButtonComp
-                icon="eye"
+                icon="edit"
                 onClick={() => {
-                  history.push(`/cw/scrape/process/dataList/${id}`);
+                  history.push(
+                    `/cw/scrape/property/edit/${boom_hash}?name=${businessTitle}`
+                  );
                 }}
-                toolTip="View DataList"
+                toolTip="View Detail"
                 btnClass="normal"
               />
-              {(userDetails &&
-                userDetails.role != 1 &&
-                processStatus === "Pending") ||
-                (processStatus === "In-Progress" && (
-                  <ButtonComp
-                    icon="close"
-                    onClick={() => {
-                      cancelDataProcessHandler(id);
-                    }}
-                    toolTip="Cancel"
-                    btnClass="danger"
-                  />
-                ))}
             </div>
           </span>
         }
@@ -359,12 +272,9 @@ const ProcessList = ({
                         }}
                       >
                         <option value="all">All</option>
-                        <option value="Pending">Pending</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
-                        <option value="In-Progress">In-Progress</option>
-                        <option value="Completed">Completed</option>
-                        <option value="Cancelled">Cancelled</option>
+                        <option value="Inserted">Inserted</option>
+                        <option value="Updated">Updated</option>
+                        <option value="Skipped">Skipped</option>
                       </select>
                     </div>
                   </div>
@@ -407,33 +317,39 @@ const ProcessList = ({
                           emptyMessage="No data found."
                         >
                           <Column
-                            field="id"
-                            header="Process No"
-                            body={processNoBodyTemplate}
+                            field="businessTitle"
+                            header="Title"
+                            body={titleBodyTemplate}
+                            sortable
+                            style={{
+                              width: "20%",
+                            }}
+                          />
+                          <Column
+                            field="address"
+                            header="Address"
+                            body={addressBodyTemplate}
+                            sortable
+                            style={{
+                              width: "14%",
+                            }}
+                          />
+                          <Column
+                            field="state"
+                            header="State"
+                            body={stateBodyTemplate}
                             sortable
                           />
                           <Column
-                            field="totalDataCount"
-                            header="Data Count"
-                            body={dataCountBodyTemplate}
+                            field="city"
+                            header="City"
+                            body={cityBodyTemplate}
                             sortable
                           />
                           <Column
-                            field="dataInserted"
-                            header="Inserted"
-                            body={insertedBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="dataUpdated"
-                            header="Updated"
-                            body={updatedBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="dataSkipped"
-                            header="Skipped"
-                            body={skippedBodyTemplate}
+                            field="zipcode"
+                            header="ZipCode"
+                            body={zipcodeBodyTemplate}
                             sortable
                           />
                           <Column
@@ -443,21 +359,15 @@ const ProcessList = ({
                             sortable
                           />
                           <Column
-                            field="adminUser"
-                            header="Created By"
-                            body={createdByBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="adminUser.firstName"
-                            header="Cancelled By"
-                            body={cancelledByBodyTemplate}
-                            sortable
-                          />
-                          <Column
-                            field="processStatus"
+                            field="status"
                             header="Status"
                             body={statusBodyTemplate}
+                            sortable
+                          />
+                          <Column
+                            field="skipReason"
+                            header="Skip Reason"
+                            body={skipReasonBodyTemplate}
                             sortable
                           />
                           <Column
@@ -500,9 +410,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = {
-  getDataProcessList,
-  cancelDataUpdateProcess,
-  updateProcessApprovalStatus,
+  getDataProcessTrackerList,
+  exportToCsvProcessData,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProcessList);
+export default connect(mapStateToProps, mapDispatchToProps)(ProcessDataList);

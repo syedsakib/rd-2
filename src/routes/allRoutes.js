@@ -64,6 +64,7 @@ import CmsList from "pages/ContentWriterModule/CMS/MetaCMS/CmsList";
 import EditMetaCms from "pages/ContentWriterModule/CMS/MetaCMS/EditMetaCms";
 import InvalidPropertyList from "pages/ContentWriterModule/ScrapeLoader/InvalidProperty/PropertyList";
 import ProcessList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessList";
+import ProcessDataList from "pages/ContentWriterModule/ScrapeLoader/Process/ProcessDataList";
 import PropertyList from "pages/ContentWriterModule/ScrapeLoader/Property/PropertyList";
 import CommentsList from "pages/ContentWriterModule/Blog/Comments/CommentsList";
 import CMSPage from "pages/ContentWriterModule/CMS/StructureCMS/CMSPage";
@@ -209,6 +210,10 @@ const userRoutes = [
   {
     path: "/cw/scrape/process",
     component: ProcessList,
+  },
+  {
+    path: "/cw/scrape/process/dataList/:id",
+    component: ProcessDataList,
   },
   {
     path: "/cw/scrape",
