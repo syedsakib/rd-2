@@ -56,8 +56,8 @@ const PropertyEditWrapper = ({
   useEffect(() => {
     let qParams = getQueryParams(location.search);
     updateQueryParams(qParams);
-    if (params && params.id) {
-      getPropertyData(params.id);
+    if (params && params.ID) {
+      getPropertyData(params.ID);
     }
     getPropertyServiceList();
     getPropertyAmenityList();
@@ -66,9 +66,11 @@ const PropertyEditWrapper = ({
 
   const getPropertyData = async (id) => {
     try {
+      console.log("id", id);
       let result = await getPropertyDetail(id);
       if (result) {
         console.log(result);
+        console.log("result", result);
         updateProperty(result);
       }
     } catch (e) {

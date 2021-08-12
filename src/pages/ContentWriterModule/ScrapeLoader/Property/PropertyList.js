@@ -495,7 +495,7 @@ const PropertyList = ({
                 icon="edit"
                 onClick={() => {
                   history.push(
-                    `/CW/scrape/property/edit/${boom_hash}?name=${businessTitle}`
+                    `/cw/scrape/property/edit/${boom_hash}?name=${businessTitle}`
                   );
                 }}
                 toolTip="Edit Property"
@@ -505,7 +505,7 @@ const PropertyList = ({
                 icon="history"
                 onClick={() => {
                   history.push(
-                    `/admin/scrape/property/history/${boom_hash}?name=${businessTitle}`
+                    `/cw/scrape/property/history/${boom_hash}?name=${businessTitle}`
                   );
                 }}
                 toolTip="Update History"
