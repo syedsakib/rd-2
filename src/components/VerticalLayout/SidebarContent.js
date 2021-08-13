@@ -14,6 +14,7 @@ import AdminSidebar from "../LeftSidebarComponent/AdminSidebar";
 import OperationSidebar from "components/LeftSidebarComponent/OperationSidebar";
 import SalesSidebar from "components/LeftSidebarComponent/SalesSidebar";
 import ContentWriterSidebar from "components/LeftSidebarComponent/ContentWriterSidebar";
+import PartnerSidebar from "components/LeftSidebarComponent/PartnerSidebar";
 
 const SidebarContent = (props) => {
   const ref = useRef();
@@ -98,7 +99,8 @@ const SidebarContent = (props) => {
         {/* <AdminSidebar /> */}
         {/* <OperationSidebar /> */}
         {/* <SalesSidebar /> */}
-        <ContentWriterSidebar />
+        {/* <ContentWriterSidebar /> */}
+        <PartnerSidebar />
       </SimpleBar>
     </React.Fragment>
   );

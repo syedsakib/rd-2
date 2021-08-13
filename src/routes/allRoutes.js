@@ -76,6 +76,9 @@ import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
 import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
 
+//4) Partner Dashboard
+import MyClaimWrapper from "pages/PartnerModule/MyClaims/MyClaimWrapper";
+
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
 
@@ -250,6 +253,13 @@ const userRoutes = [
   {
     path: "/cw/blog/news",
     component: NewsPortal,
+  },
+
+  //Partner MODULE ROUTES:
+  //--------------------
+  {
+    path: "/partner/claims",
+    component: MyClaimWrapper,
   },
 
   //====================================================

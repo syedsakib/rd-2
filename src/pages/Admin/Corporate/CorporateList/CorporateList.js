@@ -189,7 +189,7 @@ const CorporateList = ({}) => {
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 <ButtonComp
                   icon="edit"
