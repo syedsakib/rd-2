@@ -172,7 +172,7 @@ const PropertyReviewList = ({
   const getDataListHandler = async () => {
     try {
       console.log(`S P ${selectedItem}`);
-      toggleLoader();
+      toggleLoader(true);
       let result = await getAllReviewsForPartner({
         pageNumber: activePage,
         itemId: selectedItem,

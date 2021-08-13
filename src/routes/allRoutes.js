@@ -77,6 +77,7 @@ import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
 
 //4) Partner Dashboard
+import PartnerPropertyListWrapper from "pages/PartnerModule/MyProperty/PartnerPropertyListWrapper";
 import MyClaimWrapper from "pages/PartnerModule/MyClaims/MyClaimWrapper";
 import MyPropertyReviewList from "pages/PartnerModule/PropertyReview/PropertyReviewList";
 import Support from "pages/PartnerModule/Support/Contact";
@@ -260,6 +261,10 @@ const userRoutes = [
 
   //Partner MODULE ROUTES:
   //--------------------
+  {
+    path: "/partner",
+    component: PartnerPropertyListWrapper,
+  },
   {
     path: "/partner/claims",
     component: MyClaimWrapper,
