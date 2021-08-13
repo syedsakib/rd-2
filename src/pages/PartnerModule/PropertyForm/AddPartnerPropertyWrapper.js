@@ -32,7 +32,7 @@ import {
 
 //Import Breadcrumb
 import Breadcrumb from "components/Common/Breadcrumb";
-import { formatDate, getQueryParams } from "../../../store/utils/util";
+
 import classnames from "classnames";
 
 import BasicInfoEditor from "./PropertyEditor/BasicInfoEditor";
@@ -40,7 +40,8 @@ import ServiceListForm from "./PropertyEditor/ServiceListForm";
 import CommunityListForm from "./PropertyEditor/CommunityListForm";
 import AmenityListForm from "./PropertyEditor/AmenityListForm";
 import CareTypes from "./PropertyEditor/CareTypesForm";
-// import ImageEditor from "./PropertyEditor/ImageEditor/ImageEditor";
+import ImageEditor from "./PropertyEditor/ImageEditor/ImageEditor";
+import RoomTypeForm from "./PropertyEditor/roomTypeForm/roomTypeForm";
 
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
@@ -135,24 +136,24 @@ const AddPartnerPropertyWrapper = ({
       } = createPropertyState;
       const { businessTitle, email, address, city, state, zipcode, phone } =
         basicProfile;
-      //   if (
-      //     !businessTitle ||
-      //     businessTitle === "" ||
-      //     !email ||
-      //     email === "" ||
-      //     !address ||
-      //     address === "" ||
-      //     !city ||
-      //     city === "" ||
-      //     !state ||
-      //     state === "" ||
-      //     !zipcode ||
-      //     zipcode === "" ||
-      //     !phone ||
-      //     phone === ""
-      //   ) {
-      //     throw "Please fill the required fields";
-      //   }
+      if (
+        !businessTitle ||
+        businessTitle === "" ||
+        !email ||
+        email === "" ||
+        !address ||
+        address === "" ||
+        !city ||
+        city === "" ||
+        !state ||
+        state === "" ||
+        !zipcode ||
+        zipcode === "" ||
+        !phone ||
+        phone === ""
+      ) {
+        throw "Please fill the required fields";
+      }
 
       // if there is a requrest for should publish
       if (shouldPublish === 1) {
@@ -200,22 +201,17 @@ const AddPartnerPropertyWrapper = ({
           </MetaTags>
           <Container fluid>
             {/* Render Breadcrumb */}
-            <Breadcrumb title="Admin" breadcrumbItem="Update Property" />
+            <Breadcrumb title="Admin" breadcrumbItem="add property" />
 
             <Row>
               <Col lg="12">
                 <Card>
                   <CardHeader>
                     <div className="row">
-                      <div className="col-md-6 my-auto">
-                        {/* <span style={{ fontWeight: "bold" }}>
-                          {queryParams && queryParams.name}'s
-                        </span>{" "}
-                        Information */}
-                      </div>
+                      <div className="col-md-6 my-auto"></div>
                     </div>
                   </CardHeader>
-                  {/* <br /> */}
+
                   <CardBody>
                     <ul
                       className="nav nav-tabs nav-tabs-custom justify-content-center pt-2"
@@ -339,7 +335,10 @@ const AddPartnerPropertyWrapper = ({
                       <TabPane tabId="3">
                         <div>
                           <Row className="justify-content-center">
-                            <h3>3333333333333</h3>
+                            <RoomTypeForm
+                              property={createPropertyState}
+                              onChangeHandler={onRoomTypeChange}
+                            />
                           </Row>
                         </div>
                       </TabPane>
@@ -376,7 +375,10 @@ const AddPartnerPropertyWrapper = ({
                       <TabPane tabId="7">
                         <div>
                           <Row className="justify-content-center">
-                            <h3>777777777777777</h3>
+                            <ImageEditor
+                              property={createPropertyState}
+                              onChangeHandler={onImageChange}
+                            />
                           </Row>
                         </div>
                       </TabPane>
