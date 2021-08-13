@@ -68,6 +68,12 @@ const PartnerSidebar = () => {
           </Link>
         </li>
         <li>
+          <Link to="/partner/resetPassword" className=" ">
+            <i className="bx bx-brightness"></i>
+            <span>Reset Password</span>
+          </Link>
+        </li>
+        <li>
           <Link to="/#" className=" ">
             <i className="bx bx-log-out"></i>
             <span>{"Log Out"}</span>

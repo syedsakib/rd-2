@@ -83,6 +83,7 @@ import MyClaimWrapper from "pages/PartnerModule/MyClaims/MyClaimWrapper";
 import MyPropertyReviewList from "pages/PartnerModule/PropertyReview/PropertyReviewList";
 import Support from "pages/PartnerModule/Support/Contact";
 import AccountSetting from "pages/PartnerModule/AccountSetting";
+import ResetPass from "pages/PartnerModule/reset-password";
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -285,6 +286,10 @@ const userRoutes = [
   {
     path: "/partner/accountSetting",
     component: AccountSetting,
+  },
+  {
+    path: "/partner/resetPassword",
+    component: ResetPass,
   },
 
   //====================================================

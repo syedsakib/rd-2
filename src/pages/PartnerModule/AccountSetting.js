@@ -9,7 +9,6 @@ import { toastr } from "react-redux-toastr";
 
 //Import Breadcrumb
 import Breadcrumb from "../../components/Common/Breadcrumb";
-import avatar from "../../assets/images/users/avatar-1.jpg";
 
 import ErrorView from "components/Common/ErrorView/ErrorView";
 import PhoneInput from "react-phone-input-2";
