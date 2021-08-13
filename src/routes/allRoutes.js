@@ -78,6 +78,7 @@ import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
 
 //4) Partner Dashboard
 import MyClaimWrapper from "pages/PartnerModule/MyClaims/MyClaimWrapper";
+import MyPropertyReviewList from "pages/PartnerModule/PropertyReview/PropertyReviewList";
 
 const userRoutes = [
   { path: "/dashboard", component: Dashboard },
@@ -260,6 +261,10 @@ const userRoutes = [
   {
     path: "/partner/claims",
     component: MyClaimWrapper,
+  },
+  {
+    path: "/partner/reviews",
+    component: MyPropertyReviewList,
   },
 
   //====================================================

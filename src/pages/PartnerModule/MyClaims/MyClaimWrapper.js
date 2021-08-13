@@ -289,10 +289,6 @@ const MyClaimWrapper = ({
 
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <React.Fragment>
       <div className="page-content">
@@ -386,75 +382,80 @@ const MyClaimWrapper = ({
                     </div>
                   </div>
                   <br />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No data found."
+                          >
+                            <Column
+                              field="property.businessTitle"
+                              header="Name"
+                              body={nameBodyTemplate}
+                              sortable
+                            />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No data found."
-                      >
-                        <Column
-                          field="property.businessTitle"
-                          header="Name"
-                          body={nameBodyTemplate}
-                          sortable
-                        />
-
-                        <Column
-                          field="property.businessTitle"
-                          header="Email"
-                          body={emailBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="property.city"
-                          header="City"
-                          body={cityBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="property.state"
-                          header="State"
-                          body={stateBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="property.zipcode"
-                          header="Zip Code"
-                          body={zipCodeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="status"
-                          header="Status"
-                          body={statusBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && count > 20 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={20}
-                          totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                            <Column
+                              field="property.businessTitle"
+                              header="Email"
+                              body={emailBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="property.city"
+                              header="City"
+                              body={cityBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="property.state"
+                              header="State"
+                              body={stateBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="property.zipcode"
+                              header="Zip Code"
+                              body={zipCodeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="status"
+                              header="Status"
+                              body={statusBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+
+                      <div>
+                        {!isLoading && count > 20 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={20}
+                              totalItemsCount={count}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>
