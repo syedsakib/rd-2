@@ -77,6 +77,7 @@ import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
 import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
 import EmailTemplateList from "pages/ContentWriterModule/Template/TemplateList";
+import AddEmailTemplate from "pages/ContentWriterModule/Template/AddTemplate";
 import EditEmailTemplate from "pages/ContentWriterModule/Template/EditTemplate";
 
 //4) Partner Dashboard
@@ -271,6 +272,10 @@ const userRoutes = [
   {
     path: "/cw/templates/email",
     component: EmailTemplateList,
+  },
+  {
+    path: "/cw/template/email/create",
+    component: AddEmailTemplate,
   },
   {
     path: "/cw/templates/email/:id",
