@@ -355,10 +355,10 @@ const SendMail = ({ getEmailTemplateList, sendMailBySalesToAdviser }) => {
                         <div className="text-center mt-4">
                           <button
                             type="submit"
-                            className="btn btn-primary  btn-label"
+                            className="btn btn-lg btn-success  btn-label"
                           >
-                            <i className="bx bx-check-double label-icon"></i>{" "}
-                            Send Mail
+                            <i className="bx bx-mail-send label-icon"></i> Send
+                            Mail
                           </button>
                         </div>
                       </form>
