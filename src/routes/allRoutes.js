@@ -76,6 +76,7 @@ import AddStructureCMSPage from "pages/ContentWriterModule/CMS/StructureCMS/AddS
 import AddArticle from "pages/ContentWriterModule/Blog/Contents/AddArticle";
 import EditArticle from "pages/ContentWriterModule/Blog/Contents/EditArticle";
 import NewsPortal from "pages/ContentWriterModule/Blog/Contents/NewsPortal";
+import EmailTemplateList from "pages/ContentWriterModule/Template/TemplateList";
 
 //4) Partner Dashboard
 import PartnerPropertyListWrapper from "pages/PartnerModule/MyProperty/PartnerPropertyListWrapper";
@@ -265,6 +266,10 @@ const userRoutes = [
   {
     path: "/cw/blog/news",
     component: NewsPortal,
+  },
+  {
+    path: "/cw/templates/email",
+    component: EmailTemplateList,
   },
 
   //Partner MODULE ROUTES:

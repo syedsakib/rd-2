@@ -97,8 +97,8 @@ const SidebarContent = (props) => {
     <React.Fragment>
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
         {/* <AdminSidebar /> */}
-        <SalesSidebar />
-        {/* <ContentWriterSidebar /> */}
+        {/* <SalesSidebar /> */}
+        <ContentWriterSidebar />
         {/* <PartnerSidebar /> */}
       </SimpleBar>
     </React.Fragment>
