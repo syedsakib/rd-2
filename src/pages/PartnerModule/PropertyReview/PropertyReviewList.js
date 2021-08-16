@@ -30,6 +30,7 @@ import {
 } from "../../../store/utils/util";
 
 import DetailViewModal from "./DetailViewModal";
+import ReplyModal from "./ReplyModal";
 
 //redux & actions
 import {
