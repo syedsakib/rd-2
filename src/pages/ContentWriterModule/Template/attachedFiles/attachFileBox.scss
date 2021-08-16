@@ -1,0 +1,25 @@
+.attach-file-box-wrapper {
+  padding: 5px;
+  .attach-file-item-wrapper {
+    padding: 5px 0px;
+    .attach-file-item-inner-wrapper {
+      border: 1px ridge rgba(100, 101, 101, 0.3);
+      padding: 10px;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      // @include box-shadow();
+      .file-title-wrapper {
+        flex-grow: 1;
+        .file-title {
+          cursor: pointer;
+        }
+      }
+      .file-action-wrapper {
+        width: auto;
+        flex-grow: 0;
+        flex-shrink: 0;
+      }
+    }
+  }
+}

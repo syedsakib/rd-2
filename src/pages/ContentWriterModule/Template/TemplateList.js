@@ -162,6 +162,7 @@ const TemplateListPage = ({
               <Link
                 to={{
                   pathname: `/cw/templates/email/${rowData.id}`,
+                  state: { data: rowData.id },
                 }}
               >
                 <span
