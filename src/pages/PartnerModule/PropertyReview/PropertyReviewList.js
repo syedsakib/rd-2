@@ -31,6 +31,7 @@ import {
 
 import DetailViewModal from "./DetailViewModal";
 import ReplyModal from "./ReplyModal";
+import MailSenderModal from "./MailSenderModal";
 
 //redux & actions
 import {

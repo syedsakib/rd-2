@@ -132,24 +132,23 @@ const ReplyModal = ({
                       )}
                   </div>
                 </div>
-
-                <div className="modal-footer">
-                  <button
-                    type="button"
-                    onClick={hideModalHandler}
-                    className="btn btn-danger mx-3"
-                    data-dismiss="modal"
-                  >
-                    Close
-                  </button>
-                  <button
-                    type="submit"
-                    className="btn btn-info"
-                    data-dismiss="modal"
-                  >
-                    Submit
-                  </button>
-                </div>
+              </div>
+              <div className="modal-footer">
+                <button
+                  type="button"
+                  onClick={hideModalHandler}
+                  className="btn btn-danger mx-3"
+                  data-dismiss="modal"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  className="btn btn-info"
+                  data-dismiss="modal"
+                >
+                  Submit
+                </button>
               </div>
             </form>
           </>
