@@ -1,23 +1,33 @@
-import React, { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react";
 import {
   Dropdown,
   DropdownToggle,
   DropdownMenu,
   DropdownItem,
-} from "reactstrap"
+} from "reactstrap";
 
 // Redux
-import { connect } from "react-redux"
-import { withRouter, Link } from "react-router-dom"
+import { connect } from "react-redux";
+import { withRouter, Link } from "react-router-dom";
 
-// users
-import user1 from "../../../assets/images/users/avatar-1.jpg"
-
-const ProfileMenu = props => {
+const ProfileMenu = ({ userDetails }) => {
   // Declare a new state variable, which we'll call "menu"
-  const [menu, setMenu] = useState(false)
+  const [menu, setMenu] = useState(false);
 
-  const [username, setusername] = useState("Admin")
+  const [username, setusername] = useState("User");
+
+  const [profilePic, setProfilePic] = useState(
+    "https://cdn-boomershub.s3.amazonaws.com/web/defaultUser.jpg"
+  );
+
+  useEffect(() => {
+    if (userDetails) {
+      setusername(userDetails.roleName);
+      if (userDetails.image) {
+        setProfilePic(userDetails.image);
+      }
+    }
+  }, [userDetails]);
 
   return (
     <React.Fragment>
@@ -33,8 +43,8 @@ const ProfileMenu = props => {
         >
           <img
             className="rounded-circle header-profile-user"
-            src={user1}
-            alt="Header Avatar"
+            src={profilePic}
+            alt="User"
           />
           <span className="d-none d-xl-inline-block ms-2 me-1">{username}</span>
           <i className="mdi mdi-chevron-down d-none d-xl-inline-block" />
@@ -53,9 +63,11 @@ const ProfileMenu = props => {
         </DropdownMenu>
       </Dropdown>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStatetoProps = state => {}
+const mapStateToProps = (state) => ({
+  userDetails: state.userDetails.loggedInUser,
+});
 
-export default withRouter(connect(mapStatetoProps, {})(ProfileMenu))
+export default withRouter(connect(mapStateToProps, {})(ProfileMenu));
