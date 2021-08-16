@@ -97,10 +97,9 @@ const SidebarContent = (props) => {
     <React.Fragment>
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
         {/* <AdminSidebar /> */}
-        {/* <OperationSidebar /> */}
         {/* <SalesSidebar /> */}
-        {/* <ContentWriterSidebar /> */}
-        <PartnerSidebar />
+        <ContentWriterSidebar />
+        {/* <PartnerSidebar /> */}
       </SimpleBar>
     </React.Fragment>
   );
@@ -112,3 +111,7 @@ SidebarContent.propTypes = {
 };
 
 export default withRouter(SidebarContent);
+
+{
+  /* <OperationSidebar /> */
+}

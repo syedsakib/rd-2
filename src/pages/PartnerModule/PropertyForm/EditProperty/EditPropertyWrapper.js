@@ -453,6 +453,7 @@ const EditPartnerPropertyWrapper = ({
                           <Row className="justify-content-center">
                             <BasicInfoEditor
                               property={createPropertyState}
+                              pData={property}
                               onChangeHandler={onBasicProfileChange}
                             />
                           </Row>

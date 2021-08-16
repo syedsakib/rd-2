@@ -22,8 +22,8 @@ import {
 } from "../../../store/utils/util";
 
 import DetailViewModal from "./DetailViewModal";
-import ReplyModal from "./ReplyModal";
-import MailSenderModal from "./MailSenderModal";
+import PromotionModal from "./PromotionModal";
+import PromotionEditModal from "./PromotionEditModal";
 
 //redux & actions
 import {
@@ -169,27 +169,6 @@ const PropertyPromotionList = ({
       selectedStatus: value,
       activePage: 1,
     });
-  };
-
-  const handelDateSearch = (date) => {
-    try {
-      updateAppStateHandler({
-        startDate: date,
-        endDate: new Date(),
-      });
-    } catch (e) {
-      console.log(e);
-    }
-  };
-
-  const handelEndDateSearch = (date) => {
-    try {
-      updateAppStateHandler({
-        endDate: date,
-      });
-    } catch (e) {
-      console.log(e);
-    }
   };
 
   const openModal = (modalName, data) => {

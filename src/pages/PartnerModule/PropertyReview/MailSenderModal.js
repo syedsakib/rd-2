@@ -171,7 +171,7 @@ const MailSenderModal = ({
                 </div>
               </div>
 
-              <div className="row">
+              <div className="row pt-4">
                 <div className="col-sm-12">
                   <div className="form-group">
                     <label className="pro-lbl-1" htmlFor="subject">
@@ -203,7 +203,7 @@ const MailSenderModal = ({
                 </div>
               </div>
 
-              <div className="row">
+              <div className="row pt-4">
                 <div className="col-sm-12">
                   <label className="pro-lbl-1" htmlFor="subject">
                     Content{" "}

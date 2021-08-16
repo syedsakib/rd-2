@@ -110,6 +110,12 @@ const ReplyModal = ({
               <div className="row">
                 <div className="col-sm-12">
                   <div className="form-group">
+                    <label className="pro-lbl-1" htmlFor="replyContent">
+                      Content{" "}
+                      <sup className="lbl-star" style={{ color: "red" }}>
+                        *
+                      </sup>
+                    </label>
                     <textArea
                       type="textArea"
                       className="form-control"
