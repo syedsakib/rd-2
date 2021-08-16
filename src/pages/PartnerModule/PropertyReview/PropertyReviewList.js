@@ -21,12 +21,15 @@ import ReactStars from "react-rating-stars-component";
 
 //Import Breadcrumb
 import Breadcrumb from "../../../components/Common/Breadcrumb";
+import ButtonComp from "components/Common/Button/Button";
+import LoaderComponent from "components/Common/Loader/LoaderComponent";
 import {
   formatDate,
   generatePropertyUrl,
   getFrontUrl,
 } from "../../../store/utils/util";
-import ButtonComp from "components/Common/Button/Button";
+
+import DetailViewModal from "./DetailViewModal";
 
 //redux & actions
 import {
@@ -36,13 +39,8 @@ import {
 } from "../../../store/Actions/partnerAction";
 import { getEmailTemplateByType } from "../../../store/Actions/mailAction";
 
-import LoaderComponent from "components/Common/Loader/LoaderComponent";
-import SearchSelect from "components/Common/SearchSelect/SearchSelect";
-
 const PropertyReviewList = ({
   isAuthenticated,
-  userDetails,
-  appSize,
   getAllReviewsForPartner,
   getAllPropertyListOfPartner,
   getEmailTemplateByType,
@@ -497,6 +495,33 @@ const PropertyReviewList = ({
           </Row>
         </Container>
       </div>
+      {openModalName === "detail" && (
+        <DetailViewModal
+          openModal={openModalName === "detail"}
+          hideModal={closeModal}
+          itemDetail={selectedModalData}
+          appSize={appSize}
+        />
+      )}
+      {openModalName === "reply" && (
+        <ReplyModal
+          openModal={openModalName === "reply"}
+          hideModal={closeModal}
+          itemDetail={selectedModalData}
+          appSize={appSize}
+          callBack={callBackHandler}
+        />
+      )}
+      {openModalName === "mail" && (
+        <MailSenderModal
+          openModal={openModalName === "mail"}
+          hideModal={closeModal}
+          itemDetail={selectedModalData}
+          appSize={appSize}
+          callBack={callBackHandler}
+          emailTemplate={emailData}
+        />
+      )}
     </React.Fragment>
   );
 };
