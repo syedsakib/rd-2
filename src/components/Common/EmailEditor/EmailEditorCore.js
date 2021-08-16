@@ -1,11 +1,11 @@
 import React, { useRef, useEffect } from "react";
 import EmailEditor from "react-email-editor";
-import CustomButton from "../../Button/Button";
+import CustomButton from "../Button/Button";
 import "./emailEditor.scss";
 import {
   saveTemplateDesign,
   exportTemplateDesign,
-} from "../../../../store/Actions/mailAction";
+} from "../../../store/Actions/mailAction";
 import { connect } from "react-redux";
 import { toastr } from "react-redux-toastr";
 
@@ -62,7 +62,6 @@ const EmailEditorWrapper = ({
       }
     });
   };
-
   const saveDesign = () => {
     if (!templateId) return;
     window.unlayer.saveDesign(async (design) => {

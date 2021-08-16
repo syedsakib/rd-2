@@ -53,6 +53,7 @@ import ScheduleListWrapper from "pages/SalesModule/AppMenu/ScheduleList/Schedule
 import AgencyListWrapper from "pages/SalesModule/AppMenu/AgencyList/AgencyListWrapper";
 import SaleList from "pages/SalesModule/AppMenu/MySales/SaleList";
 import AddAgencyWrapper from "pages/SalesModule/AppMenu/AddAgency/AddAgencyWrapper";
+import SendMail from "pages/SalesModule/SwndMail/SendMail";
 
 //3) CW Dashboard
 import ArticleList from "pages/ContentWriterModule/Blog/Contents/ArticleList";
@@ -177,6 +178,10 @@ const userRoutes = [
   {
     path: "/sales/addAgency",
     component: AddAgencyWrapper,
+  },
+  {
+    path: "/sales/sendMail",
+    component: SendMail,
   },
 
   //CW MODULE ROUTES:
