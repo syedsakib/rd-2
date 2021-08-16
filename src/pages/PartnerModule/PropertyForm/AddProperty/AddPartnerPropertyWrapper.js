@@ -23,25 +23,25 @@ import {
   getPropertyCareTypeList,
   getPropertyRoomTypes,
   getPropertyServiceList,
-} from "../../../store/Actions/scrapeAction";
+} from "../../../../store/Actions/scrapeAction";
 import {
   updateCreatePropertyState,
   savePropertyDetail,
   clearCreatePropertyState,
-} from "../../../store/Actions/partnerAction";
+} from "../../../../store/Actions/partnerAction";
 
 //Import Breadcrumb
 import Breadcrumb from "components/Common/Breadcrumb";
 
 import classnames from "classnames";
 
-import BasicInfoEditor from "./PropertyEditor/BasicInfoEditor";
-import ServiceListForm from "./PropertyEditor/ServiceListForm";
-import CommunityListForm from "./PropertyEditor/CommunityListForm";
-import AmenityListForm from "./PropertyEditor/AmenityListForm";
-import CareTypes from "./PropertyEditor/CareTypesForm";
-import ImageEditor from "./PropertyEditor/ImageEditor/ImageEditor";
-import RoomTypeForm from "./PropertyEditor/roomTypeForm/roomTypeForm";
+import BasicInfoEditor from "./BasicInfoEditor";
+import ServiceListForm from "./ServiceListForm";
+import CommunityListForm from "./CommunityListForm";
+import AmenityListForm from "./AmenityListForm";
+import CareTypes from "./CareTypesForm";
+import ImageEditor from "./ImageEditor/ImageEditor";
+import RoomTypeForm from "./roomTypeForm/roomTypeForm";
 
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
 
