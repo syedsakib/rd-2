@@ -248,7 +248,7 @@ const SaleListWrapper = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 <ButtonComp
                   icon="eye"
@@ -289,7 +289,7 @@ const SaleListWrapper = ({
                       <label className="">Search Agency</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

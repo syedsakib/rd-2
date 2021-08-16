@@ -146,15 +146,7 @@ const AddEmailTemplate = ({ addTemplate, userDetails, isAuthenticated }) => {
 
                           <div className="row mt-4">
                             <div className="col-sm-12">
-                              <label className="">
-                                Content{" "}
-                                <sup
-                                  className="lbl-star"
-                                  style={{ color: "red" }}
-                                >
-                                  *
-                                </sup>
-                              </label>
+                              <label className="">Content </label>
                               <div className="col-sm-12">
                                 <CustomEditor
                                   onChange={onContentChangeHandler}

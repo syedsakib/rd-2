@@ -360,7 +360,7 @@ const CallLogList = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 {rowData.recordingUrl ? (
                   <ButtonComp
@@ -405,7 +405,7 @@ const CallLogList = ({
                       <label className="">From Number</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"
@@ -421,7 +421,7 @@ const CallLogList = ({
                       <label className="">To Number</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

@@ -171,7 +171,7 @@ const TemplateListPage = ({
                   id={rowData.id}
                   data-tip="Edit"
                 >
-                  <i class="fas fa-edit" style={{ color: "#495057" }}></i>
+                  <i className="fas fa-edit" style={{ color: "#495057" }}></i>
                 </span>
                 <ReactTooltip place="top" type="info" effect="float" />
               </Link>
@@ -204,7 +204,7 @@ const TemplateListPage = ({
                       <label className="">Search for Template</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

@@ -152,7 +152,7 @@ const SalesUserList = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 <Button
                   color="primary"
@@ -228,7 +228,7 @@ const SalesUserList = ({
                       <label className="">Search Record</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

@@ -449,7 +449,7 @@ const PropertyListWrapper = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 <ButtonComp
                   icon="eye"
@@ -557,7 +557,7 @@ const PropertyListWrapper = ({
                       <label className="">Search Property</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-phone"></i>
+                          <i className="fas fa-phone"></i>
                         </div>
                         <input
                           type="text"

@@ -385,7 +385,7 @@ const SellerCallLogList = ({
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <span>
                 <ButtonComp
                   icon="phone"
@@ -452,7 +452,7 @@ const SellerCallLogList = ({
                       <label className="">From Number</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-phone"></i>
+                          <i className="fas fa-phone"></i>
                         </div>
                         <input
                           type="text"
@@ -467,7 +467,7 @@ const SellerCallLogList = ({
                       <label className="">To Number</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-phone"></i>
+                          <i className="fas fa-phone"></i>
                         </div>
                         <input
                           type="text"

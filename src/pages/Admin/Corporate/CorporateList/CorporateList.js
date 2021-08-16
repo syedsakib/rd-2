@@ -262,7 +262,7 @@ const CorporateList = ({}) => {
                       <label className="">Search Corporate</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

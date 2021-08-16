@@ -113,7 +113,7 @@ const CMSList = ({ getAllCMS }) => {
       <React.Fragment>
         {
           <span>
-            <div class="d-flex justify-content-center">
+            <div className="d-flex justify-content-center">
               <Link
                 to={{
                   pathname: `/cw/cms/meta/edit/${rowData.id}`,
@@ -126,7 +126,7 @@ const CMSList = ({ getAllCMS }) => {
                   id={rowData.id}
                   data-tip="Edit"
                 >
-                  <i class="fas fa-edit" style={{ color: "#495057" }}></i>
+                  <i className="fas fa-edit" style={{ color: "#495057" }}></i>
                   <ReactTooltip place="top" type="info" effect="float" />
                 </span>
               </Link>
@@ -159,7 +159,7 @@ const CMSList = ({ getAllCMS }) => {
                       <label className="">Search CMS</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"

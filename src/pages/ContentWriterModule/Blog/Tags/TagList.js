@@ -172,7 +172,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                   toggleModal("edit", rowData);
                 }}
               >
-                <i class="fas fa-edit" style={{ color: "#495057" }}></i>
+                <i className="fas fa-edit" style={{ color: "#495057" }}></i>
                 <ReactTooltip place="top" type="info" effect="float" />
               </span>
 
@@ -184,7 +184,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                 }}
                 data-tip="Delete"
               >
-                <i class="fas fa-times" style={{ color: "#495057" }}></i>
+                <i className="fas fa-times" style={{ color: "#495057" }}></i>
                 <ReactTooltip place="top" type="info" effect="float" />
               </span>
             </div>
@@ -216,7 +216,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                       <label className="">Search Tags</label>
                       <InputGroup>
                         <div className="input-group-text">
-                          <i class="fas fa-search-plus"></i>
+                          <i className="fas fa-search-plus"></i>
                         </div>
                         <input
                           type="text"
