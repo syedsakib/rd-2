@@ -87,6 +87,8 @@ import EditPartnerPropertyWrapper from "pages/PartnerModule/PropertyForm/EditPro
 import MyClaimWrapper from "pages/PartnerModule/MyClaims/MyClaimWrapper";
 import MyPropertyReviewList from "pages/PartnerModule/PropertyReview/PropertyReviewList";
 import Support from "pages/PartnerModule/Support/Contact";
+import PartnerPropertyPromotion from "pages/PartnerModule/PropertyPromotion/PropertyPromotionList";
+import PartnerAssignLeads from "pages/PartnerModule/AssignLeads/AssignLeads";
 import AccountSetting from "pages/PartnerModule/AccountSetting";
 import ResetPass from "pages/PartnerModule/reset-password";
 
@@ -307,6 +309,14 @@ const userRoutes = [
   {
     path: "/partner/support",
     component: Support,
+  },
+  {
+    path: "/partner/promotion/:id",
+    component: PartnerPropertyPromotion,
+  },
+  {
+    path: "/partner/assignLeads",
+    component: PartnerAssignLeads,
   },
   {
     path: "/partner/accountSetting",
