@@ -1,4 +1,3 @@
-import PropTypes from "prop-types";
 import React, { useEffect, useRef } from "react";
 
 // //Import Scrollbar
@@ -97,17 +96,12 @@ const SidebarContent = (props) => {
     <React.Fragment>
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
         {/* <AdminSidebar /> */}
-        {/* <SalesSidebar /> */}
+        <SalesSidebar />
         {/* <ContentWriterSidebar /> */}
-        <PartnerSidebar />
+        {/* <PartnerSidebar /> */}
       </SimpleBar>
     </React.Fragment>
   );
-};
-
-SidebarContent.propTypes = {
-  location: PropTypes.object,
-  t: PropTypes.any,
 };
 
 export default withRouter(SidebarContent);

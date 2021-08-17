@@ -165,10 +165,6 @@ const AgencyTransactionList = ({
     );
   };
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <div className="list-wrapper">
       <div className="row filter-row">
@@ -209,67 +205,72 @@ const AgencyTransactionList = ({
       </div>
       <br />
 
-      <div className="datatable-responsive-demo">
-        <div className="card">
-          <DataTable
-            ref={dt}
-            value={listState.rows}
-            className="p-datatable-customers"
-            emptyMessage="No Data found."
-          >
-            <Column
-              field="logType"
-              header="Package"
-              body={packageBodyTemplate}
-              sortable
-            />
-            <Column
-              field="phoneNumber"
-              header="Price"
-              body={priceBodyTemplate}
-              sortable
-            />
-            <Column
-              field="zipCode"
-              header="Payment Method"
-              body={paymentBodyBodyTemplate}
-              sortable
-            />
-            <Column
-              field="city"
-              header="Processed On"
-              body={processedOnBodyTemplate}
-              sortable
-            />
-            <Column
-              field="state"
-              header="First Purchase"
-              body={firstPurchaseBodyTemplate}
-              sortable
-            />
-            <Column
-              field="createdAt"
-              header="Assigned To"
-              body={assignedToBodyTemplate}
-              sortable
-            />
-          </DataTable>
-        </div>
-      </div>
-
-      <div>
-        {!isLoading && count > 20 && (
-          <div className="pro-pagination">
-            <Pagination
-              activePage={activePage}
-              itemsCountPerPage={20}
-              totalItemsCount={count}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-            />
+      {isLoading ? (
+        <LoaderComponent />
+      ) : (
+        <>
+          <div className="datatable-responsive-demo">
+            <div className="card">
+              <DataTable
+                ref={dt}
+                value={listState.rows}
+                className="p-datatable-customers"
+                emptyMessage="No Data found."
+              >
+                <Column
+                  field="logType"
+                  header="Package"
+                  body={packageBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="phoneNumber"
+                  header="Price"
+                  body={priceBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="zipCode"
+                  header="Payment Method"
+                  body={paymentBodyBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="city"
+                  header="Processed On"
+                  body={processedOnBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="state"
+                  header="First Purchase"
+                  body={firstPurchaseBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="createdAt"
+                  header="Assigned To"
+                  body={assignedToBodyTemplate}
+                  sortable
+                />
+              </DataTable>
+            </div>
           </div>
-        )}
-      </div>
+          <div>
+            {!isLoading && count > 20 && (
+              <div className="pro-pagination">
+                <Pagination
+                  activePage={activePage}
+                  itemsCountPerPage={20}
+                  totalItemsCount={count}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -584,10 +584,6 @@ const AgencyList = ({
 
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <React.Fragment>
       <div className="page-content">
@@ -726,85 +722,90 @@ const AgencyList = ({
                   </div>
                   <br />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No Agencies found."
-                      >
-                        <Column
-                          field="title"
-                          header="Title"
-                          body={titleBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="phoneNumber"
-                          header="Phone Number"
-                          body={phoneBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="state"
-                          header="State"
-                          body={stateBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="city"
-                          header="City"
-                          body={cityBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="zipCode"
-                          header="Zip Code"
-                          body={zipCodeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="saleStatus"
-                          header="Sale Status"
-                          body={saleStatusBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="isAssigned"
-                          header="Is Assigned"
-                          body={isAssignedBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="isClaimed"
-                          header="Is Claimed"
-                          body={isClaimedBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {count > 10 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={20}
-                          totalItemsCount={totalCount}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No Agencies found."
+                          >
+                            <Column
+                              field="title"
+                              header="Title"
+                              body={titleBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="phoneNumber"
+                              header="Phone Number"
+                              body={phoneBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="state"
+                              header="State"
+                              body={stateBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="city"
+                              header="City"
+                              body={cityBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="zipCode"
+                              header="Zip Code"
+                              body={zipCodeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="saleStatus"
+                              header="Sale Status"
+                              body={saleStatusBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="isAssigned"
+                              header="Is Assigned"
+                              body={isAssignedBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="isClaimed"
+                              header="Is Claimed"
+                              body={isClaimedBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        {count > 10 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={20}
+                              totalItemsCount={totalCount}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>

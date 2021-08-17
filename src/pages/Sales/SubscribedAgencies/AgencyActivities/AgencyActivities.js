@@ -132,10 +132,6 @@ const AgencyActivityList = ({ getAgencyActivities, agencyId }) => {
     );
   };
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <div className="list-wrapper">
       <div className="row filter-row">
@@ -190,50 +186,55 @@ const AgencyActivityList = ({ getAgencyActivities, agencyId }) => {
         </div>
       </div>
       <br />
-
-      <div className="datatable-responsive-demo">
-        <div className="card">
-          <DataTable
-            ref={dt}
-            value={listState.rows}
-            className="p-datatable-customers"
-            emptyMessage="No Data found."
-          >
-            <Column
-              field="logType"
-              header="Log Type"
-              body={logTypeBodyTemplate}
-              sortable
-            />
-            <Column
-              field="content"
-              header="Activity Content"
-              body={contentBodyTemplate}
-              sortable
-            />
-            <Column
-              field="createdAt"
-              header="Activity Time"
-              body={createdAtBodyTemplate}
-              sortable
-            />
-          </DataTable>
-        </div>
-      </div>
-
-      <div>
-        {!isLoading && count > 20 && (
-          <div className="pro-pagination">
-            <Pagination
-              activePage={activePage}
-              itemsCountPerPage={20}
-              totalItemsCount={count}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-            />
+      {isLoading ? (
+        <LoaderComponent />
+      ) : (
+        <>
+          <div className="datatable-responsive-demo">
+            <div className="card">
+              <DataTable
+                ref={dt}
+                value={listState.rows}
+                className="p-datatable-customers"
+                emptyMessage="No Data found."
+              >
+                <Column
+                  field="logType"
+                  header="Log Type"
+                  body={logTypeBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="content"
+                  header="Activity Content"
+                  body={contentBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="createdAt"
+                  header="Activity Time"
+                  body={createdAtBodyTemplate}
+                  sortable
+                />
+              </DataTable>
+            </div>
           </div>
-        )}
-      </div>
+
+          <div>
+            {!isLoading && count > 20 && (
+              <div className="pro-pagination">
+                <Pagination
+                  activePage={activePage}
+                  itemsCountPerPage={20}
+                  totalItemsCount={count}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

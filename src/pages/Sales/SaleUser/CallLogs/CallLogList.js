@@ -382,9 +382,6 @@ const CallLogList = ({
   };
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
   return (
     <React.Fragment>
       <div className="page-content">
@@ -517,85 +514,90 @@ const CallLogList = ({
                   </div>
                   <br />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No data found."
-                      >
-                        <Column
-                          field="fromNumber"
-                          header="From"
-                          body={fromBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="toNumber"
-                          header="To"
-                          body={toBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="direction"
-                          header="Direction"
-                          body={directionBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="duration"
-                          header="Duration"
-                          body={durationBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="agencyProfile.title"
-                          header="Lead"
-                          body={leadBodyTemplate}
-                          sortable
-                          style={{
-                            width: "15%",
-                          }}
-                        />
-                        <Column
-                          field="duration"
-                          header="Log Time"
-                          body={logBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="callStatus"
-                          header="Status"
-                          body={statusBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                          style={{
-                            width: "8%",
-                          }}
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && count > 20 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={20}
-                          totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No data found."
+                          >
+                            <Column
+                              field="fromNumber"
+                              header="From"
+                              body={fromBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="toNumber"
+                              header="To"
+                              body={toBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="direction"
+                              header="Direction"
+                              body={directionBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="duration"
+                              header="Duration"
+                              body={durationBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="agencyProfile.title"
+                              header="Lead"
+                              body={leadBodyTemplate}
+                              sortable
+                              style={{
+                                width: "15%",
+                              }}
+                            />
+                            <Column
+                              field="duration"
+                              header="Log Time"
+                              body={logBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="callStatus"
+                              header="Status"
+                              body={statusBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                              style={{
+                                width: "8%",
+                              }}
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        {!isLoading && count > 20 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={20}
+                              totalItemsCount={count}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>

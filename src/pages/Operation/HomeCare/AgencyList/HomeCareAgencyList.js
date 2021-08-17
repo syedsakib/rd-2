@@ -943,7 +943,6 @@ const HomeCareAgencyList = ({
                     <LoaderComponent />
                   ) : (
                     <>
-                      {" "}
                       <div className="datatable-responsive-demo">
                         <div className="card">
                           <DataTable

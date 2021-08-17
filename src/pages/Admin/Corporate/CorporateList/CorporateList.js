@@ -221,10 +221,6 @@ const CorporateList = ({}) => {
 
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <React.Fragment>
       <div className="page-content">
@@ -313,83 +309,88 @@ const CorporateList = ({}) => {
                   </div>
                   <br />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No data found."
-                      >
-                        <Column
-                          field="corporate_type"
-                          header="Type"
-                          body={typeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="title"
-                          header="Name"
-                          body={nameBodyTemplate}
-                          sortable
-                        />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No data found."
+                          >
+                            <Column
+                              field="corporate_type"
+                              header="Type"
+                              body={typeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="title"
+                              header="Name"
+                              body={nameBodyTemplate}
+                              sortable
+                            />
 
-                        <Column
-                          field="email"
-                          header="Email"
-                          body={emailBodyTemplate}
-                          sortable
-                          style={{
-                            width: "20%",
-                          }}
-                        />
-                        <Column
-                          field="phoneNumber"
-                          header="Phone Number"
-                          body={phoneBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="state"
-                          header="State"
-                          body={stateBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="city"
-                          header="City"
-                          body={cityBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="zipcode"
-                          header="Zip Code"
-                          body={zipCodeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && count > limit && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={limit}
-                          totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                            <Column
+                              field="email"
+                              header="Email"
+                              body={emailBodyTemplate}
+                              sortable
+                              style={{
+                                width: "20%",
+                              }}
+                            />
+                            <Column
+                              field="phoneNumber"
+                              header="Phone Number"
+                              body={phoneBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="state"
+                              header="State"
+                              body={stateBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="city"
+                              header="City"
+                              body={cityBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="zipcode"
+                              header="Zip Code"
+                              body={zipCodeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        {!isLoading && count > limit && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={limit}
+                              totalItemsCount={count}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>

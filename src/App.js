@@ -47,6 +47,7 @@ const App = ({ layout, authenticateUser }) => {
   }, []);
 
   const Layout = getLayout();
+
   return (
     <React.Fragment>
       <Router>
@@ -81,6 +82,7 @@ const App = ({ layout, authenticateUser }) => {
 const mapStateToProps = (state) => {
   return {
     layout: state.Layout,
+    userState: state.userDetails,
   };
 };
 

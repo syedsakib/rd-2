@@ -195,10 +195,6 @@ const AgencyLeadList = ({ getAgencyActivities, agencyId }) => {
     );
   };
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <div className="list-wrapper">
       <div className="row filter-row">
@@ -251,74 +247,84 @@ const AgencyLeadList = ({ getAgencyActivities, agencyId }) => {
       </div>
       <br />
 
-      <div className="datatable-responsive-demo">
-        <div className="card">
-          <DataTable
-            ref={dt}
-            value={listState.rows}
-            className="p-datatable-customers"
-            emptyMessage="No Data found."
-          >
-            <Column
-              field="logType"
-              header="Lead Name"
-              body={nameBodyTemplate}
-              sortable
-            />
-            <Column
-              field="phoneNumber"
-              header="Phone Number"
-              body={phoneNumberBodyTemplate}
-              sortable
-            />
-            <Column
-              field="zipCode"
-              header="Zip Code"
-              body={zipCodeBodyTemplate}
-              sortable
-            />
-            <Column
-              field="city"
-              header="City"
-              body={cityBodyTemplate}
-              sortable
-            />
-            <Column
-              field="state"
-              header="State"
-              body={stateBodyTemplate}
-              sortable
-            />
-            <Column
-              field="createdAt"
-              header="createdAt"
-              body={createdAtBodyTemplate}
-              sortable
-            />
-            <Column
-              field="status"
-              header="Status"
-              body={statusBodyTemplate}
-              sortable
-            />
-            <Column field="status" header="Action" body={actionBodyTemplate} />
-          </DataTable>
-        </div>
-      </div>
-
-      <div>
-        {!isLoading && count > 20 && (
-          <div className="pro-pagination">
-            <Pagination
-              activePage={activePage}
-              itemsCountPerPage={20}
-              totalItemsCount={count}
-              pageRangeDisplayed={5}
-              onChange={handlePageChange}
-            />
+      {isLoading ? (
+        <LoaderComponent />
+      ) : (
+        <>
+          <div className="datatable-responsive-demo">
+            <div className="card">
+              <DataTable
+                ref={dt}
+                value={listState.rows}
+                className="p-datatable-customers"
+                emptyMessage="No Data found."
+              >
+                <Column
+                  field="logType"
+                  header="Lead Name"
+                  body={nameBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="phoneNumber"
+                  header="Phone Number"
+                  body={phoneNumberBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="zipCode"
+                  header="Zip Code"
+                  body={zipCodeBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="city"
+                  header="City"
+                  body={cityBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="state"
+                  header="State"
+                  body={stateBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="createdAt"
+                  header="createdAt"
+                  body={createdAtBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="status"
+                  header="Status"
+                  body={statusBodyTemplate}
+                  sortable
+                />
+                <Column
+                  field="status"
+                  header="Action"
+                  body={actionBodyTemplate}
+                />
+              </DataTable>
+            </div>
           </div>
-        )}
-      </div>
+
+          <div>
+            {!isLoading && count > 20 && (
+              <div className="pro-pagination">
+                <Pagination
+                  activePage={activePage}
+                  itemsCountPerPage={20}
+                  totalItemsCount={count}
+                  pageRangeDisplayed={5}
+                  onChange={handlePageChange}
+                />
+              </div>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

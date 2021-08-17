@@ -97,6 +97,7 @@ const userRoutes = [
 
   //ADMIN MODULE ROUTES:
   //--------------------
+  { path: "/admin", component: Dashboard },
   { path: "/admin/account", component: UserProfile },
   { path: "/admin/resetPassword", component: ResetPassword },
   { path: "/admin/userManagement", component: InternalUserList },
@@ -157,6 +158,10 @@ const userRoutes = [
   //SALES MODULE ROUTES:
   //--------------------
   {
+    path: "/sales",
+    component: ScheduleListWrapper,
+  },
+  {
     path: "/sales/callLogs",
     component: SellerCallLogList,
   },
@@ -191,6 +196,10 @@ const userRoutes = [
 
   //CW MODULE ROUTES:
   //--------------------
+  {
+    path: "/cw",
+    component: ArticleList,
+  },
   {
     path: "/cw/blog",
     component: ArticleList,

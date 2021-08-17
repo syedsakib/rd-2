@@ -294,9 +294,6 @@ const SaleUserPerformenceList = ({
   };
 
   //TABLE COMPONENTS END
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
 
   return (
     <React.Fragment>
@@ -388,88 +385,93 @@ const SaleUserPerformenceList = ({
                   </div>
                   <br />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No Data found."
-                      >
-                        <Column
-                          field="title"
-                          header="Title"
-                          body={titleByBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="phoneNumber"
-                          header="Phone Number"
-                          body={phoneNumberBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="zipCode"
-                          header="Package"
-                          body={packageBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="city"
-                          header="Price"
-                          body={priceBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="state"
-                          header=" Payment Method"
-                          body={paymentMethodBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="saleStatus"
-                          header=" Processed On"
-                          body={processedOnBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="saleStatus"
-                          header="First Purchase"
-                          body={firstPurchaseBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="saleStatus"
-                          header="Commission"
-                          body={comissionBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                          //   style={{
-                          //     width: "30%",
-                          //   }}
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && rows && rows.length > 0 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={20}
-                          totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No Data found."
+                          >
+                            <Column
+                              field="title"
+                              header="Title"
+                              body={titleByBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="phoneNumber"
+                              header="Phone Number"
+                              body={phoneNumberBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="zipCode"
+                              header="Package"
+                              body={packageBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="city"
+                              header="Price"
+                              body={priceBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="state"
+                              header=" Payment Method"
+                              body={paymentMethodBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="saleStatus"
+                              header=" Processed On"
+                              body={processedOnBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="saleStatus"
+                              header="First Purchase"
+                              body={firstPurchaseBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="saleStatus"
+                              header="Commission"
+                              body={comissionBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                              //   style={{
+                              //     width: "30%",
+                              //   }}
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        {!isLoading && rows && rows.length > 0 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={20}
+                              totalItemsCount={count}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>

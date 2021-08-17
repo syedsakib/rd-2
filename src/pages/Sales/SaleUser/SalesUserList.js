@@ -204,10 +204,6 @@ const SalesUserList = ({
 
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   return (
     <React.Fragment>
       <div className="page-content">
@@ -267,64 +263,69 @@ const SalesUserList = ({
                   </div>
                   <br />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.rows}
-                        className="p-datatable-customers"
-                        emptyMessage="No Agencies found."
-                      >
-                        <Column
-                          field="user.firstName"
-                          header="Name"
-                          body={nameByBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="user.phoneNumber"
-                          header="Phone Number"
-                          body={phoneNumberBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="user.email"
-                          header="Email"
-                          body={emailBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="createdAt"
-                          header="Joined On"
-                          body={joinedOnBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                          style={{
-                            width: "30%",
-                          }}
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && count > 10 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={20}
-                          totalItemsCount={count}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.rows}
+                            className="p-datatable-customers"
+                            emptyMessage="No Agencies found."
+                          >
+                            <Column
+                              field="user.firstName"
+                              header="Name"
+                              body={nameByBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="user.phoneNumber"
+                              header="Phone Number"
+                              body={phoneNumberBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="user.email"
+                              header="Email"
+                              body={emailBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="createdAt"
+                              header="Joined On"
+                              body={joinedOnBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                              style={{
+                                width: "30%",
+                              }}
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      <div>
+                        {!isLoading && count > 10 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={20}
+                              totalItemsCount={count}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>

@@ -345,10 +345,6 @@ const Applicants = ({
 
   //TABLE COMPONENTS END
 
-  if (isLoading) {
-    return <LoaderComponent />;
-  }
-
   if (filterState.redirect) {
     toastr.error("Error", "Unauthorized access,please login again as admin");
     return <Redirect to="/admins/login" />;
@@ -435,96 +431,101 @@ const Applicants = ({
                     </div>
                   </div>
                   <br />
+                  {isLoading ? (
+                    <LoaderComponent />
+                  ) : (
+                    <>
+                      <div className="datatable-responsive-demo">
+                        <div className="card">
+                          <DataTable
+                            ref={dt}
+                            value={listState.adviserData}
+                            className="p-datatable-customers"
+                            emptyMessage="No data found."
+                          >
+                            <Column
+                              field="firstName"
+                              header="User"
+                              body={userBodyTemplate}
+                              sortable
+                            />
 
-                  <div className="datatable-responsive-demo">
-                    <div className="card">
-                      <DataTable
-                        ref={dt}
-                        value={listState.adviserData}
-                        className="p-datatable-customers"
-                        emptyMessage="No data found."
-                      >
-                        <Column
-                          field="firstName"
-                          header="User"
-                          body={userBodyTemplate}
-                          sortable
-                        />
-
-                        <Column
-                          field="email"
-                          header="Email"
-                          body={emailBodyTemplate}
-                          sortable
-                          style={{
-                            width: "15%",
-                          }}
-                        />
-                        <Column
-                          field="phoneNumber"
-                          header="Phone"
-                          body={phoneBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="createdAt"
-                          header="Date"
-                          body={dateOnBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="city"
-                          header="City"
-                          body={cityBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="state"
-                          header="State"
-                          body={stateBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="zipcode"
-                          header="Zip Code"
-                          body={zipCodeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="type"
-                          header="Type"
-                          body={typeBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="status"
-                          header="Status"
-                          body={statusBodyTemplate}
-                          sortable
-                        />
-                        <Column
-                          field="action"
-                          header="Action"
-                          body={actionBodyTemplate}
-                          sortable
-                        />
-                      </DataTable>
-                    </div>
-                  </div>
-
-                  <div>
-                    {!isLoading && totalAdviser > 10 && (
-                      <div className="pro-pagination">
-                        <Pagination
-                          activePage={activePage}
-                          itemsCountPerPage={10}
-                          totalItemsCount={totalAdviser}
-                          pageRangeDisplayed={5}
-                          onChange={handlePageChange}
-                        />
+                            <Column
+                              field="email"
+                              header="Email"
+                              body={emailBodyTemplate}
+                              sortable
+                              style={{
+                                width: "15%",
+                              }}
+                            />
+                            <Column
+                              field="phoneNumber"
+                              header="Phone"
+                              body={phoneBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="createdAt"
+                              header="Date"
+                              body={dateOnBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="city"
+                              header="City"
+                              body={cityBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="state"
+                              header="State"
+                              body={stateBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="zipcode"
+                              header="Zip Code"
+                              body={zipCodeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="type"
+                              header="Type"
+                              body={typeBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="status"
+                              header="Status"
+                              body={statusBodyTemplate}
+                              sortable
+                            />
+                            <Column
+                              field="action"
+                              header="Action"
+                              body={actionBodyTemplate}
+                              sortable
+                            />
+                          </DataTable>
+                        </div>
                       </div>
-                    )}
-                  </div>
+
+                      <div>
+                        {!isLoading && totalAdviser > 10 && (
+                          <div className="pro-pagination">
+                            <Pagination
+                              activePage={activePage}
+                              itemsCountPerPage={10}
+                              totalItemsCount={totalAdviser}
+                              pageRangeDisplayed={5}
+                              onChange={handlePageChange}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    </>
+                  )}
                 </CardBody>
               </Card>
             </Col>
