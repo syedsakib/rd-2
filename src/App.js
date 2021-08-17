@@ -1,52 +1,52 @@
-import React, { useEffect } from "react"
+import React, { useEffect } from "react";
 
-import { Switch, BrowserRouter as Router } from "react-router-dom"
-import { connect } from "react-redux"
+import { Switch, BrowserRouter as Router } from "react-router-dom";
+import { connect } from "react-redux";
 
 // Import Routes all
-import { userRoutes, authRoutes } from "./routes/allRoutes"
+import { userRoutes, authRoutes } from "./routes/allRoutes";
 
 // Import all middleware
-import Authmiddleware from "./routes/middleware/Authmiddleware"
+import Authmiddleware from "./routes/middleware/Authmiddleware";
 
 // layouts Format
-import VerticalLayout from "./components/VerticalLayout/"
-import HorizontalLayout from "./components/HorizontalLayout/"
-import NonAuthLayout from "./components/NonAuthLayout"
+import VerticalLayout from "./components/VerticalLayout/";
+import HorizontalLayout from "./components/HorizontalLayout/";
+import NonAuthLayout from "./components/NonAuthLayout";
 
 // Import scss
-import "./assets/scss/theme.scss"
-import { useDispatch, useSelector } from "react-redux"
-import { authenticateUser } from "./store/Actions/authAction"
+import "./assets/scss/theme.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { authenticateUser } from "./store/Actions/authAction";
 
 const App = ({ layout, authenticateUser }) => {
   function getLayout() {
-    let layoutCls = VerticalLayout
+    let layoutCls = VerticalLayout;
     switch (layout.layoutType) {
       case "horizontal":
-        layoutCls = HorizontalLayout
-        break
+        layoutCls = HorizontalLayout;
+        break;
       default:
-        layoutCls = VerticalLayout
-        break
+        layoutCls = VerticalLayout;
+        break;
     }
-    return layoutCls
+    return layoutCls;
   }
 
   const initApp = () => {
     try {
-      authenticateUser()
-      console.log("authenticateUser")
+      authenticateUser();
+      console.log("authenticateUser");
     } catch (e) {
-      console.log(e)
+      console.log(e);
     }
-  }
+  };
 
   useEffect(() => {
-    initApp()
-  }, [])
+    initApp();
+  }, []);
 
-  const Layout = getLayout()
+  const Layout = getLayout();
   return (
     <React.Fragment>
       <Router>
@@ -75,17 +75,17 @@ const App = ({ layout, authenticateUser }) => {
         </Switch>
       </Router>
     </React.Fragment>
-  )
-}
+  );
+};
 
-const mapStateToProps = state => {
+const mapStateToProps = (state) => {
   return {
     layout: state.Layout,
-  }
-}
+  };
+};
 
 const mapDispatchToProps = {
   authenticateUser,
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(App)
+export default connect(mapStateToProps, mapDispatchToProps)(App);
