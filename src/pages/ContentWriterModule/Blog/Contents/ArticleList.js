@@ -135,6 +135,8 @@ const ArticleList = ({ getAllArticle, offStatusOfArticle }) => {
           <Switch
             onChange={() => updateArticleStatusHandler(rowData)}
             checked={rowData.status}
+            onColor="#2ca67a"
+            offColor="#495057"
           />
         </span>
       </React.Fragment>

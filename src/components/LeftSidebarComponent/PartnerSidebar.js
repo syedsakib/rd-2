@@ -6,7 +6,7 @@ const PartnerSidebar = () => {
     <div id="sidebar-menu">
       <ul className="metismenu list-unstyled" id="side-menu">
         <li>
-          <Link to="/dashboard" className=" ">
+          <Link to="/partner" className="">
             <span>Partner Dashboard</span>
           </Link>
         </li>
@@ -22,15 +22,15 @@ const PartnerSidebar = () => {
 
           <ul className="sub-menu" aria-expanded="false">
             <li>
-              <Link to="/partner" className=" ">
-                <i className="bx bx-brightness"></i>
+              <Link to="/partner" className="">
+                <i className="bx bx-list-ul"></i>
                 <span>Property List</span>
               </Link>
             </li>
 
             <li>
               <Link to="/partner/addProperty" className="">
-                <i className="bx bx-lock-open-alt"></i>
+                <i className="bx bx-add-to-queue"></i>
                 <span>Add New Property</span>
               </Link>
             </li>
@@ -40,41 +40,41 @@ const PartnerSidebar = () => {
         {/* Data Source */}
         <li className="menu-title">Data Source</li>
         <li>
-          <Link to="/partner/claims" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/partner/claims" className="">
+            <i className="bx bxs-binoculars"></i>
             <span>My Claims</span>
           </Link>
         </li>
         <li>
-          <Link to="/partner/reviews" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/partner/reviews" className="">
+            <i className="bx bxs-star-half"></i>
             <span>Reviews</span>
           </Link>
         </li>
 
         <li className="menu-title">{"Support"}</li>
         <li>
-          <Link to="/partner/support" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/partner/support" className="">
+            <i className="bx bx-support"></i>
             <span>Take Support</span>
           </Link>
         </li>
 
         <li className="menu-title">{"Account"}</li>
         <li>
-          <Link to="/partner/accountSetting" className=" ">
+          <Link to="/partner/accountSetting" className="">
             <i className="bx bx-brightness"></i>
             <span>Account Setting</span>
           </Link>
         </li>
         <li>
-          <Link to="/partner/resetPassword" className=" ">
+          <Link to="/partner/resetPassword" className="">
             <i className="bx bx-brightness"></i>
             <span>Reset Password</span>
           </Link>
         </li>
         <li>
-          <Link to="/#" className=" ">
+          <Link to="/#" className="">
             <i className="bx bx-log-out"></i>
             <span>{"Log Out"}</span>
           </Link>

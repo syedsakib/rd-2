@@ -198,6 +198,8 @@ const CorporateAdminList = ({ match: { params } }) => {
             onChange={() => {
               updateUserStatusHandler(rowData.id, rowData.status === 1 ? 0 : 1);
             }}
+            onColor="#2ca67a"
+            offColor="#495057"
           />
         </span>
       </React.Fragment>

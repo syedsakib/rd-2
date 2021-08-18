@@ -700,6 +700,8 @@ const HomeCareAgencyList = ({
           <Switch
             onChange={() => onStatusChangeHandler(rowData)}
             checked={rowData.status}
+            onColor="#2ca67a"
+            offColor="#495057"
           />
         </span>
       </React.Fragment>

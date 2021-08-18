@@ -1,12 +1,12 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const AdminSidebar = () => {
   return (
     <div id="sidebar-menu">
       <ul className="metismenu list-unstyled" id="side-menu">
         <li>
-          <Link to="/dashboard" className=" ">
+          <Link to="/dashboard" className="">
             {/* <i className="bx bx-calendar"></i> */}
             <span>{"Admin Dashboard"}</span>
           </Link>
@@ -25,13 +25,13 @@ const AdminSidebar = () => {
               <Link to="/#">{"Central Advisor"}</Link>
             </li>
             <li>
-              <Link to="/#">{"Sales"}</Link>
+              <Link to="/sales">{"Sales"}</Link>
             </li>
             <li>
               <Link to="/#">{"Operation"}</Link>
             </li>
             <li>
-              <Link to="/#">{"Content Writer"}</Link>
+              <Link to="/cw">{"Content Writer"}</Link>
             </li>
           </ul>
         </li>
@@ -75,21 +75,21 @@ const AdminSidebar = () => {
 
         <li className="menu-title">{"Management"}</li>
         <li>
-          <Link to="/admin/applicantManagement" className=" ">
+          <Link to="/admin/applicantManagement" className="">
             <i className="bx bx-message-dots"></i>
             <span>{"Applicants"}</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/corporate" className=" ">
+          <Link to="/admin/corporate" className="">
             <i className="bx bx-user-circle"></i>
             <span>{"Corporate"}</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/admin/userManagement" className=" ">
+          <Link to="/admin/userManagement" className="">
             <i className="bx bx-user-plus"></i>
             <span>{"User Management"}</span>
           </Link>
@@ -97,7 +97,7 @@ const AdminSidebar = () => {
 
         <li className="menu-title">{"Account"}</li>
         <li>
-          <Link to="/admin/account" className=" ">
+          <Link to="/admin/account" className="">
             <i className="bx bx-brightness"></i>
             <span>{"My Account"}</span>
           </Link>
@@ -111,14 +111,14 @@ const AdminSidebar = () => {
         </li>
 
         <li>
-          <Link to="/#" className=" ">
+          <Link to="/#" className="">
             <i className="bx bx-log-out"></i>
             <span>{"Log Out"}</span>
           </Link>
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default AdminSidebar
+export default AdminSidebar;

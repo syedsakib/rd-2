@@ -167,7 +167,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                 title="edit"
                 id={rowData.id}
                 data-tip="Edit"
-                style={{ paddingRight: "20px" }}
+                style={{ paddingRight: "20px", cursor: "pointer" }}
                 onClick={() => {
                   toggleModal("edit", rowData);
                 }}
@@ -183,6 +183,7 @@ const TagList = ({ getTagList, deleteTag, userDetails, isAuthenticated }) => {
                   deleteTagHandler(rowData.id);
                 }}
                 data-tip="Delete"
+                style={{ cursor: "pointer" }}
               >
                 <i className="fas fa-times" style={{ color: "#495057" }}></i>
                 <ReactTooltip place="top" type="info" effect="float" />

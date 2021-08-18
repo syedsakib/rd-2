@@ -1,12 +1,12 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React from "react";
+import { Link } from "react-router-dom";
 
 const SalesSidebar = () => {
   return (
     <div id="sidebar-menu">
       <ul className="metismenu list-unstyled" id="side-menu">
         <li>
-          <Link to="/#" className=" ">
+          <Link to="/sales" className="">
             <span>Sales Dashboard</span>
           </Link>
         </li>
@@ -14,34 +14,34 @@ const SalesSidebar = () => {
         {/* ACCOUNT */}
         <li className="menu-title">Home Care</li>
         <li>
-          <Link to="/sales/schedules" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/sales/schedules" className="">
+            <i className="bx bx-timer"></i>
             <span>Schedules</span>
           </Link>
         </li>
 
         <li>
           <Link to="/sales/agencyList" className="">
-            <i className="bx bx-lock-open-alt"></i>
+            <i className="bx bx-list-ul"></i>
             <span>Agency List</span>
           </Link>
         </li>
 
         <li>
-          <Link to="/sales/addAgency" className=" ">
-            <i className="bx bx-log-out"></i>
+          <Link to="/sales/addAgency" className="">
+            <i className="bx bx-add-to-queue"></i>
             <span>Add Agency</span>
           </Link>
         </li>
         <li>
-          <Link to="/sales/transactions" className=" ">
-            <i className="bx bx-log-out"></i>
+          <Link to="/sales/transactions" className="">
+            <i className="bx bx-money"></i>
             <span>My Sales</span>
           </Link>
         </li>
         <li>
-          <Link to="/sales/callLogs" className=" ">
-            <i className="bx bx-log-out"></i>
+          <Link to="/sales/callLogs" className="">
+            <i className="bx bx-phone-call"></i>
             <span>Call Logs</span>
           </Link>
         </li>
@@ -49,8 +49,8 @@ const SalesSidebar = () => {
         {/* Senior Living */}
         <li className="menu-title">Senior Living</li>
         <li>
-          <Link to="/sales/senior-living/list" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/sales/senior-living/list" className="">
+            <i className="bx bx-list-ol"></i>
             <span>Property List</span>
           </Link>
         </li>
@@ -58,8 +58,8 @@ const SalesSidebar = () => {
         {/* Email */}
         <li className="menu-title">Communication</li>
         <li>
-          <Link to="/sales/sendMail" className=" ">
-            <i className="bx bx-brightness"></i>
+          <Link to="/sales/sendMail" className="">
+            <i className="bx bx-mail-send"></i>
             <span>Send Mail</span>
           </Link>
         </li>
@@ -67,7 +67,7 @@ const SalesSidebar = () => {
         {/* ACCOUNT */}
         <li className="menu-title">ACCOUNT</li>
         {/* <li>
-          <Link to="/admin/account" className=" ">
+          <Link to="/admin/account" className="">
             <i className="bx bx-brightness"></i>
             <span>My Account</span>
           </Link>
@@ -81,14 +81,14 @@ const SalesSidebar = () => {
         </li> */}
 
         <li>
-          <Link to="/#" className=" ">
+          <Link to="/#" className="">
             <i className="bx bx-log-out"></i>
             <span>Log Out</span>
           </Link>
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default SalesSidebar
+export default SalesSidebar;

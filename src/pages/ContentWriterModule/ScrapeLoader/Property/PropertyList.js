@@ -658,13 +658,22 @@ const PropertyList = ({
 
                     <div className="row filter-row">
                       <div className="col-md-12 text-center">
-                        <Button
+                        <button
+                          type="button"
+                          className="btn btn-lg btn-info  btn-label m-3"
+                          onClick={createProcessHandler}
+                        >
+                          <i className="bx bx-plus label-icon"></i> Create
+                          Process
+                        </button>
+
+                        {/* <Button
                           color="success"
                           className="btn btn-primary btn-lg btn-block m-3"
                           onClick={createProcessHandler}
                         >
                           Create Process
-                        </Button>
+                        </Button> */}
                       </div>
                     </div>
                   </div>

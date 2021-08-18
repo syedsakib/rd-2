@@ -6,7 +6,6 @@ import SimpleBar from "simplebar-react";
 // MetisMenu
 import MetisMenu from "metismenujs";
 import { withRouter } from "react-router-dom";
-import { Link } from "react-router-dom";
 
 //Left Side Bars
 import AdminSidebar from "../LeftSidebarComponent/AdminSidebar";
@@ -44,6 +43,19 @@ const SidebarContent = (props) => {
   useEffect(() => {
     ref.current.recalculate();
   });
+
+  const returnSidebar = () => {
+    let path = window.location.pathname;
+    if (path.startsWith("/partner")) {
+      return <PartnerSidebar />;
+    } else if (path.startsWith("/sales")) {
+      return <SalesSidebar />;
+    } else if (path.startsWith("/cw")) {
+      return <ContentWriterSidebar />;
+    } else {
+      return <AdminSidebar />;
+    }
+  };
 
   function scrollElement(item) {
     if (item) {
@@ -95,10 +107,8 @@ const SidebarContent = (props) => {
   return (
     <React.Fragment>
       <SimpleBar style={{ maxHeight: "100%" }} ref={ref}>
-        <AdminSidebar />
-        {/* <SalesSidebar /> */}
+        {returnSidebar()}
         {/* <ContentWriterSidebar /> */}
-        {/* <PartnerSidebar /> */}
       </SimpleBar>
     </React.Fragment>
   );

@@ -30,22 +30,18 @@ const Authmiddleware = ({
           return;
         }
         let role = parseInt(userDetails.role);
-        if (role === 132 || role === 8) {
-          redirectUrl("cw");
-        } else if (role === 1323 || role === 11) {
+        if (role === 3) {
+          redirectUrl("partnercw");
+        } else if ((role === 1 && checkUrl(url, "/sales")) || role === 11) {
           redirectUrl("sales");
-        } else if (role === 145) {
-          redirectUrl("partner");
+        } else if ((role === 1 && checkUrl(url, "/cw")) || role === 8) {
+          redirectUrl("cw");
         } else if (role === 1) {
           redirectUrl("admin");
         }
       }
     }
-  }, [isAuthenticated, userDetails, window.location.href]);
-
-  useEffect(() => {
-    updateEnvironment(getEnv());
-  }, []);
+  }, [isAuthenticated, userDetails]);
 
   const redirectUrl = (keyword) => {
     let url = window.location.href;

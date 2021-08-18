@@ -147,6 +147,8 @@ const TemplateListPage = ({
           <Switch
             onChange={() => updateTemplateStatusHandler(rowData)}
             checked={rowData.status}
+            onColor="#2ca67a"
+            offColor="#495057"
           />
         </span>
       </React.Fragment>
