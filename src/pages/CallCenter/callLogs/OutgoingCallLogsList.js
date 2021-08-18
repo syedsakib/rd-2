@@ -13,6 +13,7 @@ import {
   CardBody,
   InputGroup,
   Button,
+  Badge,
 } from "reactstrap";
 
 import { DataTable } from "primereact/datatable";
@@ -262,53 +263,53 @@ const OutgoingCallLogsList = ({
     return (
       <React.Fragment>
         {rowData.callStatus === "completed" ? (
-          <Button
-            color="success"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-success me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "no-answer" ? (
-          <Button
-            color="secondary"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "busy" ? (
-          <Button
-            color="info"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-warning me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "failed" ? (
-          <Button
-            color="danger"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "canseled" ? (
-          <Button
-            color="danger"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : (
-          <Button
-            color="success"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-success me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         )}
       </React.Fragment>
     );
@@ -327,9 +328,19 @@ const OutgoingCallLogsList = ({
     return (
       <React.Fragment>
         <span>
-          {rowData.leadUser
-            ? `${rowData.leadUser.firstName} ${rowData.leadUser.lastName}`
-            : "N/A"}
+          {rowData.leadUser ? (
+            <Badge pill className="badge-soft-success me-1 p-2">
+              {`${rowData.leadUser.firstName} ${rowData.leadUser.lastName}`}
+            </Badge>
+          ) : (
+            <Badge
+              pill
+              className="badge-soft-info me-1 p-2"
+              style={{ minWidth: "85px" }}
+            >
+              N/A
+            </Badge>
+          )}
         </span>
       </React.Fragment>
     );

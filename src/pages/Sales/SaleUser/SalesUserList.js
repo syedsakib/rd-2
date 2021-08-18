@@ -156,7 +156,7 @@ const SalesUserList = ({
               <span>
                 <Button
                   color="primary"
-                  className="btn btn-primary btn-sm btn-rounded"
+                  className="btn btn-primary btn-sm "
                   id={user.id}
                   onClick={() => {
                     window.open(
@@ -170,7 +170,7 @@ const SalesUserList = ({
               <span className="mx-2">
                 <Button
                   color="success"
-                  className="btn btn-primary btn-sm btn-rounded"
+                  className="btn btn-primary btn-sm "
                   id={user.id}
                   onClick={() => {
                     window.open(
@@ -184,7 +184,7 @@ const SalesUserList = ({
               <span>
                 <Button
                   color="info"
-                  className="btn btn-primary btn-sm btn-rounded"
+                  className="btn btn-primary btn-sm "
                   id={user.id}
                   onClick={() => {
                     window.open(

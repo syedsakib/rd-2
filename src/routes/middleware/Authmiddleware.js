@@ -30,13 +30,13 @@ const Authmiddleware = ({
           return;
         }
         let role = parseInt(userDetails.role);
-        if (role === 123 || role === 8) {
+        if (role === 132 || role === 8) {
           redirectUrl("cw");
-        } else if (role === 1 || role === 11) {
+        } else if (role === 1323 || role === 11) {
           redirectUrl("sales");
         } else if (role === 145) {
           redirectUrl("partner");
-        } else if (role === 122) {
+        } else if (role === 1) {
           redirectUrl("admin");
         }
       }

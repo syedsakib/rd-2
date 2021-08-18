@@ -12,6 +12,7 @@ import {
   CardHeader,
   CardBody,
   InputGroup,
+  Badge,
 } from "reactstrap";
 
 import { DataTable } from "primereact/datatable";
@@ -296,7 +297,25 @@ const InvalidPropertyList = ({
   const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.refHash ? "Fixed" : "Not-Fixed"}</span>
+        <span>
+          {rowData.refHash ? (
+            <Badge
+              pill
+              className="badge-soft-success me-1 p-2"
+              style={{ minWidth: "85px" }}
+            >
+              Fixed
+            </Badge>
+          ) : (
+            <Badge
+              pill
+              className="badge-soft-danger me-1 p-2"
+              style={{ minWidth: "85px" }}
+            >
+              Not-Fixed
+            </Badge>
+          )}
+        </span>
       </React.Fragment>
     );
   };

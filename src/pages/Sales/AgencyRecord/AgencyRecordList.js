@@ -31,6 +31,7 @@ import {
 import DetailModal from "./DetailModal";
 import showConfirmAlert from "components/Common/ConfirmAlert/ConfirmAlert";
 import LoaderComponent from "components/Common/Loader/LoaderComponent";
+import ButtonComp from "components/Common/Button/Button";
 
 const AgencyRecordList = ({
   getHomeCareAgencyDataChangeRecord,
@@ -197,7 +198,6 @@ const AgencyRecordList = ({
     return (
       <React.Fragment>
         <span>
-          {" "}
           {record.salesCreator.phoneNumber
             ? record.salesCreator.phoneNumber
             : "N/A"}
@@ -219,22 +219,25 @@ const AgencyRecordList = ({
       <React.Fragment>
         {rowData.approvalStatus == "pending" ? (
           <Badge
-            className="me-1 rounded-pill bg-warning"
-            style={{ padding: "5px 10px 5px 10px" }}
+            pill
+            className="badge-soft-warning me-1 p-2"
+            style={{ minWidth: "85px" }}
           >
             {rowData.approvalStatus}
           </Badge>
         ) : rowData.approvalStatus == "approved" ? (
           <Badge
-            className="me-1 rounded-pill bg-success"
-            style={{ padding: "5px 10px 5px 10px" }}
+            pill
+            className="badge-soft-success me-1 p-2"
+            style={{ minWidth: "85px" }}
           >
             {rowData.approvalStatus}
           </Badge>
         ) : (
           <Badge
-            className="me-1 rounded-pill bg-danger"
-            style={{ padding: "5px 10px 5px 10px" }}
+            pill
+            className="badge-soft-info me-1 p-2"
+            style={{ minWidth: "85px" }}
           >
             {rowData.approvalStatus}
           </Badge>
@@ -250,31 +253,50 @@ const AgencyRecordList = ({
           <span>
             <div className="d-flex justify-content-center">
               <span>
-                <Button
+                {/* <Button
                   color="primary"
                   className="btn btn-primary btn-sm btn-rounded"
                   onClick={() => toggleViewModal(record.id)}
                 >
                   View
-                </Button>
+                </Button> */}
+
+                <ButtonComp
+                  icon="eye"
+                  onClick={() => toggleViewModal(record.id)}
+                  toolTip="View"
+                  btnClass="normal"
+                />
               </span>
               <span className="mx-2">
-                <Button
+                {/* <Button
                   color="success"
                   className="btn btn-primary btn-sm btn-rounded"
                   onClick={() => approveHandler(record.id)}
                 >
                   Approve
-                </Button>
+                </Button> */}
+                <ButtonComp
+                  icon="check"
+                  onClick={() => approveHandler(record.id)}
+                  toolTip="Approve"
+                  btnClass="normal"
+                />
               </span>
               <span>
-                <Button
+                {/* <Button
                   color="danger"
                   className="btn btn-primary btn-sm btn-rounded"
                   onClick={() => rejectHandler(record.id)}
                 >
                   Reject
-                </Button>
+                </Button> */}
+                <ButtonComp
+                  icon="times"
+                  onClick={() => rejectHandler(record.id)}
+                  toolTip="Reject"
+                  btnClass="normal"
+                />
               </span>
             </div>
           </span>

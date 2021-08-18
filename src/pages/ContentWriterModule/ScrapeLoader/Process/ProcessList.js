@@ -4,7 +4,15 @@ import { toastr } from "react-redux-toastr";
 import { connect } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import Pagination from "react-js-pagination";
-import { Container, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Card,
+  CardHeader,
+  CardBody,
+  Badge,
+} from "reactstrap";
 
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
@@ -248,7 +256,51 @@ const ProcessList = ({
   const statusBodyTemplate = (rowData) => {
     return (
       <React.Fragment>
-        <span> {rowData.processStatus}</span>
+        {rowData.processStatus === "completed" ? (
+          <Badge
+            pill
+            className="badge-soft-success me-1 p-2"
+            style={{ minWidth: "85px" }}
+          >
+            {rowData.processStatus}
+          </Badge>
+        ) : rowData.processStatus === "no-answer" ? (
+          <Badge
+            pill
+            className="badge-soft-primary me-1 p-2"
+            style={{ minWidth: "85px" }}
+          >
+            {rowData.processStatus}
+          </Badge>
+        ) : rowData.processStatus === "busy" ? (
+          <Badge
+            pill
+            className="badge-soft-info me-1 p-2"
+            style={{ minWidth: "85px" }}
+          >
+            {rowData.processStatus}
+          </Badge>
+        ) : rowData.processStatus === "failed" ? (
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
+            style={{ minWidth: "85px" }}
+          >
+            {rowData.processStatus}
+          </Badge>
+        ) : rowData.processStatus === "canseled" ? (
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
+            style={{ minWidth: "85px" }}
+          >
+            {rowData.processStatus}
+          </Badge>
+        ) : (
+          <Badge pill className="badge-soft-success me-1 p-2">
+            {rowData.processStatus}
+          </Badge>
+        )}
       </React.Fragment>
     );
   };

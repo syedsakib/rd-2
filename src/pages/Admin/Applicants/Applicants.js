@@ -234,15 +234,17 @@ const Applicants = ({
         <span>
           {rowData.type ? (
             <Badge
-              className="me-1 rounded-pill bg-success"
-              style={{ padding: "5px 10px 5px 10px" }}
+              pill
+              className="badge-soft-primary me-1 p-2"
+              style={{ minWidth: "85px" }}
             >
               External
             </Badge>
           ) : (
             <Badge
-              className="me-1 rounded-pill  bg-primary"
-              style={{ padding: "5px 10px 5px 10px" }}
+              pill
+              className="badge-soft-success me-1 p-2"
+              style={{ minWidth: "85px" }}
             >
               Internal
             </Badge>

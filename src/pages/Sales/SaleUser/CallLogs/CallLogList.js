@@ -250,15 +250,17 @@ const CallLogList = ({
       <React.Fragment>
         {rowData.direction == "Incoming" ? (
           <Badge
-            className="me-1 rounded-pill bg-success"
-            style={{ padding: "5px 10px 7px 10px" }}
+            pill
+            className="badge-soft-success me-1 p-2"
+            style={{ minWidth: "85px" }}
           >
             {rowData.direction}
           </Badge>
         ) : (
           <Badge
-            className="me-1 rounded-pill bg-info"
-            style={{ padding: "5px 10px 7px 10px" }}
+            pill
+            className="badge-soft-primary me-1 p-2"
+            style={{ minWidth: "85px" }}
           >
             {rowData.direction}
           </Badge>
@@ -271,49 +273,49 @@ const CallLogList = ({
     return (
       <React.Fragment>
         {rowData.callStatus === "completed" ? (
-          <Button
-            color="success"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-success me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "no-answer" ? (
-          <Button
-            color="primary"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "busy" ? (
-          <Button
-            color="info"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-warning me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "failed" ? (
-          <Button
-            color="danger"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : rowData.callStatus === "canseled" ? (
-          <Button
-            color="danger"
-            className="btn-rounded btn-sm"
+          <Badge
+            pill
+            className="badge-soft-danger me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
-          </Button>
+          </Badge>
         ) : (
           <Button
-            color="success"
-            className="btn-rounded btn-sm"
+            pill
+            className="badge-soft-success me-1 p-2"
             style={{ minWidth: "85px" }}
           >
             {rowData.callStatus}
@@ -556,7 +558,7 @@ const CallLogList = ({
                               body={leadBodyTemplate}
                               sortable
                               style={{
-                                width: "15%",
+                                width: "18%",
                               }}
                             />
                             <Column
